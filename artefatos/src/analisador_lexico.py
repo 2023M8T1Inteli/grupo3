@@ -9,6 +9,9 @@ class Token:
     def __repr__(self):
         return f"({self.tipo} {self.valor} {self.linha})"
 
+class LexicalException(Exception):
+    pass
+
 # test = "a = 1\nb = 12\nc = (12+3)"
 test = "programa :\ninicio\nprogramas = verdade\nverdades = 0\nse entao inicio\nses = verdades\nprogramas = ler()\nx = ler_varios(11, 4, 1)\nfim\n\nfim."
 
@@ -129,7 +132,7 @@ def analisador_lexico(code):
                     isString = 1
                 token.append(reserved_symbols(code[i], actualLine))
         else:
-            print("Caracter invalido")
+            raise LexicalException("Símbolo inválido: " + code[i] + " na linha " + str(actualLine) + ".")
     
         if code[i] == "\n":
                 actualLine += 1
