@@ -1,3 +1,4 @@
+import os
 import re
 
 class Token:
@@ -10,6 +11,16 @@ class Token:
 
 # test = "a = 1\nb = 12\nc = (12+3)"
 test = "programa :\ninicio\nprogramas = verdade\nverdades = 0\nse entao inicio\nses = verdades\nprogramas = ler()\nx = ler_varios(11, 4, 1)\nfim\n\nfim."
+
+def read_file(file_name):
+    path = f"./artefatos/src/test_file/{file_name}"
+    if os.path.exists(path):
+        content = ""
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        return content
+    else:
+        raise Exception(f"File {path} not found")
 
 def variable_token(variableName, line):
     return Token("ID", variableName, line)
@@ -112,5 +123,5 @@ def analisador_lexico(code):
     print(token)
             
                 
-        
-analisador_lexico(test)
+print(read_file("renatinho.txt"))      
+# analisador_lexico(test)
