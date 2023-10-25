@@ -136,7 +136,5 @@ def analisador_lexico(code):
 
     token.append(Token("EOF", "EOF", actualLine))
     print(token)
-            
-                
-print(read_file("renatinho.txt"))      
-# analisador_lexico(test)
+               
+analisador_lexico(read_file("exemplo5.txt"))
