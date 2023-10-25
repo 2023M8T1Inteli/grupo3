@@ -72,28 +72,38 @@ def reserved_symbols(symbol, line):
 def analisador_lexico(code):
     actualLine = 1
     token = []
+    isString = -1 
     actualWord = ""
     actualNumber = ""
     possibilities_reserved = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "ou", "e"]
 
     for i in range(0, len(code)):
-        if code[i] != "\t":
-            if code[i] == " " or code[i] == "\n" or i == len(code) - 1 or code[i] == "(" or code[i] == "," or code[i] == ")":
-                if len(actualWord) > 0:
-                    if actualWord in possibilities_reserved:
-                        token.append(reserved_words_token(actualWord, actualLine))
+        if re.search("[\w\s\n\t=<>+\-*/%^:,\"().]+", code[i]) != None:
+            if isString == -1:
+                if code[i] == " " or code[i] == "\n" or i == len(code) - 1 or code[i] == "(" or code[i] == "," or code[i] == ")":
+                    if len(actualWord) > 0:
+                        if actualWord in possibilities_reserved:
+                            token.append(reserved_words_token(actualWord, actualLine))
 
-                        actualWord = ""
-                    else:
-                        token.append(variable_token(actualWord, actualLine))
-                        actualWord = ""
-                
-                if len(actualNumber) > 0:
-                    token.append(Token("INTEGER", int(actualNumber), actualLine))
+                            actualWord = ""
+                        else:
+                            token.append(variable_token(actualWord, actualLine))
+                            actualWord = ""
+                    
+                    if len(actualNumber) > 0:
+                        token.append(Token("INTEGER", int(actualNumber), actualLine))
 
-                    actualNumber = ""
+                        actualNumber = ""
 
-            if re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[i]) != None:
+            if isString == 1:
+                if (code[i] == "\""):
+                    token.append(Token("STRING", actualWord, actualLine))
+                    actualWord = ""
+                    isString = -1
+                    token.append(reserved_symbols(code[i], actualLine))
+                else:
+                    actualWord += code[i]
+            elif re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[i]) != None:
                 actualWord += code[i]
             elif code[i] == "=" and code[i-1] != "=" and code[i-1] != "<" and code[i-1] != ">":
                 if code[i+1] == "=":
@@ -115,7 +125,12 @@ def analisador_lexico(code):
             elif re.search("[0-9]+", code[i]) != None:
                 actualNumber += code[i]
             elif code[i] not in " \n\t\r":
+                if (code[i] == "\""):
+                    isString = 1
                 token.append(reserved_symbols(code[i], actualLine))
+        else:
+            print("Caracter invalido")
+    
         if code[i] == "\n":
                 actualLine += 1
 
