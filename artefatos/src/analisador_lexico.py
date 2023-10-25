@@ -34,32 +34,78 @@ def reserved_words_token(word, line):
     elif word == "ou":
         return Token("OPSUM", word, line)
 
-def analisador_lexico(codigo):
+def reserved_symbols(symbol, line):
+    type_symbols = {
+        ":": "COLON",
+        ",": "COMMA",
+        ".": "DOT",
+        "\"": "DQUOTE",
+        "=": "ASSIGN",
+        "(": "LPAR",
+        ")": "RPAR",
+        "==": "OPREL",
+        "<>": "OPREL",
+        "<": "OPREL",
+        "<=": "OPREL",
+        ">": "OPREL",
+        ">=": "OPREL",
+        "+": "OPSUM",
+        "-": "OPSUM",
+        "*": "OPMUL",
+        "/": "OPMUL",
+        "%": "OPMUL",
+        "^": "OPPOW"        
+    }
+    return Token(type_symbols[symbol], symbol, line)
+
+def analisador_lexico(code):
     actualLine = 1
     token = []
     actualWord = ""
-    possibilities = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "ou", "e"]
+    actualNumber = ""
+    possibilities_reserved = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "ou", "e"]
 
-    for i in range(0, len(codigo)):
-        if codigo[i] != "\t":
-            if codigo[i] == " " or codigo[i] == "\n" or i == len(codigo) - 1:
+    for i in range(0, len(code)):
+        if code[i] != "\t":
+            if code[i] == " " or code[i] == "\n" or i == len(code) - 1 or code[i] == "(" or code[i] == "," or code[i] == ")":
                 if len(actualWord) > 0:
-                    if actualWord in possibilities:
+                    if actualWord in possibilities_reserved:
                         token.append(reserved_words_token(actualWord, actualLine))
 
                         actualWord = ""
                     else:
                         token.append(variable_token(actualWord, actualLine))
                         actualWord = ""
+                
+                if len(actualNumber) > 0:
+                    token.append(Token("INTEGER", int(actualNumber), actualLine))
 
-            if re.search("[_a-zA-Z][_a-zA-Z0-9]*", codigo[i]) != None:
-                actualWord += codigo[i]
-            elif codigo[i] == "=" and codigo[i - 1] != "=":
-                if codigo[i+1] == "=":
-                    token.append(Token("OPREL", "==", actualLine))
+                    actualNumber = ""
+
+            if re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[i]) != None:
+                actualWord += code[i]
+            elif code[i] == "=" and code[i-1] != "=" and code[i-1] != "<" and code[i-1] != ">":
+                if code[i+1] == "=":
+                    token.append(reserved_symbols("==", actualLine))
                 else:
-                    token.append(Token("ASSIGN", "=", actualLine))
-        if codigo[i] == "\n":
+                    token.append(reserved_symbols("=", actualLine))
+            elif code[i] == "<":
+                if code[i+1] == ">":
+                    token.append(reserved_symbols("<>", actualLine))
+                elif code[i+1] == "=":
+                    token.append(reserved_symbols("<=", actualLine))
+                else:
+                    token.append(reserved_symbols("<", actualLine))
+            elif code[i] == ">" and code[i-1] != "<":
+                if code[i+1] == "=":
+                    token.append(reserved_symbols(">=", actualLine))
+                else:
+                    token.append(reserved_symbols(">"))
+            elif re.search("[0-9]+", code[i]) != None:
+                actualNumber += code[i]
+            elif code[i] not in " \n\t\r":
+                token.append(reserved_symbols(code[i], actualLine))
+        if code[i] == "\n":
                 actualLine += 1
 
     token.append(Token("EOF", "EOF", actualLine))
@@ -67,4 +113,4 @@ def analisador_lexico(codigo):
             
                 
         
-analisador_lexico(test);
+analisador_lexico(test)
