@@ -127,9 +127,10 @@ def analisador_lexico(code):
                     token.append(reserved_symbols(">"))
             elif re.search("[0-9]+", code[i]) != None:
                 actualNumber += code[i]
-            elif code[i] not in " \n\t\r":
+            elif code[i] not in "> \n\t\r":
                 if (code[i] == "\""):
                     isString = 1
+                print("oi vitor, coloquei o simbolo {code[i]}")
                 token.append(reserved_symbols(code[i], actualLine))
         else:
             raise LexicalException("Símbolo inválido: " + code[i] + " na linha " + str(actualLine) + ".")
