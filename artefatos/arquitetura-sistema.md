@@ -16,5 +16,10 @@
 - Tapete sensorial: Principal meio de interação do(a) paciente com a aplicação através do toque. Por meio de fios de cobre em seus quadrantes, a interação do(a) paciente poderá ser mandada para o "Greg Maker" e convertida em comandos para o programa Python.
 
 ## Principais componentes de software
+- Executável da IDE: Permite à terapeuta operacional (TO) desenvolver programas, de forma No-Code. Dentro da IDE, a TO pode criar uma conta pessoal, onde ela pode acessar ou cadastrar um ambiente específico para cada criança que está sob sua responsabilidade. Dentro do ambiente de uma criança, a terapeuta pode acessar um ambiente de desenvolvimento de tarefas, uma ficha técnica e um gráfico de desempenho.
+  - **Ambiente de desenvolvimento de tarefas:** Nessa aba, a terapeuta tem acesso a todos os quadrantes do tapete sensorial, onde ela pode tratá-los como botões e programar uma atividade com base no que precisa ser trabalhado com a criança específica. Além dos quadrantes, ela pode programar como será o feedback positivo e negativo, adicionando imagens, sons baixados da internet ou sons que ela pode gravar externamente e fazer upload do arquivo.
+  - **Perfil:** Já na aba Perfil, é onde as TO's podem ter acesso às informações das crianças, incluindo: nome, idade, grau, tipo de deficiência, data da primeira consulta, data da última consulta, interesses pessoais e a história.
+  - **Gráfico de Desempenho:** A cada tarefa desenvolvida pelas crianças, elas podem acertar ou errar o que deve ser feito. Caso acertem, recebem um feedback positivo. No caso de erro, em vez de receber um feedback negativo que deixe claro e direto que erraram, recebem um feedback incentivando-as a continuar realizando as tarefas, em vez de desinteressá-las e fazê-las sentir que falharam.
 
-### Funcionalidades
+
+
