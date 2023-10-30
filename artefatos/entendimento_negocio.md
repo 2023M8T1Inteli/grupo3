@@ -2,7 +2,7 @@
 
 ## Matriz de Risco 
 
-![Alt text](image.png)
+![Alt text](img/matriz_de_riscos.png)
 
 ### **Ameaças:**
 
@@ -172,3 +172,26 @@ A solução desenvolvida tem como foco inicialmente pessoas com paralisia cerebr
 
 ### Diagrama resumo
 ![TAM, SAM e SOM](img/tam-sam-som.png)
+
+## Canvas Proposta de Valor
+
+![TAM, SAM e SOM](img/proposta_de_valor.jpg)
+
+## Matriz do Oceano Azul
+
+![Atributos Oceano Azul](img/atributos_oceano_azul.png)
+
+![Matriz Oceano Azul](img/matriz_oceano_azul.png)
+
+| **Atributo**  | **Descrição** | 
+|---------------------|------------------------------|
+| **Histórico de Uso** | Nosso produto possui uma plataforma integrada a um banco de dados, onde são armazenados os testes realizados e criado um histórico personalizado para cada paciente. |
+| **Feedback** | Durante a aplicação de um teste, a cada interação do paciente com o tapete, é emitido um feedback personalizável, para assim, informar ao paciente e ao terapeuta como o teste está indo. |
+| **Gamificação** | Com o foco pensado em crianças, nossa plataforma é desenvolvida para que pareça um game, assim, sendo possível manter mais a atenção dos pacientes, e tornando o aprendizado mais divertido. Em comparação, os outros produtos tem como opção de gamificação apenas a criatividade do terapeuta para contar uma história, e a pontuação foi baseada no número de diferentes quadrantes nos tapetes. |
+| **Aplicabilidade** | Seja para auxiliar no desenvolvimento de habilidades cognitivas, emocionais ou físicas, a flexibilidade de nossa solução permite que os jogos e feedbacks sejam adaptados a diferentes contextos terapêuticos. |
+| **Personalização** | Nossa aplicação permite jogos e feedbacks personalizados. Eles podem ser modificados a qualquer momento utilizando linguagem no code. A personalização dos outros produtos se limita à hora da compra, onde é possível definir o que haverá em cada quadrante do tapete. |
+| **Flexibilidade** | Nossa plataforma permite que terapeutas e cuidadores criem jogos e feedbacks personalizados de forma simples garantindo que as atividades possam ser adaptadas rapidamente, tendo opções de imagens, sons, cores e jogos, mantendo o estímulo e o interesse dos pacientes em constante evolução, e permitindo a aplicação para diferentes casos e cenários de pacientes. Em contrapartida, outros produtos se limitam a opções fixas no momento da compra e não oferecem margem para ajustes ao longo do tempo. |
+| **Aprendizagem** | Com uma plataforma gamificada e feedbacks personalizados, o potencial de aprendizagem utilizando nosso produto é consideravelmente maior do que a de tapetes sensoriais tradicionais. Além de manter com mais facilidade a atenção do paciente, os feedbacks proporcionam uma resposta imediata de resultados. |
+| **Conforto** | O design da plataforma foi pensado inteiramente para ser acessível e emana sensações de conforto. Utilizando cores bem aceitas, e arquiteturas simples, deixamos o ambiente de trabalho mais confortável. O Sensory PlayMat B4brain é feito de algodão, tornando-o altamente confortável também. |
+| **Falta de Atenção** | Minha plataforma, repleta de imagens, sons e luzes, oferece uma experiência gamificada com feedbacks que naturalmente cativam a atenção dos pacientes. Em contrapartida, em outros tapetes sensoriais, a manutenção da atenção muitas vezes depende do envolvimento constante do terapeuta. |
+| **Preço** | Produzido por desenvolvedores voluntários, nosso produto passa a custar muito menos que outros, possuindo apenas o custo dos materiais. Em comparação, o preço de compra do Tapete Sensorial Tealegrar é de R$459,90 e o preço do Sensory PlayMat B4brain é de R$2.899,00. |
