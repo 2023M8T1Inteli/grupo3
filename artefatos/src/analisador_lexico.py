@@ -85,6 +85,8 @@ def analisador_lexico(code):
     actualWord = ""
     actualNumber = ""
     possibilities_reserved = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "ou", "e"]
+    isShortComment = False
+    isLongerComment = False
 
     # Percorre o código caractere por caractere.
     while i < len(code):
@@ -99,56 +101,76 @@ def analisador_lexico(code):
                 else:
                     actualWord += code[i]
             else:
-                if re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[i]) != None:
-                    pos = i
-                    while re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[pos]) != None:
-                        actualWord += code[pos]
-                        pos += 1
-                        if pos == len(code):
-                            break
-                    if len(actualWord) > 0:
-                        if actualWord in possibilities_reserved:
-                            token.append(reserved_words_token(actualWord, actualLine))
+                if isShortComment:
+                    if code[i] == "\n":
+                        isShortComment = False
+                        continue
+                elif isLongerComment:
+                    if code[i] == "*" and code[i + 1] == "/":
+                        isLongerComment = False
+                        i += 1
+                        continue
+                else:
+                    if code[i] == "/" and code[i + 1] == "/":
+                        isShortComment = True;
+                        i += 1;
+                        continue
+
+                    elif code[i] == "/" and code[i + 1] == "*":
+                        isLongerComment = True;
+                        i += 1;
+                        continue
+
+                    if re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[i]) != None:
+                        pos = i
+                        while re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[pos]) != None:
+                            actualWord += code[pos]
+                            pos += 1
+                            if pos == len(code):
+                                break
+                        if len(actualWord) > 0:
+                            if actualWord in possibilities_reserved:
+                                token.append(reserved_words_token(actualWord, actualLine))
+                            else:
+                                token.append(variable_token(actualWord, actualLine))
+                            actualWord = ""
+                            i  = pos -1
+                    elif code[i] == "=":
+                        if code[i+1] == "=":
+                            token.append(reserved_symbols("==", actualLine))
+                            i += 1
                         else:
-                            token.append(variable_token(actualWord, actualLine))
-                        actualWord = ""
-                        i  = pos -1
-                elif code[i] == "=":
-                    if code[i+1] == "=":
-                        token.append(reserved_symbols("==", actualLine))
-                        i += 1
-                    else:
-                        token.append(reserved_symbols("=", actualLine))
-                elif code[i] == "<":
-                    if code[i+1] == ">":
-                        token.append(reserved_symbols("<>", actualLine))
-                        i += 1
-                    elif code[i+1] == "=":
-                        token.append(reserved_symbols("<=", actualLine))
-                        i += 1
-                    else:
-                        token.append(reserved_symbols("<", actualLine))
-                elif code[i] == ">":
-                    if code[i+1] == "=":
-                        token.append(reserved_symbols(">=", actualLine))
-                        i += 1
-                    else:
-                        token.append(reserved_symbols(">", actualLine))
-                elif re.search("[0-9]+", code[i]) != None:
-                    pos = i
-                    while re.search("[0-9]+", code[pos]) != None:
-                        actualNumber += code[pos]
-                        pos += 1
-                        if pos == len(code):
-                            break
-                    if len(actualNumber) > 0:
-                        token.append(Token("INTEGER", int(actualNumber), actualLine))
-                        actualNumber = ""
-                        i = pos-1
-                elif code[i] not in " \n\t\r":
-                    if (code[i] == "\""):
-                        isString = True
-                    token.append(reserved_symbols(code[i], actualLine))
+                            token.append(reserved_symbols("=", actualLine))
+                    elif code[i] == "<":
+                        if code[i+1] == ">":
+                            token.append(reserved_symbols("<>", actualLine))
+                            i += 1
+                        elif code[i+1] == "=":
+                            token.append(reserved_symbols("<=", actualLine))
+                            i += 1
+                        else:
+                            token.append(reserved_symbols("<", actualLine))
+                    elif code[i] == ">":
+                        if code[i+1] == "=":
+                            token.append(reserved_symbols(">=", actualLine))
+                            i += 1
+                        else:
+                            token.append(reserved_symbols(">", actualLine))
+                    elif re.search("[0-9]+", code[i]) != None:
+                        pos = i
+                        while re.search("[0-9]+", code[pos]) != None:
+                            actualNumber += code[pos]
+                            pos += 1
+                            if pos == len(code):
+                                break
+                        if len(actualNumber) > 0:
+                            token.append(Token("INTEGER", int(actualNumber), actualLine))
+                            actualNumber = ""
+                            i = pos-1
+                    elif code[i] not in " \n\t\r":
+                        if (code[i] == "\""):
+                            isString = True
+                        token.append(reserved_symbols(code[i], actualLine))
         else:
             raise LexicalException("Símbolo inválido: " + code[i] + " na linha " + str(actualLine) + ".")
 
