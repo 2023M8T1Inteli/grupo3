@@ -17,7 +17,7 @@ class LexicalException(Exception):
 
 # Função para ler um arquivo a partir de um nome de arquivo.
 def read_file(file_name):
-    path = f"./test_file/{file_name}"
+    path = f"./artefatos/src/test_file/{file_name}"
     if os.path.exists(path):
         content = ""
         with open(path, "r", encoding="utf-8") as f:
@@ -159,4 +159,4 @@ def analisador_lexico(code):
     print(token)
 
 # Exemplo de uso do analisador léxico.
-analisador_lexico(read_file("exemplo2.txt"))
+analisador_lexico(read_file("exemplo5.txt"))
