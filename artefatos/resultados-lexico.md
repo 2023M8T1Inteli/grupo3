@@ -33,7 +33,13 @@ fim
 ```
 ### Tokens gerados:
 ```
-
+(LBLOCK inicio 1)
+(ID z 2)
+(ASSIGN = 2)
+(OPSUM - 2)
+(INTEGER 1234 2)
+(RBLOCK fim 3)
+(EOF EOF 3)
 ```
 
 ## Exemplo 3:
@@ -73,7 +79,24 @@ fim
 ```
 ### Tokens gerados:
 ```
-
+(SE se 1)
+(ID abc 1)
+(OPREL <> 1)
+(ID xyz 1)
+(ENTAO entao 1)
+(LBLOCK inicio 2)
+(ID x 3)
+(ASSIGN = 3)
+(LPAR ( 3)
+(BOOLEAN verdade 3)
+(RPAR ) 3)
+(ID y 4)
+(ASSIGN = 4)
+(COMANDO ler 4)
+(LPAR ( 4)
+(RPAR ) 4)
+(RBLOCK fim 5)
+(EOF EOF 5)
 ```
 
 ## Exemplo 5:
