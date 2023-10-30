@@ -5,7 +5,7 @@ Personas são representações fictícias de segmentos específicos da audiênci
 
 Ao criar personas, as equipes podem visualizar e compreender melhor para quem estão projetando ou criando algo. Isso ajuda a tomar decisões mais informadas ao desenvolver produtos ou serviços, adaptando-os para atender às necessidades e expectativas dos usuários específicos. Personas bem elaboradas permitem que as equipes se coloquem no lugar dos usuários e projetem soluções mais centradas no usuário. Isso pode levar a produtos mais eficazes e a uma melhor experiência do usuário. Sendo assim, foram criadas personas que se aliam com o escopo do projeto a fim de compreender e construir um produto que atenda as necessidades dos usuários do sistema progrmável que auxilia na reabilitação de crianças com parilisia cerebral.
 
-### Persona 1 - Janaína Torres, a terapeuta Ocupacional
+### Persona 1 - Janaína Torres, a terapeuta ocupacional
 ![Persona 1](img/persona1.png)
 ### Persona 2 - Clara de Souza, a primeira paciente
 ![Persona 2](img/persona2.png)
