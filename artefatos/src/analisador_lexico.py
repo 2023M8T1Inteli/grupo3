@@ -104,7 +104,7 @@ def analisador_lexico(code):
                     while re.search("[_a-zA-Z][_a-zA-Z0-9]*", code[pos]) != None:
                         actualWord += code[pos]
                         pos += 1
-                        if pos == len(code)-1:
+                        if pos == len(code):
                             break
                     if len(actualWord) > 0:
                         if actualWord in possibilities_reserved:
