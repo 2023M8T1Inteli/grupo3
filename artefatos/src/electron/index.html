@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Login</title>
+</head>
+<body>
+    <div id="left-pane">
+        <div id="dolphin-text">Dolphin</div>
+        <img src="dolphin_image.png" alt="Dolphin Image">
+        <div id="non-account">Não tem uma conta?</div>
+        <a id="sign-up" href="#">Cadastre-se</a>
+    </div>
+    <div id="right-pane">
+        <div id="sentence">Para continuar, faça o login com a sua conta!</div>
+        <div id="e-mail">E-mail do usuário</div>
+        <input type="email" id="e-mail_field" name="user-email">
+        <div id="pass">Senha do usuário</div>
+        <input type="password" id="password_field" name="user-pass">
+        <div id="remember-password">
+            <input type="checkbox" id="remember-checkbox" name="remember">
+            <div id="remember">Lembre-me</div>
+        </div>
+        <button id="login-button">Login</button>
+        <div id="forgot-password">Esqueceu a senha?</div>
+    </div>
+
+    <script>
+        const loginButton = document.getElementById('login-button');
+        loginButton.addEventListener('click', () => {
+            window.open('home.html', '_blank');
+        });
+    </script>
+</body>
+</html>
