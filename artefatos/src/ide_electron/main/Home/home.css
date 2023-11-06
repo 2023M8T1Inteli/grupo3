@@ -33,7 +33,7 @@ html, body {
 .search-icon {
     width: 1.5rem;
     height: 1.5rem;
-    background-image: url('magnifying_glass.png');
+    background-image: url('../../assets/magnifying_glass.png');
     background-size: cover;
     margin-right: 1rem;
 }

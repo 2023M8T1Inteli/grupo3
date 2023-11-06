@@ -9,7 +9,7 @@ app.on('ready', () => {
     width: 1280,
     height: 832,
   });
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('./main/Login/index.html');
 
   // Cria uma nova janela para a tela home.html
   newPageWindow = new BrowserWindow({
@@ -18,7 +18,7 @@ app.on('ready', () => {
   });
 
   // Carrega a tela home.html
-  newPageWindow.loadFile('home.html');
+  newPageWindow.loadFile('./main/Home/home.html');
 
   ipcMain.on('open-home-page', () => {
     newPageWindow.show();
