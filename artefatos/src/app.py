@@ -14,6 +14,6 @@ def read_file(file_name):
         raise Exception(f"File {path} not found")
     
 if __name__ == "__main__":
-    code = read_file("exemplo1.txt")
+    code = read_file("exemploS1.txt")
     tokens = AnalisadorLexico(code).getTokens()
     print(AnalisadorSintatico(tokens).program())

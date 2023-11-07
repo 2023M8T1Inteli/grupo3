@@ -104,7 +104,7 @@ class AnalisadorLexico:
 
                         if re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[i]) != None:
                             pos = i
-                            while re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[pos]) != None:
+                            while re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[pos]) != None or self.code[pos].isnumeric():
                                 actualWord += self.code[pos]
                                 pos += 1
                                 if pos == len(self.code):
