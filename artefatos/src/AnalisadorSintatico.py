@@ -45,9 +45,9 @@ class AnalisadorSintatico:
     def assign_statement(self):
         self.matchToken("ID")
         self.matchToken("ASSIGN")
-        if self.tokens[0].tipo == "COMANDO" and (self.tokens[0].valor == "ler" or self.tokens[0].valor == "ler_varios"):
+        if self.tokens[0].tipo == "COMANDO" and self.tokens[0].valor in ["ler", "ler_varios"]:
             self.input_statement()
-        elif self.tokens[0].tipo == "ID" or self.tokens[0].tipo == "INTEGER" or (self.tokens[0].tipo == "verdade" or self.tokens[0].tipo == "falso") or self.tokens[0].tipo == "OPSUM" or self.tokens[0].tipo == "NAO" or self.tokens[0].tipo == "LPAR":
+        elif self.tokens[0].tipo in ["ID", "INTEGER", "verdade", "falso", "OPSUM", "NAO", "LPAR"]:
             self.expression()
 
     def input_statement(self):
@@ -81,7 +81,7 @@ class AnalisadorSintatico:
         self.block()
 
     def command_statement(self):
-        if self.tokens[0].valor == "mostrar" or self.tokens[0].valor == "tocar" or self.tokens[0].valor == "esperar":   
+        if self.tokens[0].valor in ["mostrar", "tocar", "esperar"]:  
             self.matchToken("COMANDO")
             self.matchToken("LPAR")
             self.sum_expression()
@@ -93,4 +93,58 @@ class AnalisadorSintatico:
             self.matchToken("COMMA")
             self.sum_expression()
             self.matchToken("RPAR")
-        
+
+    def expression(self):
+        self.sum_expression()
+        if self.tokens[0].tipo == "OPREL":
+            self.sum_expression()
+            self.relop()
+
+    def relop(self):
+        self.matchToken("OPREL")
+    
+    def sum_expression(self):
+        self.mult_term()
+
+    def sum_expression2(self):
+        if self.tokens[0].valor in ["+", "-", "ou"]:
+            self.matchToken(self.tokens[0].tipo)
+            self.mult_term()
+            self.sum_expression2()
+    
+    def mult_term(self):
+        self.power_term()
+        self.mult_term2()
+    
+    def mult_term2(self):
+        if self.tokens[0].valor in ["*", "/", "%", "e"]:
+            self.matchToken(self.tokens[0].tipo)
+            self.power_term()
+            self.mult_term()
+
+    def power_term(self):
+        self.factor()
+        if self.tokens[0].tipo == "OPPOW":
+            self.matchToken(self.tokens[0].tipo)
+            self.power_term()
+
+    def factor(self):
+        if self.tokens[0].tipo == "ID":
+            self.matchToken("ID")
+        elif self.tokens[0].tipo == "INTEGER":
+            self.matchToken("INTEGER")
+        elif self.tokens[0].tipo == "BOOLEAN":
+            self.boolean()
+        elif self.tokens[0].tipo == "OPSUM":
+            self.matchToken("OPSUM")
+            self.factor()
+        elif self.tokens[0].tipo == "NAO":
+            self.boolean()
+        elif self.tokens[0].tipo == "LPAR":
+            self.matchToken("LPAR")
+            self.expression()
+            self.matchToken("RPAR")
+
+    def boolean(self):
+        self.matchToken("BOOLEAN")
+    
