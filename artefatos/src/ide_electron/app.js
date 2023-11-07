@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 
 let mainWindow;
 let newPageWindow;
+let registerPage;
 
 app.on('ready', () => {
   // Cria a janela principal
@@ -19,6 +20,15 @@ app.on('ready', () => {
 
   // Carrega a tela home.html
   newPageWindow.loadFile('./main/Home/home.html');
+
+  registerPage = new BrowserWindow({
+    width: 1280,
+    height: 832,
+  });
+
+  // Carrega a tela register.html
+registerPage.loadFile('./main/Register/register.html')
+
 
   ipcMain.on('open-home-page', () => {
     newPageWindow.show();
