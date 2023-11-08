@@ -27,7 +27,7 @@ app.on('ready', () => {
   ipcMain.on('mensagem-para-processo-renderizador', (event, mensagem) => {
     event.reply('resposta-do-processo-renderizador', 'Olá, mundo!');
 
-    fs.writeFile('teste.txt', mensagem, function(err) {
+    fs.writeFile('../test_file/programa.txt', mensagem, function(err) {
       if (err) {
         console.log(err)
     }

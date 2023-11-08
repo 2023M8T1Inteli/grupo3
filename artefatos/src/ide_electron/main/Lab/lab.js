@@ -38,12 +38,26 @@ buttonConfirm.addEventListener('click', function(e) {
         console.log(mensagem);
       });
       
-    var arquivoManda = `programa "tarefa1":
-inicio
-    _variavel1 = ler(${listaSequencia})
-fim`
+    var inicio_de_programa = 'programa "tarefa1":\n\tinicio'
 
-      ipcRenderer.send('mensagem-para-processo-renderizador', arquivoManda);
+    var meio_de_programa = ""
+
+    for (var i = 0; i < listaSequencia.length; i++){
+        meio_de_programa += `
+            quadranteEsperado = ${listaSequencia[i]}
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+            fim
+            mostrar(1)\n`
+    }
+
+    var fim_de_programa = 'fim.'
+
+    var programa = inicio_de_programa + meio_de_programa + fim_de_programa
+
+      ipcRenderer.send('mensagem-para-processo-renderizador', programa);
       
 })
 
