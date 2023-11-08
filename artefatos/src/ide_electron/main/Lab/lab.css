@@ -1,0 +1,150 @@
+@import "../../components/nav.css";
+@import "../../components/footer-tools.css";
+
+body{
+    margin: 0;
+    display: flex;
+}
+
+h1 {
+    margin: 0;
+}
+
+#header-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#title-box, #tools-box {
+    display: flex;
+    height: 30px;
+    width: 100%;
+}
+
+#title-box {
+    background-color: #2B7F7F;
+    padding-left: 10px;
+}
+
+#all-tools-box {
+    display: flex;
+    flex-direction: row;
+}
+
+#tools-box {
+    background-color: #15ACAC;
+    justify-content: space-between;
+}
+
+#button-tools {
+    border-radius: 0%;
+    border-style: none;
+    width: 100%;
+    height: 100%;
+    background-color: #15ACAC;
+    display: flex;
+    justify-content: center;
+}
+
+#button-tools:active {
+    background-color: #2B7F7F;
+}
+
+#button-tools:hover {
+    background-color: #2B7F7F;
+}
+
+#mouse, #easer {
+    align-self: center;
+}
+
+#space-tools-box {
+    display: flex;
+    width: 50px;
+    height: 30px;
+}
+
+#title-content {
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Abel', cursive;
+    color: white;
+}
+
+#buttons-text-box {
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    justify-content: space-between;
+}
+
+
+#blocks-box {
+    display: flex;
+}
+
+.block-box, #block-end-box {
+    height: 60px;
+    width: 60px;
+    background-color: blue;
+}
+
+
+
+#main-box {
+    display: flex;
+    margin-top: 60px;
+    width: 100%;
+    height: 100vh;
+    padding-left: 100px;
+    padding-top: 100px;
+    padding-right: 100px;
+}
+
+#block-start-box {
+    width: 60px;
+    height: 60px;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: space-around;
+}
+
+#start-component {
+    align-self: center;
+}
+
+.column-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#blocks-box {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#title-confirm, #title-feedback-correct, #title-feedback-wrong {
+    border-radius: 0;
+    border-style: none;
+    background-color: #15ACAC;
+    color: white;
+    font-family: 'Abel', cursive;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+#title-confirm:hover, #title-feedback-correct:hover, #title-feedback-wrong:hover {
+    background-color: #2B7F7F;
+}
+
+#sequence-box {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,4 @@
+programa "tarefa1":
+inicio
+    _variavel1 = ler(12,23)
+fim
