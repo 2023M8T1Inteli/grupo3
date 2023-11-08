@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Consultas</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="user-icon">
+        <i class="fa-solid fa-circle-user"></i>
+      </div>
+    </header>
+    <main>
+      <div id="menu-lateral">
+        <div id="dados-usario-menu">
+          <div .img-container>
+            <img src="usuario.jpeg" alt="Imagem do Usuário" />
+          </div>
+          <p>Caio da Silva</p>
+        </div>
+        <div id="btn-tarefas" class="btn-menu">
+          <a href="tarefas.html"
+            ><i class="fa-solid fa-list-check"></i
+            ><span>&nbsp;&nbsp;Tarefas</span></a
+          >
+        </div>
+        <div id="btn-perfil" class="btn-menu active">
+          <a href="perfil.html"
+            ><i class="fa-regular fa-circle-user"></i
+            ><span>&nbsp;&nbsp;Perfil</span></a
+          >
+        </div>
+        <div id="btn-desempenho" class="btn-menu">
+          <a href="desempenho.html"
+            ><i class="fa-solid fa-chart-line"></i
+            ><span>&nbsp;&nbsp;Desempenho</span></a
+          >
+        </div>
+      </div>
+      <div id="conteudo">
+        <div id="cards">
+          <div class="card">
+            <div class="topo"></div>
+            <p class="titulo">Tarefa 1</p>
+            <button class="btn-card desempenho">Desempenho</button>
+            <button class="btn-card excluir">Excluir</button>
+          </div>
+          <div class="card">
+            <div class="topo"></div>
+            <p class="titulo">Tarefa 2</p>
+            <button class="btn-card desempenho">Desempenho</button>
+            <button class="btn-card excluir">Excluir</button>
+          </div>
+          <div class="card">
+            <div class="topo"></div>
+            <p class="titulo">Tarefa 3</p>
+            <button class="btn-card desempenho">Desempenho</button>
+            <button class="btn-card excluir">Excluir</button>
+          </div>
+          <div class="card">
+            <div class="topo"></div>
+            <p class="titulo">Tarefa 4</p>
+            <button class="btn-card desempenho">Desempenho</button>
+            <button class="btn-card excluir">Excluir</button>
+          </div>
+          <div class="card-dashed">
+            <p><i id = "btn-adicionar-tarefa" class="fa-solid fa-plus adicionar"></i></p>
+            <p>Adicione uma nova tarefa</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      const cardsContainer = document.querySelector('#cards');
+      const btnAdicionar = document.querySelector("#btn-adicionar-tarefa");
+      let btnsExcluir = document.querySelectorAll('.excluir');
+
+      btnAdicionar.addEventListener('click', () => {
+        tituloTarefa = prompt('Digite o título da tarefa:');
+        if (tituloTarefa) {
+          novaTarefa = document.createElement('div');
+          novaTarefa.classList.add('card');
+          novaTarefa.innerHTML = `
+            <div class="topo"></div>
+            <p class="titulo">${tituloTarefa}</p>
+            <button class="btn-card desempenho">Desempenho</button>
+            <button class="btn-card excluir excluir-novo">Excluir</button>
+          `;
+          cardsContainer.prepend(novaTarefa);
+        }
+        btnsExcluir = document.querySelectorAll('.excluir-novo');
+        btnsExcluir.forEach((btnExcluir) => {
+          btnExcluir.addEventListener('click', () => {
+            if (confirm('Tem certeza que deseja excluir a tarefa?')) {
+              btnExcluir.parentElement.remove();
+            }
+          });
+          btnExcluir.classList.remove('excluir-novo');
+        });
+      });
+      btnsExcluir.forEach((btnExcluir) => {
+        btnExcluir.addEventListener('click', () => {
+          if (confirm('Tem certeza que deseja excluir a tarefa?')) {
+            btnExcluir.parentElement.remove();
+          }
+        });
+      });
+    </script>
+  
+    <script>
+      // Remove the 'active' class from all buttons
+      document.querySelectorAll('.btn-menu').forEach(btn => btn.classList.remove('active'));
+      // Add the 'active' class to the btn-tarefas button
+      document.getElementById('btn-tarefas').classList.add('active');
+    </script>
+    
+<script>
+// Function to add 'active' class to the current page's menu button
+function setActiveButton(buttonId) {
+  // Remove 'active' class from all buttons
+  document.querySelectorAll('.btn-menu').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Add 'active' class to the current page's menu button
+  const currentButton = document.querySelector(buttonId);
+  if (currentButton) {
+    currentButton.classList.add('active');
+  }
+}
+
+// Call the function with the appropriate button ID for each page
+// The following ID will need to be adjusted according to the button that corresponds to the current HTML page
+document.addEventListener('DOMContentLoaded', () => setActiveButton('#btn-tarefas'));
+</script>
+</body>
+</html>
