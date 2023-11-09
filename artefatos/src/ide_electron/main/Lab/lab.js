@@ -5,7 +5,7 @@ var contador = 0
 var buttonConfirm = document.getElementById('title-confirm')
 var footer = document.getElementById('blocks-box')
 var listaSequencia = []
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, dialog } = require('electron')
 
 draggableElements.forEach(function(element) {
     element.addEventListener('dragstart', function(e) {
@@ -34,10 +34,6 @@ sequence.addEventListener('drop', function(e) {
 });
 
 buttonConfirm.addEventListener('click', function(e) {
-    ipcRenderer.on('resposta-do-processo-renderizador', (event, mensagem) => {
-        console.log(mensagem);
-      });
-      
     var inicio_de_programa = 'programa "tarefa1":\n\tinicio'
 
     var meio_de_programa = ""
@@ -49,6 +45,7 @@ buttonConfirm.addEventListener('click', function(e) {
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
                 mostrar(0)
+                quadrantePressionado = ler()
             fim
             mostrar(1)\n`
     }
@@ -57,7 +54,8 @@ buttonConfirm.addEventListener('click', function(e) {
 
     var programa = inicio_de_programa + meio_de_programa + fim_de_programa
 
-      ipcRenderer.send('mensagem-para-processo-renderizador', programa);
+    ipcRenderer.send('mensagem-para-processo-renderizador', programa);
+
       
 })
 

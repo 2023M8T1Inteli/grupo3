@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 
 let newPageWindow;
@@ -25,7 +25,7 @@ app.on('ready', () => {
   });
 
   ipcMain.on('mensagem-para-processo-renderizador', (event, mensagem) => {
-    event.reply('resposta-do-processo-renderizador', 'Olá, mundo!');
+
 
     fs.writeFile('../test_file/programa.txt', mensagem, function(err) {
       if (err) {
@@ -33,6 +33,23 @@ app.on('ready', () => {
     }
       }
     )
+
+    try {
+
+      event.reply('resposta-do-processo-renderizador', 'Sucesso!');
+
+      dialog.showMessageBox(newPageWindow, {
+        type: 'info',
+        title: 'Feedback',
+        message: 'Sucesso!',
+        buttons: ['OK'],
+        icon: 'None'
+      });
+      
+
+    } catch (e) {
+      event.reply('resposta-do-processo-renderizador', e);
+    }
 
   });
 });
