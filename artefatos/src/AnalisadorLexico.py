@@ -1,29 +1,5 @@
-import os
 import re
-
-# Classe Token para representar os tokens encontrados no código.
-class Token:
-    def __init__(self, tipo, valor, linha):
-        self.tipo = tipo
-        self.valor = valor
-        self.linha = linha
-
-    def __repr__(self):
-        return f"({self.tipo} {self.valor} {self.linha})"
-
-class LexicalException(Exception):
-    pass
-
-# Função para ler um arquivo a partir de um nome de arquivo.
-def read_file(file_name):
-    path = f"./artefatos/src/test_file/{file_name}"
-    if os.path.exists(path):
-        content = ""
-        with open(path, "r", encoding="utf-8") as f:
-            content = f.read()
-        return content
-    else:
-        raise Exception(f"File {path} not found")
+from ClassesAuxiliares import Token, LexicalException
     
 class AnalisadorLexico:
     code = ""
@@ -128,7 +104,7 @@ class AnalisadorLexico:
 
                         if re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[i]) != None:
                             pos = i
-                            while re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[pos]) != None:
+                            while re.search("[_a-zA-Z][_a-zA-Z0-9]*", self.code[pos]) != None or self.code[pos].isnumeric():
                                 actualWord += self.code[pos]
                                 pos += 1
                                 if pos == len(self.code):
