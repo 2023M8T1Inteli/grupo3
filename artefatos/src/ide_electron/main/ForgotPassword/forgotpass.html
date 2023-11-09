@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="forgotpass.css">
+    <title> Register </title>
+</head>
+<body>
+    <div id="outside-block">
+        <div id="inside-block">
+            <div id="top">
+                <a id="back-arrow" href="../Login/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                </a>
+                <p id="forgot-my-pass"> Esqueci minha senha 
+            </div>
+            </p>
+            <div id="image-lock">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-unlock-fill" viewBox="0 0 16 16">
+                    <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z"/>
+                    </svg>
+            </div>
+            <div id="txt-input">
+                <p> Para redefinir a sua senha, digite seu e-mail para mandarmos as instruções de como prosseguir com isso. </p>
+                <div class="send-email">
+                    <p> E-mail institucional </p>
+                    <div id="write-send">
+                        <input type="email" class="write-info" name="" id="email">
+                        <div id="arrow-send" onclick="checkEmail(); checkInfo(); sendEmail()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="alert-error" id="alert-email-error">
+                        <p class="didnt-write" id="email-error"> Preencha o campo acima </p>
+                    </div>
+                    <div class="alert-error" id="alert-email-format-error">
+                        <p id="wrong-format"> Formato inválido </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/nodemailer@6.10.0/dist/nodemailer.min.js"></script>
+    <script src="./forgotpass.js"></script>
+</body>
+</html>
