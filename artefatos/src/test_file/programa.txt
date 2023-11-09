@@ -1,0 +1,29 @@
+programa "tarefa1":
+	inicio
+            quadranteEsperado = 11
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+
+            quadranteEsperado = 12
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+
+            quadranteEsperado = 12
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+fim.
