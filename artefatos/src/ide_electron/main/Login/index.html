@@ -22,15 +22,13 @@
             <input type="checkbox" id="remember-checkbox" name="remember">
             <div id="remember">Lembre-me</div>
         </div>
-        <button id="login-button">Login</button>
+        <button id="login-button"  onclick="redirectToHome()">Login</button>
         <a id="forgot-password" href="../ForgotPassword/forgotpass.html">Esqueceu a senha?</a>
     </div>
-
     <script>
-        const loginButton = document.getElementById('login-button');
-        loginButton.addEventListener('click', () => {
-            window.open('home.html', '_blank');
-        });
+        function redirectToHome() {
+            window.location.href = '../Home/home.html';
+        }
     </script>
 </body>
 </html>
