@@ -30,11 +30,11 @@ class AnalisadorSintatico:
 
     def statement_list(self):
         if self.tokens[0].tipo == "RBLOCK":
-            pass
+            return None
         else:
             statement = self.statement()
             statementList = self.statement_list()
-            return InternNode("statementList", statement=statement, statementList=statementList)
+            return InternNode("statementList", statement=statement, prox=statementList)
 
     def statement(self):
         if self.tokens[0].tipo == "ID":

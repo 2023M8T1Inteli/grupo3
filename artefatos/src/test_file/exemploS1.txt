@@ -1,4 +1,4 @@
 programa "teste simples":
 inicio
-    x = 10
+    
 fim.
