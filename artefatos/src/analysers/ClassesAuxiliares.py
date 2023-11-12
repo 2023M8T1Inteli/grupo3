@@ -14,6 +14,7 @@ class LexicalException(Exception):
 class SyntaticException(Exception):
     pass
 
+# Classe para representar os nós de variáveis nas regras gramaticais
 class InternNode:
     def __init__(self, op, **kwargs):
         self.op = op
@@ -35,7 +36,8 @@ class InternNode:
         if len(paramsStr) > 0:
             paramsStr = ", " + paramsStr
         return f'InternNode(op="{self.op}"{paramsStr})'
-    
+
+# Classe para representar os nós de terminais nas regras gramaticais
 class LeafNode:
     def __init__(self, op, value, line):
         self.op = op

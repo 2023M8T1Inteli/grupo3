@@ -4,12 +4,14 @@ class AnalisadorSintatico:
     def __init__(self, tokens):
         self.tokens = tokens
 
+    #Função que verifica se o token atual é o token esperado. Caso não seja, retorna um erro sintático.
     def matchToken(self, type):
         if self.tokens[0].tipo == type:
             self.tokens.pop(0)
         else:
             raise SyntaticException(f"Era esperado '{type}', mas foi encontrado '{self.tokens[0].valor}' - linha {self.tokens[0].linha}")
-        
+    
+    #Regra: <program> ::= PROGRAMA DQUOTE STRING DQUOTE COLON <block> DOT
     def program(self):
         self.matchToken("PROGRAMA")
         self.matchToken("DQUOTE")
@@ -22,12 +24,14 @@ class AnalisadorSintatico:
         self.matchToken("DOT")
         return InternNode("program", string=LeafNode("string", stringValue, stringLine), block=block)
 
+    #Regra: <block> ::= LBLOCK <statement_list> RBLOCK
     def block(self):
         self.matchToken("LBLOCK")
         statementList = self.statement_list()
         self.matchToken("RBLOCK")
         return InternNode("block", statementList=statementList)
 
+    #Regra: <statement_list> ::= <statement> <statement_list> | ε
     def statement_list(self):
         if self.tokens[0].tipo == "RBLOCK":
             return None
@@ -35,7 +39,8 @@ class AnalisadorSintatico:
             statement = self.statement()
             statementList = self.statement_list()
             return InternNode("statementList", statement=statement, prox=statementList)
-
+    
+    #Regra: <statement> ::= <assign_statement> | <if_statement> | <while_statement> | <command_statement>
     def statement(self):
         if self.tokens[0].tipo == "ID":
             return self.assign_statement()
@@ -46,6 +51,7 @@ class AnalisadorSintatico:
         elif self.tokens[0].tipo == "COMANDO":
             return self.command_statement()
 
+    #Regra: <assign_statement> ::= ID ASSIGN ( <input_statement> | <expression> )
     def assign_statement(self):
         node = None
         idValue = self.tokens[0].valor
@@ -60,6 +66,7 @@ class AnalisadorSintatico:
             node = InternNode("assignStatement", id=LeafNode("id", idValue, idLine), expression=expression)
         return node
 
+    #Regra: <input_statement> ::= 'ler' LPAR RPAR | 'ler_varios' LPAR <sum_expression> COMMA <sum_expression> COMMA <sum_expression> RPAR
     def input_statement(self):
         if self.tokens[0].valor == "ler":
             commandLine = self.tokens[0].linha
@@ -79,6 +86,7 @@ class AnalisadorSintatico:
             self.matchToken("RPAR")
             return InternNode("inputStatement", command = LeafNode("command", value="ler_varios", line=commandLine), esq=esq, mid=mid, dir=dir)
 
+    #Regra: <if_statement> ::= SE <expression> ENTAO <block> [SENAO <block>]
     def if_statement(self):
         self.matchToken("SE")
         expression = self.expression()
@@ -89,6 +97,7 @@ class AnalisadorSintatico:
             elseBlock = self.block()
         return InternNode("ifStatement", expression=expression, ifBlock=ifBlock, elseBlock=elseBlock)
 
+    #Regra: <while_statement> ::= ENQUANTO <expression> FACA <block>
     def while_statement(self):
         self.matchToken("ENQUANTO")
         expression = self.expression()
@@ -96,6 +105,7 @@ class AnalisadorSintatico:
         block = self.block()
         return InternNode("whileStatement", expression=expression, block=block)
 
+    #Regra: <command_statement> ::= 'mostrar' LPAR <sum_expression> RPAR | 'tocar' LPAR <sum_expression> RPAR | 'esperar' LPAR <sum_expression> RPAR | 'mostrar_tocar' LPAR <sum_expression> COMMA <sum_expression> RPAR
     def command_statement(self):
         if self.tokens[0].valor in ["mostrar", "tocar", "esperar"]:
             commandValue = self.tokens[0].valor
@@ -114,6 +124,7 @@ class AnalisadorSintatico:
             self.matchToken("RPAR")
             return InternNode("commandStatement", command=LeafNode("command", value="mostrar_tocar", line=commandLine), esq=esq, dir=dir)
 
+    #Regra: <expression> ::= <sum_expression> [<relop> <sum_expression>]
     def expression(self):
         oper = None
         esq = ""
@@ -125,13 +136,16 @@ class AnalisadorSintatico:
             self.relop()
         return InternNode("expression", oper=oper, esq=esq, dir=dir)
 
+    #Regra: <relop> ::= '==' | '<>' | '>' | '<' | '>=' | '<='
     def relop(self):
         self.matchToken("OPREL")
-    
+
+    #Regra: <sum_expression> ::= <mult_term> <sum_expression2>
     def sum_expression(self):
         multTerm = self.mult_term()
         return self.sum_expression2(multTerm)
 
+    #Regra: <sum_expression2> ::= ('+' | '-' | 'ou') <mult_term> <sum_expression2>
     def sum_expression2(self, esq=None):
         if self.tokens[0].valor in ["+", "-", "ou"]:
             oper = self.tokens[0].valor
@@ -141,10 +155,12 @@ class AnalisadorSintatico:
             return self.sum_expression2(node)
         return esq
     
+    #Regra: <mult_term> ::= <power_term> <mult_term2>
     def mult_term(self):
         powerTerm = self.power_term()
         return self.mult_term2(powerTerm)
     
+    #Regra: <mult_term2> ::= ('*' | '/' | '%' | 'e') <power_term> <mult_term2>
     def mult_term2(self, esq=None):
         if self.tokens[0].valor in ["*", "/", "%", "e"]:
             oper = self.tokens[0].valor
@@ -154,6 +170,7 @@ class AnalisadorSintatico:
             return self.mult_term2(node)
         return esq
 
+    #Regra: <power_term> ::= <factor> ['^' <power_term>]
     def power_term(self):
         factor = self.factor()
         if self.tokens[0].tipo == "OPPOW":
@@ -162,6 +179,7 @@ class AnalisadorSintatico:
             return InternNode("powerTerm", oper="^", esq=factor, dir=powerTerm)
         return factor
 
+    #Regra: <fator> ::= ID | INTEGER | <boolean> | '+' <factor> | '-' <factor> | NAO <boolean> | LPAR <expression> RPAR
     def factor(self):
         sinal = "+"
         if self.tokens[0].tipo == "OPSUM":
@@ -189,6 +207,7 @@ class AnalisadorSintatico:
             self.matchToken("RPAR")
             return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=expression)
 
+    #Regra: <boolean> ::= 'verdade' | 'falso'
     def boolean(self):
         boolValue = self.tokens[0].valor
         boolLine = self.tokens[0].linha

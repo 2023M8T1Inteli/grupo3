@@ -56,8 +56,7 @@ buttonConfirm.addEventListener('click', function(e) {
 
     ipcRenderer.send('mensagem-para-processo-renderizador', programa);
 
-      
+    ipcRenderer.send('call-python-code', programa);
 })
-
 
   
