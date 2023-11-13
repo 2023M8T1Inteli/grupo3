@@ -1,3 +1,29 @@
 # Artigo
 
-*Artefato referente às Sprints 2, 3, 4 e 5*
+## Introdução
+
+Muitas pessoas sofrem em realizar atividades cotidianas por conta de problemas motores ou cognitivos, dados do IBGE (2010) indicam que 23,9% da população no Brasil apresentam algum tipo de deficiência, sendo 25,73% pessoas classificadas com deficiência motora. Além dessas dificuldades, ainda sofrem com o capacitismo, que é uma forma de discriminação que envolve a marginalização, estigmatização e preconceito contra pessoas com deficiência, com base em suas condições. Ele se manifesta por meio de atitudes, estereótipos e barreiras sociais que desvalorizam as capacidades das pessoas com deficiência e reforçam a suposta superioridade das pessoas sem deficiência(MARCHESAN et al., 2021).
+
+Uma das deficiências que podem trazer um impacto na vida dessas pessoas é a paralisia cerebral (PC) que é uma condição médica que afeta o movimento, postura e coordenação de uma pessoa devido a danos ou anormalidades no cérebro em desenvolvimento. Geralmente, os sintomas da paralisia cerebral se manifestam na infância e podem variar em gravidade de leve a grave. No Brasil, estudos revelam que a cada 1.000 crianças que nascem, 7 são portadoras de PC (SIMÕES et al., 2013). A criança com PC necessita de um cuidado diferenciado e tratamento adequado, pois apresenta limitações  para  autocuidado  como,  higiene,  alimentação,  atividades  motoras  e  interação  social.  Além disso, é importante o acompanhamento poruma equipe multiprofissional que possibilite a compreensão do  processo  terapêutico,  para  ajudar  no  enfrentamento  do  diagnóstico  e  na  tomada  de  decisões  em relação ao tratamento (DA SILVA et al., 2019). 
+
+Como forma de auxiliar o desenvolvimento dessas pessoas, a Terapia Ocupacional (TO) é de extrema importância, atuando principalmente através das atividades e ocupações significativas para alcançar os objetivos do paciente e da família. A TO tem como instrumento atividades, adaptações ou produção de materiais que podem proporcionar melhor desempenho ocupacional, socialização, independência e qualidade de vida para os pacientes. No contexto infantil de crianças com deficiência, a Terapia Ocupacional é uma profissão fundamental, sendo que a principal intervenção ocorre através do brincar, e brincando a criança potencializa suas habilidades (FERREIRA et al., 2021).
+Para auxiliar terapeutas em suas atividades existe a tecnologia assistiva (TA) que é um campo que se dedica ao desenvolvimento e aplicação de dispositivos, equipamentos e sistemas que visam melhorar a qualidade de vida e a autonomia dessas pessoas com deficiência ou desordens neurológicas. Essas tecnologias ajudam a superar barreiras e facilitar a participação ativa das pessoas em atividades diárias, educação, trabalho e lazer. Contudo, esses produtos têm um alto custo, por conta pela importação de mercadorias de países estrangeiros e pela insuficiente produção nacional na área. Esse processo de aquisição da TA torna-se ainda mais complexo quando a maior parte das pessoas com deficiência provém de famílias com rendas menos favorecidas, com baixas possibilidades de adquirir um recurso de TA por conta própria (DOS SANTOS CALHEIROS, 2018).
+
+O presente artigo visa apresentar um projeto inovador desenvolvido em parceria com a Associação de Assistência à Criança Deficiente (AACD) – Unidade Ibirapuera. Um tapete sensorial para apoiar essa pessoas nas atividades cotidianas, surge como uma resposta às necessidades específicas de crianças, adolescentes e adultos atendidos pela AACD que enfrentam desafios relacionados a condições como paralisia cerebral, amputações, poliomielite, entre outras.
+
+O objetivo principal é fornecer um ambiente terapêutico acessível para pessoas com mobilidade reduzida, utilizando um tapete sensorial conectado ao Greg Maker. Este dispositivo, programável pelo terapeuta, oferece estímulos táteis e reforços auditivos/visuais em resposta às ações do paciente. Além de fornecer uma IDE com linguagem simplificada para o terapeuta onde mesmo sem ter conhecimento de programação poderá programar de forma simples, podendo criar atividades personalizadas para cada paciente.
+Os benefícios esperados para a AACD incluem a criação de um dispositivo de TA de baixo custo, acessível a indivíduos com desordens neurológicas leves, abordando alterações de tônus muscular, sensoriais e dificuldades nas atividades de vida diária. O tapete sensorial, posicionado estrategicamente, permitirá estimular respostas rápidas e adaptativas fundamentais para o cotidiano.
+
+
+## Referências Bibliográficas
+
+DA SILVA, Gabriela Gomes; ROMÃO, Josilene; DA SILVA ANDRADE, Erci Gaspar. Paralisia Cerebral e o impacto do diagnóstico para a família. Revista de Iniciação Científica e Extensão, v. 2, n. 1, p. 4-10, 2019.
+
+DOS SANTOS CALHEIROS, David; MENDES, Enicéia Gonçalves; LOURENÇO, Gerusa Ferreira. Considerações acerca da tecnologia assistiva no cenário educacional brasileiro. Revista Educação Especial, v. 31, n. 60, p. 229-244, 2018.
+FERREIRA, Ana Clara Fragallo et al. O brincar como recurso terapêutico ocupacional no tratamento de crianças com Paralisia Cerebral. Revista Eletrônica Acervo Saúde, v. 13, n. 5, p. e7506-e7506, 2021.
+
+IBGE- Instituto Brasileiro de Geografia e Estatística. Censo Demográfico, Características gerais da população, religião e pessoas com deficiência, 2010. Disponível em: www.ibge.gov.br/home/estatistica/populacao/censo2010/caracteristicas_religiao_deficiencia/caracteristicas_religiao_deficiencia_tab_pdf.shtm. 
+MARCHESAN, Andressa; CARPENEDO, Rejane Fiepke. Capacitismo: entre a designação e a significação da pessoa com deficiência. Revista Trama, v. 17, n. 40, p. 45-55, 2021.
+
+
+SIMÕES, Cibele Cristina et al. A experiência dos pais no cuidado dos filhos com paralisia cerebral. Revista eletrônica de enfermagem, v. 15, n. 1, p. 138-145, 2013.
