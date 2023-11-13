@@ -4,7 +4,7 @@ class AnalisadorSintatico:
     def __init__(self, tokens):
         self.tokens = tokens
 
-    #Função que verifica se o token atual é o token esperado. Caso não seja, retorna um erro sintático
+    #Função que verifica se o token atual é o token esperado. Caso não seja, retorna um erro sintático.
     def matchToken(self, type):
         if self.tokens[0].tipo == type:
             self.tokens.pop(0)
