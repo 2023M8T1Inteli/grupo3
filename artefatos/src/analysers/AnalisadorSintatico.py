@@ -131,9 +131,9 @@ class AnalisadorSintatico:
         dir = None
         esq = self.sum_expression()
         if self.tokens[0].tipo == "OPREL":
+            self.relop()
             dir = self.sum_expression()
             oper = self.tokens[0].valor
-            self.relop()
         return InternNode("expression", oper=oper, esq=esq, dir=dir)
 
     #Regra: <relop> ::= '==' | '<>' | '>' | '<' | '>=' | '<='
