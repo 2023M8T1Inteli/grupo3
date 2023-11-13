@@ -1,41 +1,50 @@
+/* Import external stylesheets for navigation and footer tools */
 @import "../../components/nav.css";
 @import "../../components/footer-tools.css";
 
-body{
+/* Reset default margin for the body and set it to flex for layout */
+body {
     margin: 0;
     display: flex;
 }
 
+/* Reset margin for h1 element */
 h1 {
     margin: 0;
 }
 
+/* Styles for the header container */
 #header-box {
     display: flex;
     flex-direction: column;
 }
 
+/* Styles for title and tools containers within the header */
 #title-box, #tools-box {
     display: flex;
     height: 30px;
     width: 100%;
 }
 
+/* Styles for the title container with background color and padding */
 #title-box {
     background-color: #2B7F7F;
     padding-left: 10px;
 }
 
+/* Styles for the tools container with background color and spacing */
 #all-tools-box {
     display: flex;
     flex-direction: row;
 }
 
+/* Styles for the tools container with background color and space between items */
 #tools-box {
     background-color: #15ACAC;
     justify-content: space-between;
 }
 
+/* Styles for the general button styling */
 #button-tools {
     border-radius: 0%;
     border-style: none;
@@ -46,24 +55,29 @@ h1 {
     justify-content: center;
 }
 
+/* Styles for button on active state */
 #button-tools:active {
     background-color: #2B7F7F;
 }
 
+/* Styles for button on hover state */
 #button-tools:hover {
     background-color: #2B7F7F;
 }
 
+/* Styles for specific tools like mouse and eraser */
 #mouse, #easer {
     align-self: center;
 }
 
+/* Styles for additional space in the tools box */
 #space-tools-box {
     display: flex;
     width: 50px;
     height: 30px;
 }
 
+/* Styles for the title content with font properties and color */
 #title-content {
     font-size: 20px;
     font-weight: 400;
@@ -71,6 +85,7 @@ h1 {
     color: white;
 }
 
+/* Styles for the buttons text box with spacing and width */
 #buttons-text-box {
     display: flex;
     flex-direction: row;
@@ -78,19 +93,19 @@ h1 {
     justify-content: space-between;
 }
 
-
+/* Styles for the main container of blocks and components */
 #blocks-box {
     display: flex;
 }
 
+/* Styles for the block elements and end block with common properties */
 .block-box, #block-end-box {
     height: 60px;
     width: 60px;
     background-color: blue;
 }
 
-
-
+/* Styles for the main container of the application content */
 #main-box {
     display: flex;
     margin-top: 60px;
@@ -101,6 +116,7 @@ h1 {
     padding-right: 100px;
 }
 
+/* Styles for the start block with background color and spacing */
 #block-start-box {
     width: 60px;
     height: 60px;
@@ -109,22 +125,26 @@ h1 {
     justify-content: space-around;
 }
 
+/* Styles for the start component within the start block */
 #start-component {
     align-self: center;
 }
 
+/* Styles for a container with flex column layout and space around content */
 .column-box {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
+/* Styles for the container of blocks with spacing and wrap property */
 #blocks-box {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
+/* Styles for the confirmation and feedback titles with button properties */
 #title-confirm, #title-feedback-correct, #title-feedback-wrong {
     border-radius: 0;
     border-style: none;
@@ -138,10 +158,12 @@ h1 {
     height: 100%;
 }
 
+/* Styles for confirmation and feedback titles on hover state */
 #title-confirm:hover, #title-feedback-correct:hover, #title-feedback-wrong:hover {
     background-color: #2B7F7F;
 }
 
+/* Styles for the sequence box with flex wrap property */
 #sequence-box {
     display: flex;
     flex-wrap: wrap;

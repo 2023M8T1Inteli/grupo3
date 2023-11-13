@@ -1,10 +1,13 @@
+// Import necessary modules and functions from Electron and Node.js
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process'); // Import child_process to spawn Python
 
+// Declare variables for windows
 let newPageWindow;
 let registerPage;
 
+// Event handler for when the Electron app is ready
 app.on('ready', () => {
   // Create a new window for the home.html screen
   newPageWindow = new BrowserWindow({
@@ -22,6 +25,7 @@ app.on('ready', () => {
   // Load the lab.html screen (You might want to add this to a separate event)
   newPageWindow.loadFile('./main/Lab/lab.html');
 
+  // Create a new window for the register.html screen
   registerPage = new BrowserWindow({
     width: 1280,
     height: 832,
@@ -30,21 +34,25 @@ app.on('ready', () => {
   // Load the register.html screen (You might want to add this to a separate event)
   registerPage.loadFile('./main/Register/register.html');
 
+  // Event listener for opening the home page
   ipcMain.on('open-home-page', () => {
     newPageWindow.show();
   });
 
-  ipcMain.on('mensagem-para-processo-renderizador', (event, mensagem) => {
+  // Event listener for receiving code for analysis
+  ipcMain.on('code-for-analysers', (event, message) => {
     // Save the message to a file
-    fs.writeFile('../test_file/programa.txt', mensagem, function(err) {
+    fs.writeFile('../test_file/programa.txt', message, function(err) {
       if (err) {
         console.log(err);
       }
     });
 
     try {
-      const pythonProcess = spawn('python', ['../analysers/app.py', mensagem]);
+      // Spawn a new Python process to execute the analysis
+      const pythonProcess = spawn('python', ['../analysers/app.py', message]);
 
+      // Event listeners for Python process output and completion
       pythonProcess.stdout.on('data', (data) => {
         console.log(`Python stdout: ${data}`);
       });
@@ -55,19 +63,26 @@ app.on('ready', () => {
 
       pythonProcess.on('close', (code) => {
         console.log(`Python process exited with code ${code}`);
-        event.reply('resposta-do-processo-renderizador', 'Sucesso!');
 
+        // Show a dialog box with the status of the program execution
         dialog.showMessageBox(newPageWindow, {
           type: 'info',
-          title: 'Feedback',
-          message: 'Sucesso!',
+          title: 'Status do Envio',
+          message: 'Tarefa enviada com sucesso!',
           buttons: ['OK'],
           icon: 'None'
         });
       });
 
     } catch (e) {
-      event.reply('resposta-do-processo-renderizador', e);
+        // Show a dialog box in case of internal service failures
+        dialog.showMessageBox(newPageWindow, {
+          type: 'info',
+          title: 'Status do Envio',
+          message: 'Houve falha em nossos serviços internos!',
+          buttons: ['OK'],
+          icon: 'None'
+        });
     }
   });
 });
