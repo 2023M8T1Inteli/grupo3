@@ -4,7 +4,7 @@ import os
 
 # Função para ler um arquivo a partir de um nome de arquivo.
 def read_file(file_name):
-    path = f"test_file/{file_name}"
+    path = f"../test_file/{file_name}"
     if os.path.exists(path):
         content = ""
         with open(path, "r", encoding="utf-8") as f:
