@@ -1,11 +1,19 @@
 var email_bool = false
 
+/**
+ * Verifica se o email inputado se encontra dentro do RegEx
+ * @param email: recebe o email inserido pelo usuário
+ * @returns: retorna true ou false dependendo se o email se encontra dentros do RegEx
+ */
 const validateEmail = (email) => {
     const emailRegex1 = /[A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+/i;
     const emailRegex2 = /[A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+\.[A-Za-z]/i;
     return emailRegex1.test(email) || emailRegex2.test(email);
 }
 
+/**
+ * Altera a estilização da caixa de email se o formato for inválido, colocando uma borda vermelha e tornando visivel o erro
+ */
 const checkEmail = () => {
     var email = document.getElementById("email")
     var alert_email = document.getElementById("alert-email-format-error")
@@ -25,6 +33,9 @@ const checkEmail = () => {
     }
 }
 
+/**
+ * Altera a estilização das caixas onde nada foi escrito, colocando uma borda vermelha e tornando visivel o erro
+ */
 const checkInfo = () => {
     var email = document.getElementById("email")
     var alert_email = document.getElementById("alert-email-error")
@@ -44,6 +55,10 @@ const checkInfo = () => {
     }
 }
 
+
+/**
+ * Se o email estiver nas medidas corretas, altera a página
+ */
 function sendEmail(){
     if(email_bool){
         window.location.href = '../Confirm Code/confirmcode.html'
