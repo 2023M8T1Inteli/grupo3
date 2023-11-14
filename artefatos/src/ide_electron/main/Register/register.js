@@ -3,6 +3,9 @@ var last_name_bool = false
 var email_bool = false
 var pass_bool = false
 
+/**
+ * Alera o tipo ds caixas de input "nova senha" e "confirmar senha" entre text e password, além de alterar o svg do olho entre aberto e fechado
+ */
 function changeType(){
     eye = document.getElementById("eye")
     eye_slashed = document.getElementById("eye-slashed")
@@ -19,6 +22,11 @@ function changeType(){
     }
 }
 
+/**
+ * Verifica se o email inputado se encontra dentro do RegEx
+ * @param email: recebe o email inserido pelo usuário
+ * @returns: retorna true ou false dependendo se o email se encontra dentros do RegEx
+ */
 function validateEmail(email) {
     var inputs = document.getElementById("inputs")
     const emailRegex1 = /[A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+/i;
@@ -26,6 +34,9 @@ function validateEmail(email) {
     return emailRegex1.test(email) || emailRegex2.test(email);
 }
 
+/**
+ * Altera a estilização da caixa de email se o formato for inválido, colocando uma borda vermelha e tornando visivel o erro
+ */
 function checkEmail(){
     var email = document.getElementById("email")
     var alert_email = document.getElementById("alert-email-format-error")
@@ -47,6 +58,9 @@ function checkEmail(){
     }
 }
 
+/**
+ * Altera a estilização das caixas onde nada foi escrito, colocando uma borda vermelha e tornando visivel o erro
+ */
 function checkInfo(){
     var inputs = document.getElementById("inputs")
 
@@ -124,6 +138,10 @@ var image = document.getElementById("image-profile")
 var placeholder = document.getElementById("placeholder-img") 
 var trash = document.getElementById("trash")
 
+/**
+ * Fica de olho se a pessoa inputa uma imagem, caso ela inpute, coloca a imagem inserida como background da div
+ * faz com que o input nao seja visivel e acrescenta uma lixeira para a remoção da imagem
+ */
 file.addEventListener('change', function(e) {
     if (e.target.files.length > 0) {
         const file = e.target.files[0]
@@ -143,6 +161,9 @@ file.addEventListener('change', function(e) {
     }
 })
 
+/**
+ * Caso a lixeira seja clicada, apaga a imagem, retorna o input e a lixeira some
+ */
 function deleteImg(){
     image.style.cssText =     ` display: flex; 
                                 border: 5px solid white; 
@@ -159,6 +180,9 @@ function deleteImg(){
     file.value = "";
 }
 
+/**
+ * Se tudo estiver dentro das condições ideais, volta para a tela de login
+ */
 function createAccount(){
     if(name_bool && last_name_bool && email_bool && pass_bool){
         window.location.href = "../Login/index.html"

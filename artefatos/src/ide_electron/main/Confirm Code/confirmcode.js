@@ -2,6 +2,10 @@ var code_bool = false
 var new_pass_bool = false
 var confirm_pass_bool = false
 
+/**
+ * Alera o tipo ds caixas de input "nova senha" e "confirmar senha" entre text e password, além de alterar o svg do olho entre aberto e fechado
+ * @param num: qual tipo está atualmente
+ */
 function changeType(num){
     eye_1 = document.getElementById("eye-1")
     eye_slashed_1 = document.getElementById("eye-slashed-1")
@@ -34,6 +38,9 @@ function changeType(num){
     }
 }
 
+/**
+ * Altera a estilização das caixas onde nada foi escrito, colocando uma borda vermelha e tornando visivel o erro
+ */
 function checkInfo(){
     var inputs = document.getElementById("inputs")
 
@@ -96,6 +103,10 @@ function checkInfo(){
     }
 }
 
+/**
+ * Confere se o código tem tamanho 6, caso não tenha, ele torna visivel um erro
+ * Obs.: medida provisória devida a falta de back
+ */
 function checkCode(){
     var inputs = document.getElementById("inputs")
     var code = document.getElementById("code")
@@ -117,7 +128,9 @@ function checkCode(){
         }
     }
 }
-
+ /**
+  * Confere se as senhas inseridas nos inputs "nova senha" e "confirmar senha" são iguais. Caso não for, torna visivel um erro
+  */
 function passMatch(){
     var inputs = document.getElementById("inputs")
 
@@ -147,6 +160,9 @@ function passMatch(){
     }
 }
 
+/**
+ * Dependendo de todas as variáveis que indicam que estão num cenário correto, o botão leva para a tela de login
+ */
 function changePass(){
     if(code_bool && new_pass_bool && confirm_pass_bool){
         window.location.href = '../Login/index.html'
