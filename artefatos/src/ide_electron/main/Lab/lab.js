@@ -26,6 +26,12 @@ draggableElements.forEach(function(element) {
         // Clone the dragged element and add the 'dragging' class
         draggingElement = e.target.cloneNode(true);
         draggingElement.classList.add('dragging');
+        // Logic to add border white if the block is black
+        if (element.id == '15') {
+            draggingElement.classList.add('block-style-black-box')
+        } else {
+            draggingElement.classList.add('block-style')
+        }
         draggingElement.id = `temp ${element.id} ${temp}`;
         // Set the transfer data to the ID of the cloned element
         e.dataTransfer.setData('text/plain', draggingElement.id);

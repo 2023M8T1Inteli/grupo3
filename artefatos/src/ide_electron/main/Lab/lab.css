@@ -53,6 +53,8 @@ h1 {
     background-color: #15ACAC;
     display: flex;
     justify-content: center;
+    transform: transform 0.3s ease;
+    cursor: pointer;
 }
 
 /* Styles for button on active state */
@@ -63,6 +65,7 @@ h1 {
 /* Styles for button on hover state */
 #button-tools:hover {
     background-color: #2B7F7F;
+    transform: scale(1.6);
 }
 
 /* Styles for specific tools like mouse and eraser */
@@ -83,6 +86,15 @@ h1 {
     font-weight: 400;
     font-family: 'Abel', cursive;
     color: white;
+    background-color: transparent;
+    border-style: none;
+    border-color: none;
+    border-width: 0;
+}
+
+#title-content:focus {
+    border: 2px solid white;
+    outline: none;
 }
 
 /* Styles for the buttons text box with spacing and width */
@@ -102,7 +114,38 @@ h1 {
 .block-box, #block-end-box {
     height: 60px;
     width: 60px;
-    background-color: blue;
+    background-color: white;
+    cursor: pointer;
+    transform: transform 0.3s ease;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+/* Put style into the border of the blocks */
+#sequence-box .block-style {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+/* Put style into the border of the black block*/
+#sequence-box .block-style-black-box {
+    border-style: solid;
+    border-width: 3px;
+    border-color: white;
+}
+
+/* Grow scale for block in cursor appoint to the block */
+.block-box:hover {
+    transform: scale(1.6);
+}
+
+/* Add border in the start block */
+#block-start-box {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
 }
 
 /* Styles for the main container of the application content */
@@ -156,11 +199,13 @@ h1 {
     cursor: pointer;
     width: 100%;
     height: 100%;
+    transition: transform 0.3s ease;
 }
 
 /* Styles for confirmation and feedback titles on hover state */
 #title-confirm:hover, #title-feedback-correct:hover, #title-feedback-wrong:hover {
     background-color: #2B7F7F;
+    transform: scale(1.4);
 }
 
 /* Styles for the sequence box with flex wrap property */
@@ -169,4 +214,5 @@ h1 {
     flex-wrap: wrap;
     width: 100%;
     height: 100%;
+    align-content: flex-start;
 }
