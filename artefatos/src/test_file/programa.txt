@@ -1,5 +1,23 @@
 programa "tarefa1":
 	inicio
+            quadranteEsperado = 12
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+
+            quadranteEsperado = 12
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+
             quadranteEsperado = 11
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
@@ -9,7 +27,7 @@ programa "tarefa1":
             fim
             mostrar(1)
 
-            quadranteEsperado = 12
+            quadranteEsperado = 14
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
@@ -18,7 +36,16 @@ programa "tarefa1":
             fim
             mostrar(1)
 
-            quadranteEsperado = 12
+            quadranteEsperado = 15
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)
+
+            quadranteEsperado = 32
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
