@@ -44,7 +44,7 @@ body {
     
 }
 
-#create-account{
+#forgot-my-pass{
     position: absolute;
     font-size: 40px;
 }
@@ -53,7 +53,7 @@ body {
     display: flex;
 }
 
-#image-profile{
+#image-lock{
     display: flex;
     border: 5px solid white;
     width: 90px;
@@ -65,28 +65,6 @@ body {
     margin-top: -20px
 }
 
-#placeholder-img{
-    display: block;
-}
-
-#trash{
-    position: sticky;
-    color: white;
-    z-index: 3;
-    top: 100%;
-    display: none;
-    cursor: pointer;
-}
-
-#file{
-    border-radius: 50%;
-    position: absolute;
-    height: 14%;
-    width: 7%;
-    opacity: 0%;
-    cursor: pointer;
-}
-
 #inputs{
     display: flex;
     flex-direction: column;
@@ -95,17 +73,6 @@ body {
     font-size: 18px;
 }
 
-#name{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%
-}
-
-#first-name, #last-name{
-    width: 15vw;
-}
 
 .info{
     display: flex;
@@ -127,7 +94,11 @@ p{
     margin: 5px 0;
 }
 
-#password-div{
+#code{
+    width: 100%;
+}
+
+#new-password-div, #confirm-password-div{
     display: flex;
     flex-direction: row;
     border-radius: 5px;
@@ -135,23 +106,23 @@ p{
     align-items: center;
 }
 
-#password, #email{
+#new-password, #confirm-password{
     width: 100%;
 }
 
-#eye {
+#eye-1, #eye-2{
     color: black;
     cursor: pointer;
     display: block;
     margin-right: 3%
+
 }
 
-#eye-slashed{
+#eye-slashed-1, #eye-slashed-2{
     color: black;
     cursor: pointer;
     display: none;
     margin-right: 3%
-
 }
 
 .didnt-write{
@@ -169,14 +140,11 @@ p{
     display: none;
 }
 
-#alert-name-error, #alert-last-name-error, #alert-email-error, #alert-pass-error, #name-error, #last-name-error, #email-error, #pass-error{
+#alert-new-pass-error, #alert-confirm-pass-error, #new-pass-error, #confirm-pass-error{
     display: none;
 }
 
-#wrong-format{
-    font-size: 14px;
-    color: white;
-    margin: 0;
+#alert-dont-match, #dont-match {
     display: none;
 }
 

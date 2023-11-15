@@ -1,3 +1,5 @@
+var email_bool = false
+
 const validateEmail = (email) => {
     const emailRegex1 = /[A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+/i;
     const emailRegex2 = /[A-Za-z0-9]+@[A-Za-z]+\.[A-Za-z]+\.[A-Za-z]/i;
@@ -9,12 +11,17 @@ const checkEmail = () => {
     var alert_email = document.getElementById("alert-email-format-error")
     var email_format_error = document.getElementById("wrong-format")
 
-    if(!validateEmail(email.value) && email_format_error.style.display == "" && email.value != ""){
+    if(!validateEmail(email.value) && email.value != ""){
         alert_email.style.display = "block"
         email_format_error.style.display = "block"
+        email.style.border = "2px solid red"
     } else if(validateEmail(email.value) || email.value == "") {
         alert_email.style.display = ""
         email_format_error.style.display = ""
+        if(validateEmail(email.value)){
+            email.style.border = ""
+            email_bool = true
+        }
     }
 }
 
@@ -26,9 +33,20 @@ const checkInfo = () => {
     if(email.value == "" && email_error.style.display == "") {
         alert_email.style.display = "block"
         email_error.style.display = "block"
+        email.style.border = "2px solid red"
     } else if (email.value != "") {
         alert_email.style.display = ""
         email_error.style.display = ""
+        if(validateEmail(email.value)){
+            email.style.border = ""
+            email_bool = true
+        }
+    }
+}
+
+function sendEmail(){
+    if(email_bool){
+        window.location.href = '../Confirm Code/confirmcode.html'
     }
 }
 

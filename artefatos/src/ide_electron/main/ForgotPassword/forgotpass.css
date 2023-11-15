@@ -97,6 +97,15 @@ p{
     margin: 5px 0;
 }
 
+#email-div{
+    border-radius: 5px;
+    background-color: white;
+}
+
+#email{
+    width: 100%;
+}
+
 #arrow-send{
     display: flex;
     background-color: white;
@@ -124,12 +133,8 @@ p{
     display: none;
 }
 
-#alert-email-error{
+#alert-email-error, #email-error{
     display: none;
-}
-
-#email-error{
-    display: block;
 }
 
 #wrong-format{
