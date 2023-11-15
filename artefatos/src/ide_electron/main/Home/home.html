@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <!-- Meta information, specifying character set and linking external stylesheet -->
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="home.css">
+    <!-- Title of the webpage -->
     <title>Home</title>
 </head>
+
 <body>
+    <!-- Top section containing a circular user image -->
     <div class="top-section">
         <div class="circle">
             <img src="../../assets/user.png" alt="User Image" style="width: 1.8rem; height: 1.8rem; margin-left: 0.32rem; margin-top: 0.2rem;">
         </div>
     </div>
+
+    <!-- Search container with search bar and add button -->
     <div class="search-container">
+        <!-- Search icon -->
         <div class="search-icon"></div>
+        <!-- Input field for searching patients -->
         <input type="text" class="search-bar" placeholder="Pesquise o paciente...">
+        <!-- Container for the add button -->
         <div class="add-button">
+            <!-- Plus symbol for the add button -->
             <div class="plus-symbol">+</div>
         </div>
     </div>
+
+    <!-- List of clickable links representing child names -->
     <div class="child-list">
+        <!-- Child names with inline styles for black text color -->
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Clara de Souza</strong></a>
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Caio da Silva</strong></a>
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Lucas Pereira Souza</strong></a>
@@ -27,7 +41,22 @@
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Ana Clara Carvalho Rodrigues</strong></a>
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Enzo Matheus Santos Rocha</strong></a>
         <a href="javascript:void(0);" class="child"><strong style="color: black;">Isabela Ferreira Rodrigues</strong></a>
+        <!-- Special styling for the last child link -->
         <a href="javascript:void(0);" class="child red"><strong style="color: black;">Larissa Gomes Pereira</strong></a>
     </div>
+
+    <script>
+        // JavaScript code
+        // Attempting to select an element with the ID 'caio-da-silva'
+        const caioDaSilvaLink = document.getElementById('caio-da-silva');
+        
+        // Adding an event listener to the non-existent element
+        caioDaSilvaLink.addEventListener('click', () => {
+            // Redirecting to 'tarefas.html' if the non-existent element is clicked
+            window.location.href = 'tarefas.html';
+        });
+    </script>
+
 </body>
+
 </html>

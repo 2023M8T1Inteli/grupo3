@@ -1,34 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <!-- Meta information, specifying character set and linking external stylesheet -->
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- Title of the webpage -->
     <title>Login</title>
 </head>
+
 <body>
+    <!-- Left pane containing branding and registration link -->
     <div id="left-pane">
+        <!-- Dolphin text branding -->
         <div id="dolphin-text">Dolphin</div>
+        <!-- Image of a dolphin -->
         <img src="../../assets/dolphin_image.png" alt="Dolphin Image">
+        <!-- Prompt for non-account users -->
         <div id="non-account">Não tem uma conta?</div>
+        <!-- Link to the registration page -->
         <a id="sign-up" href="../Register/register.html">Cadastre-se</a>
     </div>
+
+    <!-- Right pane containing login form -->
     <div id="right-pane">
+        <!-- Informational sentence -->
         <div id="sentence">Para continuar, faça o login com a sua conta!</div>
+        <!-- Label for user email -->
         <div id="e-mail">E-mail do usuário</div>
+        <!-- Input field for user email -->
         <input type="email" id="e-mail_field" name="user-email">
+        <!-- Label for user password -->
         <div id="pass">Senha do usuário</div>
+        <!-- Input field for user password -->
         <input type="password" id="password_field" name="user-pass">
+        <!-- Checkbox for remembering password -->
         <div id="remember-password">
             <input type="checkbox" id="remember-checkbox" name="remember">
+            <!-- Text indicating the purpose of the checkbox -->
             <div id="remember">Lembre-me</div>
         </div>
-        <button id="login-button"  onclick="redirectToHome()">Login</button>
+        <!-- Button for submitting the login form with an associated function -->
+        <button id="login-button" onclick="redirectToHome()">Login</button>
+        <!-- Link for password recovery -->
         <a id="forgot-password" href="../ForgotPassword/forgotpass.html">Esqueceu a senha?</a>
     </div>
+
+    <!-- JavaScript script for redirecting to the home page -->
     <script>
         function redirectToHome() {
             window.location.href = '../Home/home.html';
         }
     </script>
 </body>
+
 </html>
