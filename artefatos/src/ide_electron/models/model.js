@@ -1,7 +1,8 @@
 const {Model, DataTypes} = require('sequelize')
-const database = require('../config/database.js')
+const {sequelize} = require('../config/database.js')
+const Sequelize = require('sequelize')
 
-export default Teste = data.define('Teste', {
+const Teste = sequelize.define('Teste', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -12,3 +13,5 @@ export default Teste = data.define('Teste', {
         allowNull: true
     }}
 )
+
+module.exports = Teste

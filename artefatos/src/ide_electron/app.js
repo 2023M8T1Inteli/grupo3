@@ -2,7 +2,14 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process'); // Import child_process to spawn Python
+const {sequelize, testarConexao} = require('./config/database.js')
 
+// Connection with the database
+async function inicia () {
+  await testarConexao()
+}
+
+inicia()
 // Declare variables for windows
 let newPageWindow;
 let registerPage;
