@@ -1,0 +1,106 @@
+const Feedback = require('../models/Feedback.js')
+
+class CrudFeedback {
+    
+    static async create(body) {
+        try {
+            const bodyReturn = await Feedback.create(body)
+
+            return {
+                response: bodyReturn,
+                message: 'Feedback criado com sucesso !'
+            }
+
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: 'Não foi possível criar o feedback'
+            }
+        }
+    }
+
+    static async read(id) {
+        try {
+            const bodyReturn = await Feedback.findByPk(id)
+            
+            return {
+                response: bodyReturn,
+                message: 'Feedback retornado com sucesso !'
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: 'Houve falha ao pegar o feedback'
+            }
+        }
+    }
+
+    static async readTaskFeedback(id) {
+        try {
+            const bodyReturn = await Feedback.findAll({
+                where: {
+                    TaskId: id
+                }
+            })
+            
+            return {
+                response: bodyReturn,
+                message: 'Feedback retornado com sucesso !'
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: 'Houve falha ao pegar o feedback'
+            }
+        }
+    }
+
+    static async update(id, body) {
+        try {
+            const bodyReturn = await Feedback.update(body, {
+                where: {
+                    id: id
+                }
+            })
+            
+            return {
+                response: bodyReturn,
+                message: 'Feedback atualizado com sucesso !'
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: 'Houve falhas para atualizar o feedback'
+            }
+        }
+    }
+
+
+    static async delete(id) {
+        try {
+            const bodyReturn = await Feedback.destroy({
+                where:{
+                    id: id
+                }
+            })
+
+            return {
+                response: bodyReturn,
+                message: 'Feedback deletado com sucesso !'
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: 'Houve problemas para deletar este feedback'
+            }
+        }
+    }
+
+}
+
+module.exports = CrudFeedback

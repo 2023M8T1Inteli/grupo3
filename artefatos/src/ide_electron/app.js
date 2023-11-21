@@ -3,10 +3,13 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process'); // Import child_process to spawn Python
 const {sequelize, testarConexao} = require('./config/database.js')
+const syncTables = require('./models/models.js')
+const allControllers = require('./controllers/controllers.js')
 
 // Connection with the database
 async function inicia () {
   await testarConexao()
+  await syncTables()
 }
 
 inicia()
@@ -45,6 +48,8 @@ app.on('ready', () => {
   ipcMain.on('open-home-page', () => {
     newPageWindow.show();
   });
+
+  allControllers(ipcMain)
 
   // Event listener for receiving code for analysis
   ipcMain.on('code-for-analysers', (event, message) => {
