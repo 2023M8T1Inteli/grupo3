@@ -92,6 +92,7 @@ class AnalisadorSintatico:
         expression = self.expression()
         self.matchToken("ENTAO")
         ifBlock = self.block()
+        elseBlock = None
         if self.tokens[0].tipo == "SENAO":
             self.matchToken("SENAO")
             elseBlock = self.block()
