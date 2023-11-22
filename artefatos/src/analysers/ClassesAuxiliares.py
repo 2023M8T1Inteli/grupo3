@@ -14,6 +14,9 @@ class LexicalException(Exception):
 class SyntaticException(Exception):
     pass
 
+class SemanticException(Exception):
+    pass
+
 # Classe para representar os nós de variáveis nas regras gramaticais
 class InternNode:
     def __init__(self, op, **kwargs):

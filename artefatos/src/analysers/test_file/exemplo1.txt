@@ -1,3 +1,4 @@
-a = 1
-b = 12
-c = (12+3)
+programa "teste semântico 1":
+inicio
+    x = y
+fim.

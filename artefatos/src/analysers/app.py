@@ -4,7 +4,7 @@ import os
 
 # Função para ler um arquivo a partir de um nome de arquivo.
 def read_file(file_name):
-    path = f"../test_file/{file_name}"
+    path = f"../{file_name}"
     if os.path.exists(path):
         content = ""
         with open(path, "r", encoding="utf-8") as f:
@@ -15,5 +15,8 @@ def read_file(file_name):
     
 if __name__ == "__main__":
     code = read_file("programa.txt")
+    code = read_file("analysers/test_file/exemplo1.txt")
     tokens = AnalisadorLexico(code).getTokens()
-    print(AnalisadorSintatico(tokens).program())
+    tree = AnalisadorSintatico(tokens).program()
+    print(tree)
+    #AnalisadorSintatico(tree).program()
