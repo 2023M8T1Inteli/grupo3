@@ -28,8 +28,10 @@ const Feedback = sequelize.define('Feedback', {
     },
     type_feedback: {
         type: DataTypes.BOOLEAN,
-        allowNull: true
+        allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 Task.hasMany(Feedback) // dois feedbacks por tarefa

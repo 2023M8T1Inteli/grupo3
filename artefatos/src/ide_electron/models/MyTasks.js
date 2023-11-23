@@ -11,6 +11,8 @@ const MyTasks = sequelize.define('MyTask', {
         allowNull: false,
         unique: true
     }
+}, {
+    timestamps: false
 })
 
 Patient.belongsToMany(Task, {through: MyTasks})

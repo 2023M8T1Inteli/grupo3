@@ -38,6 +38,8 @@ const Patient = sequelize.define('Patient',{
         type: DataTypes.TEXT,
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 Therapist.hasMany(Patient)

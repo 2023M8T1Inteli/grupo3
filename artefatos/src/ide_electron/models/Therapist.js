@@ -21,6 +21,8 @@ const Therapist = sequelize.define('Therapist', {
         type: DataTypes.STRING(100),
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 module.exports = Therapist

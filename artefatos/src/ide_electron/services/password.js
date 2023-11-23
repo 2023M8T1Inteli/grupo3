@@ -1,6 +1,6 @@
 const Password = require('../models/Password.js')
 
-class Password {
+class CrudPassword {
     static async create(body) {
         try {
             const bodyReturn = await Password.create(body)
@@ -106,4 +106,4 @@ class Password {
     } 
 }
 
-module.exports = Password
+module.exports = CrudPassword

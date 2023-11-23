@@ -105,4 +105,4 @@ class CrudBlocksTask {
 
 }
 
-module.exports = CrudPerformance
+module.exports = CrudBlocksTask

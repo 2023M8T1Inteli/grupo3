@@ -15,6 +15,8 @@ const Password = sequelize.define('Password', {
         allowNull: false,
         unique: true
     }
+}, {
+    timestamps: false
 })
 
 Therapist.hasOne(Password)

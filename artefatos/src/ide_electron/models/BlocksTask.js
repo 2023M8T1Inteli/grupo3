@@ -18,6 +18,8 @@ const BlocksTask = sequelize.define('BlocksTask', {
         type: DataTypes.INTEGER,
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 Task.hasMany(BlocksTask)

@@ -1,5 +1,5 @@
 // Import necessary modules and functions from Electron and Node.js
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process'); // Import child_process to spawn Python
 const {sequelize, testarConexao} = require('./config/database.js')
@@ -50,6 +50,12 @@ app.on('ready', () => {
   });
 
   allControllers(ipcMain)
+
+  // newPageWindow.webContents.send('register-patient', {
+  //   first_name: 'Maria',
+  //   last_name: 'Nora',
+  //   email: 'melyssa@'
+  // })
 
   // Event listener for receiving code for analysis
   ipcMain.on('code-for-analysers', (event, message) => {

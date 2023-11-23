@@ -18,6 +18,8 @@ const Performance = sequelize.define('Performance', {
         type: DataTypes.INTEGER,
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 MyTasks.hasOne(Performance)

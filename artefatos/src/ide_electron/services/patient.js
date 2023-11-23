@@ -120,7 +120,11 @@ class CrudPatient {
 
     static async delete(id) {
         try {
-            const bodyReturn = await Patient.destroy(id)
+            const bodyReturn = await Patient.destroy({
+                where: {
+                    id: id
+                }
+            })
 
             return {
                 response: bodyReturn,

@@ -13,6 +13,8 @@ const Task = sequelize.define('Task',{
         type: DataTypes.STRING(50),
         allowNull: false
     }
+}, {
+    timestamps: false
 })
 
 module.exports = Task
