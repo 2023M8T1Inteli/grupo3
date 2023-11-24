@@ -29,7 +29,7 @@ class Table():
         return self.d.get(k)
 
     def __repr__(self):
-        return f'Table(value="{self.value}", type="{self.type}, kwargs={self.d}")'
+        return f'Table(value="{self.value}", type="{self.type}", kwargs={self.d}")'
 
 # Classe para representar os nós de variáveis nas regras gramaticais
 class InternNode:
