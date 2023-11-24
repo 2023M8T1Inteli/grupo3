@@ -609,7 +609,8 @@ Cria uma performance associada a tal tarefa de tal paciente
 ```bash
 ipcRenderer.send('register-performance', {
     hits: hits, # tipo inteiro
-    mistakes: id_task, # tipo inteiro
+    mistakes: id_task, # tipo inteiro,
+    consultation_data: data, # tipo string, data da consulta formato (DD/MM/AAAA)
     MyTaskId: id_my_task # tipo inteiro
 });
 ```

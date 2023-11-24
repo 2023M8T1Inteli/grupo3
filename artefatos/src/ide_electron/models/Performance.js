@@ -18,6 +18,10 @@ const Performance = sequelize.define('Performance', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    consultation_data: {
+        type: DataTypes.STRING(15),
+        allowNull: false
+    },
     MyTasksId: {
         type: DataTypes.INTEGER,
         allowNull: false,
