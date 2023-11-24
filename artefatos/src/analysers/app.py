@@ -1,5 +1,6 @@
 from AnalisadorLexico import AnalisadorLexico
 from AnalisadorSintatico import AnalisadorSintatico
+from AnalisadorSemantico import AnalisadorSemantico
 import os
 
 # Função para ler um arquivo a partir de um nome de arquivo.
@@ -19,4 +20,4 @@ if __name__ == "__main__":
     tokens = AnalisadorLexico(code).getTokens()
     tree = AnalisadorSintatico(tokens).program()
     print(tree)
-    #AnalisadorSintatico(tree).program()
+    AnalisadorSemantico(tree).program()
