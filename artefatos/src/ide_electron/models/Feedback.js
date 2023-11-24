@@ -1,6 +1,6 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database')
-const Task = require('./Task.js')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+const Task = require('./Task.js');
 
 const Feedback = sequelize.define('Feedback', {
     id: {
@@ -29,12 +29,16 @@ const Feedback = sequelize.define('Feedback', {
     type_feedback: {
         type: DataTypes.BOOLEAN,
         allowNull: false
+    },
+    TaskId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     timestamps: false
-})
+});
 
-Task.hasMany(Feedback) // dois feedbacks por tarefa
-Feedback.belongsTo(Task)
+Task.hasMany(Feedback, { foreignKey: 'TaskId' });
+Feedback.belongsTo(Task, { foreignKey: 'TaskId' });
 
-module.exports = Feedback
+module.exports = Feedback;

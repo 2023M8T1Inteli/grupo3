@@ -1,6 +1,6 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database')
-const Therapist = require('./Therapist.js')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+const Therapist = require('./Therapist.js');
 
 const Password = sequelize.define('Password', {
     id: {
@@ -14,12 +14,18 @@ const Password = sequelize.define('Password', {
         type: DataTypes.STRING(50),
         allowNull: false,
         unique: true
+    },
+    TherapistId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true
     }
 }, {
     timestamps: false
-})
+});
 
-Therapist.hasOne(Password)
-Password.belongsTo(Therapist)
 
-module.exports = Password
+Therapist.hasOne(Password, { foreignKey: 'TherapistId', sourceKey: 'id' });
+Password.belongsTo(Therapist, { foreignKey: 'TherapistId', targetKey: 'id' });
+
+module.exports = Password;

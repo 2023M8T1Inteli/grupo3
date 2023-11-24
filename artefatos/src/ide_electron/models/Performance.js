@@ -1,6 +1,6 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database.js')
-const MyTasks = require('./MyTasks.js')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
+const MyTasks = require('./MyTasks.js');
 
 const Performance = sequelize.define('Performance', {
     id: {
@@ -17,12 +17,17 @@ const Performance = sequelize.define('Performance', {
     mistakes: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    MyTasksId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true
     }
 }, {
     timestamps: false
-})
+});
 
-MyTasks.hasOne(Performance)
-Performance.belongsTo(MyTasks)
+MyTasks.hasOne(Performance, { foreignKey: 'MyTasksId', sourceKey: 'id' });
+Performance.belongsTo(MyTasks, { foreignKey: 'MyTasksId', targetKey: 'id' });
 
-module.exports = Performance
+module.exports = Performance;
