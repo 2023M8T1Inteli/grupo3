@@ -195,7 +195,7 @@ class AnalisadorSintatico:
             intValue = self.tokens[0].valor
             intLine = self.tokens[0].linha
             self.matchToken("INTEGER")
-            return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=LeafNode("id", intValue, intLine))
+            return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=LeafNode("int", intValue, intLine))
         elif self.tokens[0].tipo == "BOOLEAN":
             bool = self.boolean()
             return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=bool)
