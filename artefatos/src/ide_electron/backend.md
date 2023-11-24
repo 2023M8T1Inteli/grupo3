@@ -165,6 +165,20 @@ Como obter a resposta da operação de cima:
 resposta-readAll-patient
 ```
 
+### Read specific patients with specific characteres
+
+Le todos os pacientes que fazem parte da cadeia de caracteres inserida como argumento:
+
+```bash
+ipcRenderer.send('read-all-patient-chain', cadeia_caracteres) # tipo string
+```
+
+Rota de resposta da requisição acima:
+
+```bash
+resposta-readAll-patient-chain
+```
+
 ### Read patients belong to a specific TherapistId
 
 Leia todos os pacientes da terapeuta que o cadastrou
