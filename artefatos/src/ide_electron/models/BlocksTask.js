@@ -26,7 +26,7 @@ const BlocksTask = sequelize.define('BlocksTask', {
     timestamps: false
 });
 
-Task.hasMany(BlocksTask, { foreignKey: 'TaskId' });
+Task.hasMany(BlocksTask, {onDelete: 'CASCADE', foreignKey: 'TaskId' });
 BlocksTask.belongsTo(Task, { foreignKey: 'TaskId' });
 
 module.exports = BlocksTask;

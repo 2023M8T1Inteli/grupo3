@@ -27,7 +27,7 @@ const Performance = sequelize.define('Performance', {
     timestamps: false
 });
 
-MyTasks.hasOne(Performance, { foreignKey: 'MyTasksId', sourceKey: 'id' });
+MyTasks.hasOne(Performance, { onDelete: 'CASCADE', foreignKey: 'MyTasksId', sourceKey: 'id' });
 Performance.belongsTo(MyTasks, { foreignKey: 'MyTasksId', targetKey: 'id' });
 
 module.exports = Performance;

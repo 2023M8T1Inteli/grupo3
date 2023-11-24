@@ -23,7 +23,7 @@ const MyTasks = sequelize.define('MyTask', {
     timestamps: false
 });
 
-Patient.belongsToMany(Task, { through: MyTasks, foreignKey: 'PatientId' });
-Task.belongsToMany(Patient, { through: MyTasks, foreignKey: 'TaskId' });
+Patient.belongsToMany(Task, {onDelete: 'CASCADE', through: MyTasks, foreignKey: 'PatientId' });
+Task.belongsToMany(Patient, {onDelete: 'CASCADE', through: MyTasks, foreignKey: 'TaskId' });
 
 module.exports = MyTasks;

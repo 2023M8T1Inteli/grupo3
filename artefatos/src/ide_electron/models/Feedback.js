@@ -38,7 +38,7 @@ const Feedback = sequelize.define('Feedback', {
     timestamps: false
 });
 
-Task.hasMany(Feedback, { foreignKey: 'TaskId' });
+Task.hasMany(Feedback, { onDelete: 'CASCADE', foreignKey: 'TaskId' });
 Feedback.belongsTo(Task, { foreignKey: 'TaskId' });
 
 module.exports = Feedback;

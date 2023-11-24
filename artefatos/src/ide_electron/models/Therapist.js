@@ -19,7 +19,8 @@ const Therapist = sequelize.define('Therapist', {
     },
     email: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 }, {
     timestamps: false
