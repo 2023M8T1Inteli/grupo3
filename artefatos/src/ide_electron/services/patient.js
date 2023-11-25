@@ -1,4 +1,5 @@
 const Patient = require('../models/Patient.js')
+const Sequelize = require('sequelize')
 
 class CrudPatient {
     static async create(body) {

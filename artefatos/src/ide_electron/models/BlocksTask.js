@@ -1,6 +1,6 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database.js')
-const Task = require('./Task.js')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
+const Task = require('./Task.js');
 
 const BlocksTask = sequelize.define('BlocksTask', {
     id: {
@@ -17,12 +17,16 @@ const BlocksTask = sequelize.define('BlocksTask', {
     timing: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    TaskId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     timestamps: false
-})
+});
 
-Task.hasMany(BlocksTask)
-BlocksTask.belongsTo(Task)
+Task.hasMany(BlocksTask, {onDelete: 'CASCADE', foreignKey: 'TaskId' });
+BlocksTask.belongsTo(Task, { foreignKey: 'TaskId' });
 
-module.exports = BlocksTask
+module.exports = BlocksTask;

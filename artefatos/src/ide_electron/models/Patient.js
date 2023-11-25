@@ -1,8 +1,8 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database')
-const Therapist = require('./Therapist.js')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+const Therapist = require('./Therapist.js');
 
-const Patient = sequelize.define('Patient',{
+const Patient = sequelize.define('Patient', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -37,12 +37,16 @@ const Patient = sequelize.define('Patient',{
     background: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    TherapistId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     timestamps: false
-})
+});
 
-Therapist.hasMany(Patient)
-Patient.belongsTo(Therapist)
+Therapist.hasMany(Patient, { foreignKey: 'TherapistId' });
+Patient.belongsTo(Therapist, { foreignKey: 'TherapistId' });
 
-module.exports = Patient
+module.exports = Patient;
