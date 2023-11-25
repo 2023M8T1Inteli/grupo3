@@ -1,3 +1,5 @@
+const{ ipcRenderer } = require("electron")
+
 var name_bool = false
 var last_name_bool = false
 var email_bool = false
@@ -180,11 +182,61 @@ function deleteImg(){
     file.value = "";
 }
 
+async function sendRegister(name, last_name, email){
+    ipcRenderer.send('register-therapist', {
+        first_name: name.value,
+        last_name: last_name.value,
+        email: email.value
+    });
+}
+
+async function getResponse(){
+    localStorage.clear()
+    const respostaPromise = new Promise((resolve) => {
+        ipcRenderer.once('resposta-register-therapist', (event, arg) => {
+            resolve(arg);
+        });
+    });
+
+    const resposta = await respostaPromise;
+    localStorage.setItem('id', JSON.stringify(resposta.response.dataValues.id));
+    
+    console.log(resposta);
+}
+
+/**
+ * 
+ * @param password 
+ */
+async function sendPassword(password){
+    console.log(localStorage)
+    ipcRenderer.send('register-password', {
+        password: password.value,
+        TherapistId: parseInt(localStorage.getItem("id"))
+    });
+
+    ipcRenderer.on('resposta-read-password', (event, arg) => {
+        resposta = arg;
+        console.log(resposta);
+    });
+}
+
 /**
  * Se tudo estiver dentro das condições ideais, volta para a tela de login
  */
-function createAccount(){
+async function createAccount(){
+    checkEmail()
+    checkInfo()
+
+    var name = document.getElementById("first-name")
+    var last_name = document.getElementById("last-name")
+    var email = document.getElementById("email")
+    var password = document.getElementById("password")
+
     if(name_bool && last_name_bool && email_bool && pass_bool){
-        window.location.href = "../Login/index.html"
+        // window.location.href = "../Login/index.html"
+        await sendRegister(name, last_name, email)
+        await getResponse()
+        await sendPassword(password)
     }
 }

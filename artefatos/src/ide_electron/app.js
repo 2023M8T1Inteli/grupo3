@@ -39,6 +39,10 @@ app.on('ready', () => {
   registerPage = new BrowserWindow({
     width: 1280,
     height: 832,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
   });
 
   // Load the register.html screen (You might want to add this to a separate event)
