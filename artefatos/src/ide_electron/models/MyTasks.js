@@ -1,8 +1,10 @@
+// Importing required modules
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database.js');
 const Patient = require('./Patient.js');
 const Task = require('./Task.js');
 
+// Defining the MyTasks model
 const MyTasks = sequelize.define('MyTask', {
     id: {
         type: DataTypes.INTEGER,
@@ -23,7 +25,9 @@ const MyTasks = sequelize.define('MyTask', {
     timestamps: false
 });
 
-Patient.belongsToMany(Task, {onDelete: 'CASCADE', through: MyTasks, foreignKey: 'PatientId' });
-Task.belongsToMany(Patient, {onDelete: 'CASCADE', through: MyTasks, foreignKey: 'TaskId' });
+// Defining associations between Patient, Task, and MyTasks
+Patient.belongsToMany(Task, { onDelete: 'CASCADE', through: MyTasks, foreignKey: 'PatientId' });
+Task.belongsToMany(Patient, { onDelete: 'CASCADE', through: MyTasks, foreignKey: 'TaskId' });
 
+// Exporting the MyTasks model
 module.exports = MyTasks;

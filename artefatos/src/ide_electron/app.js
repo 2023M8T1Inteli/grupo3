@@ -51,12 +51,6 @@ app.on('ready', () => {
 
   allControllers(ipcMain)
 
-  // newPageWindow.webContents.send('register-patient', {
-  //   first_name: 'Maria',
-  //   last_name: 'Nora',
-  //   email: 'melyssa@'
-  // })
-
   // Event listener for receiving code for analysis
   ipcMain.on('code-for-analysers', (event, message) => {
     // Save the message to a file

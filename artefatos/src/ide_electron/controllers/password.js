@@ -1,40 +1,64 @@
-const password = require('../services/password.js')
-const crypto = require('../middlewares/crypto.js')
+// Importing the password service module and crypto middleware
+const password = require('../services/password.js');
+const crypto = require('../middlewares/crypto.js');
 
-function controllerPassword (ipc) {
+/**
+ * Controller function for handling IPC events related to password operations
+ * @param {Object} ipc - IPC communication object
+ */
+function controllerPassword(ipc) {
+    // Event listener for registering a password
     ipc.on('register-password', async (event, message) => {
-        const hash = crypto.hashPassword(message.password)
-        message.password = hash
+        // Hash the provided password using the crypto middleware
+        const hash = crypto.hashPassword(message.password);
+        message.password = hash;
 
-        const result = await password.create(message)
+        // Call the password service to create a password record
+        const result = await password.create(message);
 
-        event.sender.send('resposta-register-password', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-register-password', result);
+    });
 
+    // Event listener for deleting a password
     ipc.on('delete-password', async (event, message) => {
-        const result = await password.delete(message)
+        // Call the password service to delete a password record
+        const result = await password.delete(message);
 
-        event.sender.send('resposta-delete-password', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-delete-password', result);
+    });
 
+    // Event listener for reading a password
     ipc.on('read-password', async (event, message) => {
-        const result = await password.read(message)
+        // Call the password service to read a password record
+        const result = await password.read(message);
 
-        event.sender.send('resposta-read-password', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-read-password', result);
+    });
 
+    // Event listener for reading a therapist's password
     ipc.on('read-therapist-password', async (event, message) => {
-        const result = await password.readTherapistPassword(message)
+        // Call the password service to read a therapist's password
+        const result = await password.readTherapistPassword(message);
 
-        event.sender.send('reposta-therapist-password', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-therapist-password', result);
+    });
 
+    // Event listener for updating a password
     ipc.on('update-password', async (event, message) => {
-        var {id: id, body: body} = message
-        const result = await password.update(id, body)
+        // Extract id and body from the message
+        const { id, body } = message;
 
-        event.sender.send('resposta-update-password', result)
-    })
+        // Call the password service to update a password record
+        const result = await password.update(id, body);
+
+        // Send the response back to the renderer process
+        event.sender.send('response-update-password', result);
+    });
 }
 
-module.exports = controllerPassword
+// Export the controller function for password operations
+module.exports = controllerPassword;

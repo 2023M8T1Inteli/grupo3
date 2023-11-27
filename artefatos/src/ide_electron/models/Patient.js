@@ -1,7 +1,9 @@
+// Importing required modules
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 const Therapist = require('./Therapist.js');
 
+// Defining the Patient model
 const Patient = sequelize.define('Patient', {
     id: {
         type: DataTypes.INTEGER,
@@ -46,7 +48,9 @@ const Patient = sequelize.define('Patient', {
     timestamps: false
 });
 
+// Defining associations between Therapist and Patient
 Therapist.hasMany(Patient, { foreignKey: 'TherapistId' });
 Patient.belongsTo(Therapist, { foreignKey: 'TherapistId' });
 
+// Exporting the Patient model
 module.exports = Patient;

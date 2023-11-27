@@ -1,7 +1,9 @@
+// Importing required modules
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 const Therapist = require('./Therapist.js');
 
+// Defining the Password model
 const Password = sequelize.define('Password', {
     id: {
         type: DataTypes.INTEGER,
@@ -24,8 +26,9 @@ const Password = sequelize.define('Password', {
     timestamps: false
 });
 
-
+// Defining associations between Therapist and Password
 Therapist.hasOne(Password, { onDelete: 'CASCADE', foreignKey: 'TherapistId', sourceKey: 'id' });
 Password.belongsTo(Therapist, { foreignKey: 'TherapistId', targetKey: 'id' });
 
+// Exporting the Password model
 module.exports = Password;

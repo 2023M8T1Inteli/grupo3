@@ -114,6 +114,22 @@ Receba os dados atualizados como resposta:
 ```bash
 resposta-update-therapist
 ```
+## Login 
+
+A partir dessa rota acontecerá a autentificação de login:
+
+```bash
+ipcRenderer.send('login', {
+    email: email, # tipo string, email do usuário no login
+    password: password # tipo string, senha do usuário no login
+})
+```
+
+Rota de resposta, devolverá as informações referentes ao terapeuta:
+
+```bash
+resposta-login
+```
 
 ## Patient (Rotas da tabela paciente)
 
@@ -679,3 +695,19 @@ Rota da resposta da requisição acima:
 resposta-update-performance
 ```
 
+##Porcentagem da tarefa
+
+Rota que devolve a porcentagem de uma tal tarefa:
+
+```bash
+ipcRenderer.send('read-performance-with-porcentagem', {
+    hits: hits, # tipo inteiro, numero de acertos de uma tarefa
+    mistakes: mistakes # tipo inteiro, numero de erros de uma tarefa
+})
+```
+
+Rota de resposta:
+
+```bash
+response-performance-with-porcentagem
+```
