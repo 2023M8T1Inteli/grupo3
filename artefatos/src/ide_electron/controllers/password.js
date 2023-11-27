@@ -1,7 +1,11 @@
 const password = require('../services/password.js')
+const crypto = require('../middlewares/crypto.js')
 
 function controllerPassword (ipc) {
     ipc.on('register-password', async (event, message) => {
+        const hash = crypto.hashPassword(message.password)
+        message.password = hash
+
         const result = await password.create(message)
 
         event.sender.send('resposta-register-password', result)

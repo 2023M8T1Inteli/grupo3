@@ -1,4 +1,5 @@
 const performance = require('../services/performance.js')
+const calc = require('../utils/performance.js')
 
 function controllerPerformance (ipc) {
     ipc.on('register-performance', async (event, message) => {
@@ -30,6 +31,14 @@ function controllerPerformance (ipc) {
         const result = await performance.update(id, body)
 
         event.sender.send('resposta-update-performance', result)
+    })
+
+    ipc.on('read-performance-with-porcentagem', async (event, message) => {
+        const result = await performance.read(message)
+        const {hits: hits, mistakes: mistakes} = result
+        const porcentagem = calc(hits, mistakes)
+
+        event.sender.send('resposta-performance-with-porcentagem', porcentagem)
     })
 }
 
