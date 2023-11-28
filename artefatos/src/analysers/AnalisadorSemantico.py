@@ -24,7 +24,7 @@ class AnalisadorSemantico:
                     id = statement.getNode("id")
                     self.expression(id, statement.getNode("expression"))
             if statement.op == "commandStatement":
-                self.sumExpression(statement.getNode("command").value, statement.getNode("sumExpression"))
+                self.sumExpression(statement.getNode("command").value, statement)
             
             statementList = statementList.getNode("prox")
     
@@ -98,15 +98,37 @@ class AnalisadorSemantico:
                 self.table[id.value].type = "int"
                 self.table[id.value].value = idValue.value
 
-    def sumExpression(self, command, node):
-        if command == "mostrar":
-            if node.getNode("factor").op == "id":
-                if node.getNode("factor").value not in self.table:
+    def sumExpression(self, command, statement):
+        if command in ["mostrar", "tocar", "esperar"]:
+            node = statement.getNode("sumExpression")
+            factor = node.getNode("factor")
+            if factor.op == "id":
+                if factor.value not in self.table:
                     raise SemanticException(f"O identificador {node.getNode('factor').value} na linha {node.getNode('factor').line} não foi declarado")
-                elif self.table[node.getNode("factor").value].type != "int":
+                elif self.table[factor.value].type != "int":
                     raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
-            elif node.getNode("factor").op != "int":
-                raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")  
+            elif factor.op != "int":
+                raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
+            
+        if command == "mostrar_tocar":
+            esq = statement.getNode("esq").getNode("factor")
+            if esq.op == "id":
+                if esq.value not in self.table:
+                    raise SemanticException(f"O identificador {esq.value} na linha {esq.line} não foi declarado")
+                elif self.table[esq.value].type != "int":
+                    raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
+            elif esq.op != "int":
+                print(esq.op)
+                raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
+            
+            dir = statement.getNode("dir").getNode("factor")
+            if dir.op == "id":
+                if dir.value not in self.table:
+                    raise SemanticException(f"O identificador {dir.value} na linha {dir.line} não foi declarado")
+                elif self.table[dir.value].type != "int":
+                    raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
+            elif dir.op != "int":
+                raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
 
     def atribution(self):
         self.tree
