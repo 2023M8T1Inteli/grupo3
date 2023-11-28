@@ -8,6 +8,15 @@ body {
     font-family: 'Jim Nightshade', cursive;
 }
 
+#feedback{
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    top: 0;
+    right: 0;
+    margin: 40px 40px;
+}
+
 #outside-block{
     width: 40vw;
     height: 40vw;

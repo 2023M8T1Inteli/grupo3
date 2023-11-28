@@ -1,3 +1,6 @@
+const nodemailer  = require("nodemailer")
+const { ipcRenderer } = require("electron")
+
 var email_bool = false
 
 /**
@@ -55,63 +58,107 @@ const checkInfo = () => {
     }
 }
 
-
 /**
- * Se o email estiver nas medidas corretas, altera a página
+ * Gera um código aleatório de 6 dígitos
  */
-function sendEmail(){
-    if(email_bool){
-        window.location.href = '../Confirm Code/confirmcode.html'
+const createCode = () => {
+    let randNum = 0;
+    let newCode = "";
+    for(let i = 0; i < 6; i++){
+      randNum = Math.floor(Math.random() * 10);
+      newCode += randNum;
     }
+    
+    newCode = parseInt(newCode);
+    return newCode;
 }
 
-// const createCode = () => {
-//     let randNum = 0;
-//     let newCode = "";
-//     for(let i = 0; i < 6; i++){
-//       randNum = Math.floor(Math.random() * 10);
-//       newCode += randNum;
-//     }
-    
-//     newCode = parseInt(newCode);
-//     return newCode;
-// }
+/**
+ * 
+ * @param user: JSON contendo as informações email e mensagem (código)
+ * Função que envia uma mensagem de email para o email inserido na caixa de texto
+ */
+const sendCode = async (user) => {
+    const mailOptions = {
+      from: 'dolphin.aacd@gmail.com',
+      to: user.email,
+      subject: 'Código de Verificação',
+      text: user.message,
+    };
 
-// const sendCode = (user) => {
-//     const mailOptions = {
-//       from: 'nimbbbus@gmail.com',
-//       to: user.email,
-//       subject: 'Código de Verificação',
-//       text: user.message,
-//     };
+    console.log(nodemailer)
 
-//     const transporter = createTransport({
-//         host: 'smtp.gmail.com',
-//         port: 465,
-//         secure: true,
-//         auth: {
-//           user: 'nimbbbus@gmail.com',
-//           pass: 'ctov euiy fxjh raat',
-//         },
-//     });    
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'dolphin.aacd@gmail.com',
+        //   pass: 'xmnb dnci ipah djxa',
+          pass: 'sjkdahskahdksa',
+        },
+    });    
   
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.error('Error sending email:', error);
-//       } else {
-//         console.log('Email sent:', info.response);
-//       }
-//     });
-// };
+    const promise = new Promise((resolve) => {transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+            console.error('Error sending email:', error);
+            resolve(false);
+            } else {
+            console.log('Email sent:', info.response);
+            resolve(true);
+            }
+        });
+    });
 
-// const sendEmail = () => {
-//     var email = document.getElementById("email")
-//     var code = createCode()
+    let email_response = await promise
 
-//     const user = {
-//         email: `${email.value}`,
-//         message: "Seu código é: " + code
-//     };
+    email_bool = email_response
+};
+
+function positiveFeedback(div){
+    let message = "<p>Email enviado com sucesso</p>"
+    let positiveSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>'
+
+    div.innerHTML = positiveSvg + message
+    div.style.backgroundColor = "rgba(0, 255, 0, 0.5)"
+}
+
+function negativeFeedback(div){
+    let negativeSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>'
+    let message = '<p id="mensage">Não foi possível enviar o email</p>'
+
+    div.innerHTML = negativeSvg + message
+    div.style.backgroundColor = "rgba(255, 0, 0, 0.5)"
+}
+
+/**
+ * Função que coleta as informações do usuário e chama a função que envia propriamente o email
+ */
+const sendEmail = async () => {
+    checkEmail()
+    checkInfo()
+
+    var email = document.getElementById("email")
+    var code = createCode()
+
+    const user = {
+        email: `${email.value}`,
+        message: "Seu código é: " + code
+    };
     
-//     sendCode(user);
-// }
+    await sendCode(user)
+
+    let feedback = document.getElementById("feedback")
+
+    if(email_bool){
+        positiveFeedback(feedback)
+        setTimeout(() => {
+            window.location.href = '../Confirm Code/confirmcode.html'
+        }, 3000)
+    } else {
+        negativeFeedback(feedback)
+        setTimeout(() => {
+            feedback.innerHTML == ""
+        }, 3000)
+    }
+}
