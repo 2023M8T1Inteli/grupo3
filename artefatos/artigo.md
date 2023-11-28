@@ -29,23 +29,23 @@ VANDERHEIDEN e JORDAN (2021) discutem sobre a implementação de uma extensão d
 FENG et al. (2018) apresentam uma visão geral das tecnologias assistivas para pessoas com deficiências motoras graves e descreve um estudo qualitativo de usuários para entender melhor as experiências que as pessoas com tetraplegia têm com essas tecnologias. O estudo revelou como as oportunidades dos indivíduos são limitadas para descobrir tecnologias assistivas, em particular, opções não comerciais que podem ser benéficas para eles. Além disso, revelou a importância da digitação de textos para o grupo de usuários. A análise sugeriu que, como as pessoas com tetraplegia têm necessidades específicas, a personalização deve ser considerada pelos pesquisadores e desenvolvedores de tecnologias assistivas. A análise também sugeriu que, como as pessoas com doença muscular degenerativa têm sintomas variáveis, os sistemas adaptativos devem ser criados para elas.
 
 ## Referências Bibliográficas
-BAJCAR, Beata; BORKOWSKA, Anna; JACH, Katarzyna. Asymmetry in usability evaluation of the assistive technology among users with and without disabilities. International Journal of Human–Computer Interaction, v. 36, n. 19, p. 1849-1866, 2020.
+BAJCAR, Beata et al. Asymmetry in usability evaluation of the assistive technology among users with and without disabilities. International Journal of Human–Computer Interaction, v. 36, n. 19, p. 1849-1866, 2020.
 
 COSTA, Maraísa da Silva Soares et al. Tecnologia assistiva no contexto do trabalho durante a pandemia do Covid-19. Revista de Administração Unimep, v. 19, n. 10, p. 172-194, 2022.
 
-DA SILVA, Gabriela Gomes; ROMÃO, Josilene; DA SILVA ANDRADE, Erci Gaspar. Paralisia Cerebral e o impacto do diagnóstico para a família. Revista de Iniciação Científica e Extensão, v. 2, n. 1, p. 4-10, 2019.
+DA SILVA, Gabriela Gomes et al. Paralisia Cerebral e o impacto do diagnóstico para a família. Revista de Iniciação Científica e Extensão, v. 2, n. 1, p. 4-10, 2019.
 
-DOS SANTOS CALHEIROS, David; MENDES, Enicéia Gonçalves; LOURENÇO, Gerusa Ferreira. Considerações acerca da tecnologia assistiva no cenário educacional brasileiro. Revista Educação Especial, v. 31, n. 60, p. 229-244, 2018.
+DOS SANTOS CALHEIROS, David et al. Considerações acerca da tecnologia assistiva no cenário educacional brasileiro. Revista Educação Especial, v. 31, n. 60, p. 229-244, 2018.
 
-FENG, Wenxin; SAMEKI, Mehrnoosh; BETKE, Margrit. Exploration of assistive technologies used by people with quadriplegia caused by degenerative neurological diseases. International Journal of Human–Computer Interaction, v. 34, n. 9, p. 834-844, 2018.
+FENG, Wenxin et al. Exploration of assistive technologies used by people with quadriplegia caused by degenerative neurological diseases. International Journal of Human–Computer Interaction, v. 34, n. 9, p. 834-844, 2018.
 
 FERREIRA, Ana Clara Fragallo et al. O brincar como recurso terapêutico ocupacional no tratamento de crianças com Paralisia Cerebral. Revista Eletrônica Acervo Saúde, v. 13, n. 5, p. e7506-e7506, 2021.
 
 IBGE- Instituto Brasileiro de Geografia e Estatística. Censo Demográfico, Características gerais da população, religião e pessoas com deficiência, 2010. Disponível em: www.ibge.gov.br/home/estatistica/populacao/censo2010/caracteristicas_religiao_deficiencia/caracteristicas_religiao_deficiencia_tab_pdf.shtm. Acesso em 09 nov. 2023
 
-MARCHESAN, Andressa; CARPENEDO, Rejane Fiepke. Capacitismo: entre a designação e a significação da pessoa com deficiência. Revista Trama, v. 17, n. 40, p. 45-55, 2021.
-
 KOOB, Amanda Rybin et al. Tech Tools in Pandemic-Transformed Information Literacy Instruction. Information Technology and Libraries, v. 41, n. 4, 2022.
+
+MARCHESAN, Andressa; CARPENEDO, Rejane Fiepke. Capacitismo: entre a designação e a significação da pessoa com deficiência. Revista Trama, v. 17, n. 40, p. 45-55, 2021.
 
 SIMÕES, Cibele Cristina et al. A experiência dos pais no cuidado dos filhos com paralisia cerebral. Revista eletrônica de enfermagem, v. 15, n. 1, p. 138-145, 2013.
 
