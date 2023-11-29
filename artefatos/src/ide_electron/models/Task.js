@@ -1,7 +1,9 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database.js')
+// Importing required modules
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
 
-const Task = sequelize.define('Task',{
+// Defining the Task model
+const Task = sequelize.define('Task', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -15,6 +17,7 @@ const Task = sequelize.define('Task',{
     }
 }, {
     timestamps: false
-})
+});
 
-module.exports = Task
+// Exporting the Task model
+module.exports = Task;

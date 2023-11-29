@@ -1,6 +1,8 @@
-const {DataTypes} = require('sequelize')
-const {sequelize} = require('../config/database')
+// Importing required modules
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
+// Defining the Therapist model
 const Therapist = sequelize.define('Therapist', {
     id: {
         type: DataTypes.INTEGER,
@@ -24,6 +26,7 @@ const Therapist = sequelize.define('Therapist', {
     }
 }, {
     timestamps: false
-})
+});
 
-module.exports = Therapist
+// Exporting the Therapist model
+module.exports = Therapist;

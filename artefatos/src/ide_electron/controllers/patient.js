@@ -1,49 +1,77 @@
-const patient = require('../services/patient.js')
+// Importing the patient service module
+const patient = require('../services/patient.js');
 
-function controllerPatient (ipc) {
+/**
+ * Controller function for handling IPC events related to patient operations
+ * @param {Object} ipc - IPC communication object
+ */
+function controllerPatient(ipc) {
+    // Event listener for registering a patient
     ipc.on('register-patient', async (event, message) => {
-        const result = await patient.create(message)
+        // Call the patient service to create a patient record
+        const result = await patient.create(message);
 
-        event.sender.send('resposta-register-patient', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-register-patient', result);
+    });
 
+    // Event listener for deleting a patient
     ipc.on('delete-patient', async (event, message) => {
-        const result = await patient.delete(message)
+        // Call the patient service to delete a patient record
+        const result = await patient.delete(message);
 
-        event.sender.send('resposta-delete-patient', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-delete-patient', result);
+    });
 
+    // Event listener for reading a patient
     ipc.on('read-patient', async (event, message) => {
-        const result = await patient.read(message)
+        // Call the patient service to read a patient record
+        const result = await patient.read(message);
 
-        event.sender.send('resposta-read-patient', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-read-patient', result);
+    });
 
+    // Event listener for reading all patients
     ipc.on('read-all-patient', async (event, message) => {
-        const result = await patient.readAll()
+        // Call the patient service to read all patient records
+        const result = await patient.readAll();
 
-        event.sender.send('resposta-readAll-patient', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-readAll-patient', result);
+    });
 
+    // Event listener for reading all patients in a specific chain
     ipc.on('read-all-patient-chain', async (event, message) => {
-        const result = await patient.readSpecificChain(message)
+        // Call the patient service to read all patient records in a specific chain
+        const result = await patient.readSpecificChain(message);
 
-        event.sender.send('resposta-readAll-patient-chain', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-readAll-patient-chain', result);
+    });
 
+    // Event listener for reading all patients associated with a therapist
     ipc.on('read-all-therapist-patient', async (event, message) => {
-        const result = await patient.readTherapistPatient(message)
+        // Call the patient service to read all patient records associated with a therapist
+        const result = await patient.readTherapistPatient(message);
 
-        event.sender.send('resposta-readAll-therapist-patient', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-readAll-therapist-patient', result);
+    });
 
+    // Event listener for updating a patient
     ipc.on('update-patient', async (event, message) => {
-        var {id: id, body: body} = message
-        const result = await patient.update(id, body)
+        // Extract id and body from the message
+        const { id, body } = message;
 
-        event.sender.send('resposta-update-patient', result)
-    })
+        // Call the patient service to update a patient record
+        const result = await patient.update(id, body);
 
+        // Send the response back to the renderer process
+        event.sender.send('response-update-patient', result);
+    });
 }
 
-module.exports = controllerPatient
+// Export the controller function for patient operations
+module.exports = controllerPatient;

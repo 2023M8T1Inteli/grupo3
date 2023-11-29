@@ -1,36 +1,59 @@
-const task = require('../services/task.js')
+// Importing the task service module
+const task = require('../services/task.js');
 
-function controllerTask (ipc) {
+/**
+ * Controller function for handling IPC events related to task operations
+ * @param {Object} ipc - IPC communication object
+ */
+function controllerTask(ipc) {
+    // Event listener for registering a task
     ipc.on('register-task', async (event, message) => {
-        const result = await task.create(message)
+        // Call the task service to create a task
+        const result = await task.create(message);
 
-        event.sender.send('resposta-register-task', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-register-task', result);
+    });
 
+    // Event listener for deleting a task
     ipc.on('delete-task', async (event, message) => {
-        const result = await task.delete(message)
+        // Call the task service to delete a task
+        const result = await task.delete(message);
 
-        event.sender.send('resposta-delete-task', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-delete-task', result);
+    });
 
+    // Event listener for reading a task
     ipc.on('read-task', async (event, message) => {
-        const result = await task.read(message)
+        // Call the task service to read a task
+        const result = await task.read(message);
 
-        event.sender.send('resposta-read-task', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-read-task', result);
+    });
 
+    // Event listener for reading all tasks
     ipc.on('read-all-task', async (event, message) => {
-        const result = await task.readAll()
+        // Call the task service to read all tasks
+        const result = await task.readAll();
 
-        event.sender.send('resposta-readAll-task', result)
-    })
+        // Send the response back to the renderer process
+        event.sender.send('response-readAll-task', result);
+    });
 
+    // Event listener for updating a task
     ipc.on('update-task', async (event, message) => {
-        var {id: id, body: body} = message
-        const result = await task.update(id, body)
+        // Extract id and body from the message
+        const { id, body } = message;
 
-        event.sender.send('resposta-update-task', result)
-    })
+        // Call the task service to update a task
+        const result = await task.update(id, body);
+
+        // Send the response back to the renderer process
+        event.sender.send('response-update-task', result);
+    });
 }
 
-module.exports = controllerTask
+// Export the controller function for task operations
+module.exports = controllerTask;

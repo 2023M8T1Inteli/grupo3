@@ -92,6 +92,7 @@ class AnalisadorSintatico:
         expression = self.expression()
         self.matchToken("ENTAO")
         ifBlock = self.block()
+        elseBlock = None
         if self.tokens[0].tipo == "SENAO":
             self.matchToken("SENAO")
             elseBlock = self.block()
@@ -116,6 +117,8 @@ class AnalisadorSintatico:
             self.matchToken("RPAR")
             return InternNode("commandStatement", command=LeafNode("command", value=commandValue, line=commandLine), sumExpression=sumExpression)
         elif self.tokens[0].valor == "mostrar_tocar":
+            commandValue = self.tokens[0].valor
+            commandLine = self.tokens[0].linha 
             self.matchToken("COMANDO")
             self.matchToken("LPAR")
             esq = self.sum_expression()
@@ -194,7 +197,7 @@ class AnalisadorSintatico:
             intValue = self.tokens[0].valor
             intLine = self.tokens[0].linha
             self.matchToken("INTEGER")
-            return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=LeafNode("id", intValue, intLine))
+            return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=LeafNode("int", intValue, intLine))
         elif self.tokens[0].tipo == "BOOLEAN":
             bool = self.boolean()
             return InternNode("factor", sinal=sinal, esq=None, dir=None, factor=bool)

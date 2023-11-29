@@ -14,6 +14,23 @@ class LexicalException(Exception):
 class SyntaticException(Exception):
     pass
 
+class SemanticException(Exception):
+    pass
+
+class Table():
+    def __init__(self, value, type, **kwargs) -> None:
+        self.value = value
+        self.type = type
+        self.d = {}
+        for k, v in kwargs.items():
+            self.d[k] = v
+
+    def get(self, k):
+        return self.d.get(k)
+
+    def __repr__(self):
+        return f'Table(value="{self.value}", type="{self.type}", kwargs={self.d}")'
+
 # Classe para representar os nós de variáveis nas regras gramaticais
 class InternNode:
     def __init__(self, op, **kwargs):
