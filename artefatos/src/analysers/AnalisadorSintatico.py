@@ -117,6 +117,8 @@ class AnalisadorSintatico:
             self.matchToken("RPAR")
             return InternNode("commandStatement", command=LeafNode("command", value=commandValue, line=commandLine), sumExpression=sumExpression)
         elif self.tokens[0].valor == "mostrar_tocar":
+            commandValue = self.tokens[0].valor
+            commandLine = self.tokens[0].linha 
             self.matchToken("COMANDO")
             self.matchToken("LPAR")
             esq = self.sum_expression()

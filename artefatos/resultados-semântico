@@ -1,0 +1,29 @@
+# Resultados: Léxico
+O analisador semântico verifica os erros semânticos no código, que dizem respeito ao escopo dos nomes, correspondência entre declarações e uso dos nomes e compatibilidade dos tipos, em expressões e comandos. Abaixo estão alguns exemplos de entrada e os erros semânticos correspondentes produzidos pelo analisador:
+
+## Exemplo 1:
+```
+programa "teste semântico 1":
+inicio
+    x = y
+fim.
+```
+### Erro gerado:
+```
+ClassesAuxiliares.SemanticException: O identificador y na linha 3 não foi declarado
+```
+
+## Exemplo 2:
+```
+programa "teste semântico 2":
+inicio
+    x = 1
+    y = 2
+    mostrar(z)
+    z = y
+fim.
+```
+### Erro gerado:
+```
+ClassesAuxiliares.SemanticException: O identificador z na linha 5 não foi declarado
+```
