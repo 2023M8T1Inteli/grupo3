@@ -1,0 +1,29 @@
+# Resultados: Léxico
+O analisador léxico é responsável por quebrar o código-fonte em partes menores, chamadas de tokens. Abaixo estão alguns exemplos de entrada e os tokens correspondentes produzidos pelo analisador léxico:
+
+## Exemplo 1:
+```
+programa "teste semântico 1":
+inicio
+    x = y
+fim.
+```
+### Erro gerado:
+```
+ClassesAuxiliares.SemanticException: O identificador y na linha 3 não foi declarado
+```
+
+## Exemplo 2:
+```
+programa "teste semântico 2":
+inicio
+    x = 1
+    y = 2
+    mostrar(z)
+    z = y
+fim.
+```
+### Erro gerado:
+```
+ClassesAuxiliares.SemanticException: O identificador z na linha 5 não foi declarado
+```

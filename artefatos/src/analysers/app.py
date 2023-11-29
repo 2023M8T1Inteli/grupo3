@@ -16,7 +16,7 @@ def read_file(file_name):
     
 if __name__ == "__main__":
     # code = read_file("programa.txt")
-    code = read_file("test_file/exemplo2SE.txt")
+    code = read_file("test_file/exemplo1SE.txt")
     tokens = AnalisadorLexico(code).getTokens()
     tree = AnalisadorSintatico(tokens).program()
     print(tree)
