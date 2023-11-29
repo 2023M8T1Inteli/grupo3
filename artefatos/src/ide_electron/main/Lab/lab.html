@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="lab.css">
 </head>
 <body>
+</div>
     <header id="header-box">
         <div id="title-box">
-            <input type="text" id="title-content" value="Tarefa 1">
+            <input type="text" id="title-content" placeholder="Coloque o nome da nova tarefa...">
         </div>
         <div id="tools-box">
             <div id="all-tools-box">
@@ -23,10 +24,17 @@
                     <button id="button-tools">
                         <img src="../../assets/Rectangle 165.png" id="easer" alt="borracha">
                     </button>
+                    <button class="img-btn" id="showModal">
+                    <img src="../../assets/sound.png" id="sound" alt="som" width="25" height="auto">
+                    </button>
+                    <button class="img-btn" id="showSheepModal">
+                        <img src="../../assets/sheep.png" id="sheep" alt="ovelha" width="45" height="auto">
+                    </button>
                 </div>
             </div>
             <div id="buttons-text-box">
                 <div id="text-box">
+                    <button id="back-to-profile" onclick="redirectToTasks()">Voltar para o perfil do paciente</button>
                     <button id="title-confirm"> Confirmar </button>
                 </div>
                 <div id="text-box">
@@ -44,7 +52,77 @@
             <img src="../../assets/Polygon 1.png" id="start-component" alt="bloco que começa">
         </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gravação de voz</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <img src="../../assets/sound_image.png" alt="Imagem de som">
+            <div class="recordButton">Fazer uma gravação</div>
+            <div class="historicButton">Veja aqui as últimas gravações!</div>
+            <div class="importButton">
+                <button id="importRecording">Importar gravação
+                <div id="fileNameDisplay"></div>
+                </button>
+                <!-- Adicione este elemento onde você deseja exibir o nome do arquivo -->
+               <div id="fileNameDisplay"></div>
+            </div>            
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- Modal da ovelha -->
+        <div class="sheep-modal fade" id="showSheepModal" tabindex="-1" role="dialog" aria-labelledby="sheepModalLabel">
+            <div class="sheep-modal-dialog" role="document">
+                <div class="sheep-modal-content">
+                    <div class="sheep-modal-header">
+                        <button type="button" class="sheep-close" id="sheepModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="sheep-modal-body">
+                    <h1 class="sheep-modal-title">Sons de animais</h1>
+                    <div class="rectangle1">
+                        <img src="../../assets/cow.png" alt="Vaca">
+                        <p>Vaca</p>
+                    </div>
+
+                    <div class="rectangle2">
+                        <img src="../../assets/dog.png" alt="Cachorro">
+                        <p>Cachorro</p>
+                    </div>
+
+                    <div class="rectangle3">
+                        <img src="../../assets/cat.png" alt="Gato">
+                        <p>Gato</p>
+                    </div>
+
+                    <div class="rectangle4">
+                        <img src="../../assets/bird.png" alt="Pássaro">
+                        <p>Pássaro</p>
+                    </div>
+
+                    <div class="rectangle5">
+                        <img src="../../assets/elephant.png" alt="Elefante">
+                        <p>Elefante</p>
+                    </div>
+
+                    <div class="rectangle6">
+                        <img src="../../assets/frog.png" alt="Sapo">
+                        <p>Sapo</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+    </div>
     <footer id="blocks-box">
         <div class="column-box">
             <div class="block-box" draggable="true" id="11">
@@ -111,9 +189,14 @@
             <div class="block-box" draggable="true" id="36">
                 <img src="../../assets/block-18.png" height="60px" width="60px" alt="bloco 36">
             </div>
-        </div>
+        </div>   
     </footer>
-    <script src="lab.js">
+    <script src="./lab.js"/>
+    </script>
+    <script>
+        function redirectToTasks() {
+            window.location.href = "../Child_Information/tarefas.html";
+        }
     </script>
 </body>
 </html>

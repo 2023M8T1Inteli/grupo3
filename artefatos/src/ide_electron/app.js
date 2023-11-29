@@ -1,16 +1,15 @@
-// Import necessary modules and functions from Electron and Node.js
+// Importe os módulos necessários do Electron e Node.js
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
-const { spawn } = require('child_process'); // Import child_process to spawn Python
+const { spawn } = require('child_process'); // Import child_process para iniciar o Python
 
-// Declare variables for windows
-let newPageWindow;
-let registerPage;
+// Declare variáveis para as janelas
+let mainWindow;
 
-// Event handler for when the Electron app is ready
+// Evento para quando o aplicativo Electron estiver pronto
 app.on('ready', () => {
-  // Create a new window for the home.html screen
-  newPageWindow = new BrowserWindow({
+  // Crie uma nova janela para a tela home.html
+  mainWindow = new BrowserWindow({
     width: 1280,
     height: 832,
     webPreferences: {
@@ -19,29 +18,18 @@ app.on('ready', () => {
     }
   });
 
-  // Load the home.html screen
-  newPageWindow.loadFile('./main/Home/home.html');
+  // Carregue a tela home.html
+  mainWindow.loadFile('./main/Login/index.html');
 
-  // Load the lab.html screen (You might want to add this to a separate event)
-  newPageWindow.loadFile('./main/Lab/lab.html');
-
-  // Create a new window for the register.html screen
-  registerPage = new BrowserWindow({
-    width: 1280,
-    height: 832,
-  });
-
-  // Load the register.html screen (You might want to add this to a separate event)
-  registerPage.loadFile('./main/Register/register.html');
-
-  // Event listener for opening the home page
+  // Event listener para abrir a página home
   ipcMain.on('open-home-page', () => {
-    newPageWindow.show();
+    // Certifique-se de que a janela principal esteja visível
+    mainWindow.show();
   });
 
-  // Event listener for receiving code for analysis
+  // Event listener para receber código para análise
   ipcMain.on('code-for-analysers', (event, message) => {
-    // Save the message to a file
+    // Salve a mensagem em um arquivo
     fs.writeFile('../test_file/programa.txt', message, function(err) {
       if (err) {
         console.log(err);
@@ -49,10 +37,10 @@ app.on('ready', () => {
     });
 
     try {
-      // Spawn a new Python process to execute the analysis
+      // Inicie um novo processo Python para executar a análise
       const pythonProcess = spawn('python', ['../analysers/app.py', message]);
 
-      // Event listeners for Python process output and completion
+      // Ouvintes de eventos para saída e conclusão do processo Python
       pythonProcess.stdout.on('data', (data) => {
         console.log(`Python stdout: ${data}`);
       });
@@ -64,8 +52,8 @@ app.on('ready', () => {
       pythonProcess.on('close', (code) => {
         console.log(`Python process exited with code ${code}`);
 
-        // Show a dialog box with the status of the program execution
-        dialog.showMessageBox(newPageWindow, {
+        // Mostre uma caixa de diálogo com o status da execução do programa
+        dialog.showMessageBox(mainWindow, {
           type: 'info',
           title: 'Status do Envio',
           message: 'Tarefa enviada com sucesso!',
@@ -75,8 +63,8 @@ app.on('ready', () => {
       });
 
     } catch (e) {
-        // Show a dialog box in case of internal service failures
-        dialog.showMessageBox(newPageWindow, {
+        // Mostre uma caixa de diálogo em caso de falhas nos serviços internos
+        dialog.showMessageBox(mainWindow, {
           type: 'info',
           title: 'Status do Envio',
           message: 'Houve falha em nossos serviços internos!',

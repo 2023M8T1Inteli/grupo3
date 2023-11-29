@@ -1,80 +1,80 @@
-// Import the ipcRenderer module from Electron for inter-process communication
+// Importe o módulo ipcRenderer do Electron para comunicação entre processos
 const { ipcRenderer } = require('electron');
 
-// Select all elements with the class 'block-box'
+// Selecione todos os elementos com a classe 'block-box'
 var draggableElements = document.querySelectorAll('.block-box');
 
-// Get a reference to the element with the id 'sequence-box'
+// Obtenha uma referência ao elemento com o id 'sequence-box'
 var sequence = document.getElementById('sequence-box');
 
-// Variable to store the currently dragged element
+// Variável para armazenar o elemento atualmente arrastado
 var draggingElement = null;
 
-// Temporary control variable
+// Variável de controle temporário
 var temp = 0;
 
-// Get a reference to the button with the id 'title-confirm'
+// Obtenha uma referência ao botão com o id 'title-confirm'
 var buttonConfirm = document.getElementById('title-confirm');
 
-// List to store the IDs of blocks added to the sequence
+// Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
-// Iterate over all elements with the class 'block-box'
+// Itere sobre todos os elementos com a classe 'block-box'
 draggableElements.forEach(function(element) {
-    // Add an event listener for the dragstart event
+    // Adicione um ouvinte de eventos para o evento de arrastar (dragstart)
     element.addEventListener('dragstart', function(e) {
-        // Clone the dragged element and add the 'dragging' class
+        // Clone o elemento arrastado e adicione a classe 'dragging'
         draggingElement = e.target.cloneNode(true);
         draggingElement.classList.add('dragging');
-        // Logic to add border white if the block is black
+        // Lógica para adicionar a borda branca se o bloco for preto
         if (element.id == '15') {
-            draggingElement.classList.add('block-style-black-box')
+            draggingElement.classList.add('block-style-black-box');
         } else {
-            draggingElement.classList.add('block-style')
+            draggingElement.classList.add('block-style');
         }
         draggingElement.id = `temp ${element.id} ${temp}`;
-        // Set the transfer data to the ID of the cloned element
+        // Defina os dados de transferência para o ID do elemento clonado
         e.dataTransfer.setData('text/plain', draggingElement.id);
-        // Append the cloned element to the document body
+        // Anexe o elemento clonado ao corpo do documento
         document.body.appendChild(draggingElement);
         temp++;
     });
 });
 
-// Add an event listener for the dragover event on the sequence
+// Adicione um ouvinte de eventos para o evento de arrastar sobre a sequência
 sequence.addEventListener('dragover', function(e) {
-    // Prevent the default event behavior
+    // Evite o comportamento padrão do evento
     e.preventDefault();
 });
 
-// Add an event listener for the drop event on the sequence
+// Adicione um ouvinte de eventos para o evento de soltar na sequência
 sequence.addEventListener('drop', function(e) {
-    // Prevent the default event behavior
+    // Evite o comportamento padrão do evento
     e.preventDefault();
-    // Get the ID of the dragged element
+    // Obtenha o ID do elemento arrastado
     var data = e.dataTransfer.getData('text/plain');
-    // Get the reference to the cloned element
+    // Obtenha a referência ao elemento clonado
     var droppedElement = document.getElementById(data);
-    // Extract information from the ID of the cloned element
+    // Extraia informações do ID do elemento clonado
     var address = droppedElement.id;
     var temp_words = address.split(" ");
-    // Add the block's ID to the list of blocks in the sequence
+    // Adicione o ID do bloco à lista de blocos na sequência
     sequenceBlocksListAdded.push(temp_words[1]);
-    // Log the list of blocks in the sequence to the console
+    // Registre a lista de blocos na sequência no console
     console.log(sequenceBlocksListAdded);
-    // Append the cloned element to the sequence
+    // Anexe o elemento clonado à sequência
     sequence.appendChild(droppedElement);
 });
 
-// Add an event listener for the click event on the confirmation button
+// Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', function(e) {
-    // Create the initial part of the program
+    // Crie a parte inicial do programa
     var start_of_program = 'programa "tarefa1":\n\tinicio';
 
-    // Section of the program to be filled based on the blocks added to the sequence
+    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
     var middle_of_program = "";
 
-    // Loop through the list of blocks in the sequence to build the middle part of the program
+    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
         middle_of_program += `
             quadranteEsperado = ${sequenceBlocksListAdded[i]}
@@ -87,17 +87,80 @@ buttonConfirm.addEventListener('click', function(e) {
             mostrar(1)\n`;
     }
 
-    // Final part of the program
+    // Parte final do programa
     var end_of_program = 'fim.';
 
-    // Concatenate the program parts to form the complete program
+    // Concatene as partes do programa para formar o programa completo
     var program = start_of_program + middle_of_program + end_of_program;
 
-    // Send the program code to analyzers via ipcRenderer
+    // Envie o código do programa aos analisadores via ipcRenderer
     ipcRenderer.send('code-for-analysers', program);
 
-    // Send the program code for execution via ipcRenderer
+    // Envie o código do programa para execução via ipcRenderer
     ipcRenderer.send('call-python-code', program);
+
 });
 
-  
+var openModalButton = document.getElementById('showModal');
+openModalButton.addEventListener('click', function(e) {
+    modal = document.querySelector('.modal');
+    modal.style.display = 'block';
+});
+
+
+
+var closeModalButton = document.querySelector('.close');
+
+closeModalButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+
+var openSheepModalButton = document.getElementById('showSheepModal');
+openSheepModalButton.addEventListener('click', function(e) {
+modal = document.querySelector('.sheep-modal');
+modal.style.display = 'block';
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var sheepModalCloseBtn = document.getElementById('sheepModalCloseBtn');
+    sheepModalCloseBtn.addEventListener('click', function() {
+        var sheepModal = document.querySelector('.sheep-modal');
+        sheepModal.style.display = 'none';
+    });
+});
+
+
+var importButton = document.getElementById('importRecording');
+var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
+
+importButton.addEventListener('click', function(e) {
+    // Crie um input do tipo "file"
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file';
+
+    // Adicione o input ao corpo do documento
+    document.body.appendChild(fileInput);
+
+    // Oculte o input
+    fileInput.style.display = 'none';
+
+    // Adicione um ouvinte de eventos para o evento de alteração no input de arquivo
+    fileInput.addEventListener('change', function(event) {
+        // Obtenha o arquivo selecionado
+        var selectedFile = event.target.files[0];
+
+        // Exiba o nome do arquivo no elemento designado
+        fileNameDisplay.textContent = selectedFile.name;
+
+        // Remova o input de arquivo do corpo do documento
+        document.body.removeChild(fileInput);
+    });
+
+    // Dispare um clique no input de arquivo
+    fileInput.click();
+});
+
+
+
+

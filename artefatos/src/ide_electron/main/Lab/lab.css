@@ -1,50 +1,42 @@
-/* Import external stylesheets for navigation and footer tools */
+
 @import "../../components/nav.css";
 @import "../../components/footer-tools.css";
 
-/* Reset default margin for the body and set it to flex for layout */
 body {
     margin: 0;
     display: flex;
 }
 
-/* Reset margin for h1 element */
 h1 {
     margin: 0;
 }
 
-/* Styles for the header container */
 #header-box {
     display: flex;
     flex-direction: column;
 }
 
-/* Styles for title and tools containers within the header */
 #title-box, #tools-box {
     display: flex;
     height: 30px;
     width: 100%;
 }
 
-/* Styles for the title container with background color and padding */
 #title-box {
     background-color: #2B7F7F;
     padding-left: 10px;
 }
 
-/* Styles for the tools container with background color and spacing */
 #all-tools-box {
     display: flex;
     flex-direction: row;
 }
 
-/* Styles for the tools container with background color and space between items */
 #tools-box {
     background-color: #15ACAC;
     justify-content: space-between;
 }
 
-/* Styles for the general button styling */
 #button-tools {
     border-radius: 0%;
     border-style: none;
@@ -57,30 +49,27 @@ h1 {
     cursor: pointer;
 }
 
-/* Styles for button on active state */
+
 #button-tools:active {
     background-color: #2B7F7F;
 }
 
-/* Styles for button on hover state */
 #button-tools:hover {
     background-color: #2B7F7F;
     transform: scale(1.6);
 }
 
-/* Styles for specific tools like mouse and eraser */
+
 #mouse, #easer {
     align-self: center;
 }
 
-/* Styles for additional space in the tools box */
 #space-tools-box {
     display: flex;
     width: 50px;
     height: 30px;
 }
 
-/* Styles for the title content with font properties and color */
 #title-content {
     font-size: 20px;
     font-weight: 400;
@@ -91,13 +80,15 @@ h1 {
     border-color: none;
     border-width: 0;
 }
+#title-content::placeholder {
+    color: white;
+}
 
 #title-content:focus {
     border: 2px solid white;
     outline: none;
 }
 
-/* Styles for the buttons text box with spacing and width */
 #buttons-text-box {
     display: flex;
     flex-direction: row;
@@ -105,12 +96,10 @@ h1 {
     justify-content: space-between;
 }
 
-/* Styles for the main container of blocks and components */
 #blocks-box {
     display: flex;
 }
 
-/* Styles for the block elements and end block with common properties */
 .block-box, #block-end-box {
     height: 60px;
     width: 60px;
@@ -122,33 +111,28 @@ h1 {
     border-color: black;
 }
 
-/* Put style into the border of the blocks */
 #sequence-box .block-style {
     border-style: solid;
     border-width: 3px;
     border-color: black;
 }
 
-/* Put style into the border of the black block*/
 #sequence-box .block-style-black-box {
     border-style: solid;
     border-width: 3px;
     border-color: white;
 }
 
-/* Grow scale for block in cursor appoint to the block */
 .block-box:hover {
     transform: scale(1.6);
 }
 
-/* Add border in the start block */
 #block-start-box {
     border-style: solid;
     border-width: 3px;
     border-color: black;
 }
 
-/* Styles for the main container of the application content */
 #main-box {
     display: flex;
     margin-top: 60px;
@@ -159,7 +143,6 @@ h1 {
     padding-right: 100px;
 }
 
-/* Styles for the start block with background color and spacing */
 #block-start-box {
     width: 60px;
     height: 60px;
@@ -168,27 +151,23 @@ h1 {
     justify-content: space-around;
 }
 
-/* Styles for the start component within the start block */
 #start-component {
     align-self: center;
 }
 
-/* Styles for a container with flex column layout and space around content */
 .column-box {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-/* Styles for the container of blocks with spacing and wrap property */
 #blocks-box {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-/* Styles for the confirmation and feedback titles with button properties */
-#title-confirm, #title-feedback-correct, #title-feedback-wrong {
+ #title-confirm, #title-feedback-correct, #title-feedback-wrong {
     border-radius: 0;
     border-style: none;
     background-color: #15ACAC;
@@ -202,13 +181,25 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-/* Styles for confirmation and feedback titles on hover state */
+#back-to-profile{
+    border-radius: 0;
+    border-style: none;
+    background-color: #15ACAC;
+    color: white;
+    font-family: 'Abel', cursive;
+    font-size: 15px;
+    font-weight: 400;
+    margin-left: -340px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+}
+
 #title-confirm:hover, #title-feedback-correct:hover, #title-feedback-wrong:hover {
     background-color: #2B7F7F;
     transform: scale(1.4);
 }
 
-/* Styles for the sequence box with flex wrap property */
 #sequence-box {
     display: flex;
     flex-wrap: wrap;
@@ -216,3 +207,419 @@ h1 {
     height: 100%;
     align-content: flex-start;
 }
+
+#soundModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#soundModal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#soundModal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.modal-container{
+    background-color: rgba(0, 0, 0, 0.861);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    display: none;
+}
+
+/* .modal{
+    height: 50vh;
+    width: 50vw;
+    background-color: #fff;
+    margin: auto;
+    margin-top: 20vh;
+} */
+
+.modal-open{
+    overflow:hidden
+}
+#exampleModal .modal-title {
+    font-size: 20px; 
+    margin-left: 425px;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    overflow: hidden;
+    display: none;
+    outline: 0;
+  }
+  
+  .modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .modal-dialog {
+  position: relative;
+  width: auto;
+  max-width: 80%; 
+  height: 500px; 
+  margin: auto;
+  pointer-events: none;
+  margin-top: 150px;
+}
+  
+  .modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out, height 2.8s ease-out;
+    transform: translate(0, -25%);
+  }
+  
+  .modal.show .modal-dialog {
+    transform: translate(0, 0);
+    height: 80vh !important;
+  }
+  
+  .modal-dialog-centered {
+    min-height: calc(100% - (0.5rem * 2));
+  }
+  
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #000;
+    border-radius: 0.3rem;
+    outline: 0;
+    height: 500px;
+  }
+  
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+  }
+  
+  .modal-backdrop.fade {
+    opacity: 0;
+  }
+  
+  .modal-backdrop.show {
+    opacity: 0.5;
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+  }
+
+  #exampleModal .modal-header .close {
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+    background-color: transparent; 
+    border: none; 
+    font-size: 30px;
+}
+
+  
+  .modal-header .close {
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+  }
+  
+  .modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    margin-left: 450px;
+  }
+  
+  .modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+  }
+  
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+  }
+  
+  .modal-footer > :not(:first-child) {
+    margin-left: 0.25rem;
+  }
+  
+  .modal-footer > :not(:last-child) {
+    margin-right: 0.25rem;
+  }
+  
+  .modal-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+  }
+  
+.img-btn{
+    border: none;
+    background-color: transparent;
+}
+
+.img-btn:hover{
+    cursor: pointer;
+}
+
+.image-container{
+    margin-left: 20px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+    width: 300px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.recordButton,
+.historicButton {
+    background-color: #2B7F7F;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 100px;
+    width: 200px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.recordButton:hover,
+.historicButton:hover {
+    background-color: #155555;
+}
+
+.importButton {
+    margin-top: 10px;
+}
+
+#importRecording {
+    border: none;
+    background-color: #2B7F7F;
+    color: white;
+    padding: 10px;
+    width: 200px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+}
+
+#importRecording:hover {
+    background-color: #155555;
+}
+
+/* Estilos para o modal da ovelha */
+.sheep-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 1050;
+}
+
+.sheep-modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    height: 550px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sheep-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+}
+
+.sheep-modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    margin-left: 135px;
+    margin-top: -50px;
+}
+
+.sheep-close {
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+    margin-top: -40px;
+    margin-left: 450px;
+}
+
+.sheep-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 1rem;
+}
+
+/* Adicione mais estilos conforme necessário para o modal da ovelha */
+
+/* Estilos para animação de fade */
+.sheep-modal.fade {
+    transition: opacity 0.3s ease;
+}
+
+.sheep-modal.show {
+    opacity: 1;
+}
+
+/* ... Outros estilos ... */
+
+/* Estilos para os retângulos */
+.rectangle1 {
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle2 {
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle3 {
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle4{
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle5{
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle6{
+    width: 400px;
+    height: 60px;
+    background-color: #D9D9D9;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.rectangle1 p,
+.rectangle2 p,
+.rectangle3 p,
+.rectangle4 p,
+.rectangle5 p,
+.rectangle6 p {
+    color: black; /* Cor do texto */
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px; /* Tamanho da fonte */
+    margin-top: -50px; /* Remover margens padrão do parágrafo */
+    padding: 15px; /* Adicionar preenchimento ao redor do texto */
+}
+
+.rectangle1 img,
+.rectangle2 img,
+.rectangle3 img,
+.rectangle4 img,
+.rectangle5 img,
+.rectangle6 img {
+
+    object-fit: cover; 
+    margin-left: 315px;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="performance.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Sua Página</title>
+</head>
+<body>
+
+    <!-- Adicione a faixa superior aqui -->
+    <div class="faixa-superior">
+        <!-- Imagem de seta no lado esquerdo -->
+        <img class="arrow-img" src="../../assets/arrow.png" alt="Arrow Image" onclick="redirectToTasks()">
+        <!-- Círculo de usuário -->
+        <div class="circle">
+            <img src="../../assets/user.png" alt="User Image">
+        </div>
+    </div>
+    <!-- Mensagem fora da faixa azul -->
+    <div class="mensagem-fora-faixa">
+        <img class="children-playing-img" src="../../assets/children_playing.png" alt="Children Playing Image">
+        <img class="children-playing2-img" src="../../assets/children_playing2.png" alt="Children Playing 2 Image">
+        <p>Olá, Fernanda! Você pode acompanhar o desenvolvimento do Caio Aqui!</p>
+        <p class="nova-frase">Desempenho da última semana - Tarefa 1</p>
+        <div class="circulo-centralizado">
+            <div class="percentagem-inside">70%</div>
+            <div class="semana">Semana 8</div>
+            <div class="atividades">10 atividades</div>
+            <div class="acertos"> 7 acertos</div>
+            <div class="erros">3 erros</div>
+            <div class="quadrado-abaixo">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="chart.js"></script>
+    <script>
+    function redirectToTasks() {
+    window.location.href = '../Child_Information/tarefas.html';
+    }
+    </script>
+</body>
+</html>
