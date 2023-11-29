@@ -3,6 +3,11 @@ const path = require('path')
 
 var colorInput = document.getElementById('color-input');
 var textInput = document.getElementById('text-input');
+var backButton = document.getElementById('title-back');
+
+backButton.addEventListener('click', function () {
+    window.location.href = '../Lab/lab.html';
+});
 
 colorInput.addEventListener('change', function () {
     let main = document.getElementById('main');
