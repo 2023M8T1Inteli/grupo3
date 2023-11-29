@@ -16,6 +16,7 @@ inicia()
 // Declare variables for windows
 let newPageWindow;
 let registerPage;
+let feedbackPage;
 
 // Event handler for when the Electron app is ready
 app.on('ready', () => {
@@ -43,6 +44,18 @@ app.on('ready', () => {
 
   // Load the register.html screen (You might want to add this to a separate event)
   registerPage.loadFile('./main/Register/register.html');
+
+  feedbackPage = new BrowserWindow({
+    width: 1280,
+    height: 832,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
+  });
+
+  // Load the feedback.html screen (You might want to add this to a separate event)
+  feedbackPage.loadFile('./main/Feedback/successFeedback.html');
 
   // Event listener for opening the home page
   ipcMain.on('open-home-page', () => {
