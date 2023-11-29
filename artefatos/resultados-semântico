@@ -1,5 +1,5 @@
 # Resultados: Léxico
-O analisador léxico é responsável por quebrar o código-fonte em partes menores, chamadas de tokens. Abaixo estão alguns exemplos de entrada e os tokens correspondentes produzidos pelo analisador léxico:
+O analisador semântico verifica os erros semânticos no código, que dizem respeito ao escopo dos nomes, correspondência entre declarações e uso dos nomes e compatibilidade dos tipos, em expressões e comandos. Abaixo estão alguns exemplos de entrada e os erros semânticos correspondentes produzidos pelo analisador:
 
 ## Exemplo 1:
 ```
