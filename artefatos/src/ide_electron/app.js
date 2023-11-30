@@ -1,10 +1,23 @@
 // Importe os módulos necessários do Electron e Node.js
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
-const { spawn } = require('child_process'); // Import child_process para iniciar o Python
+const { spawn } = require('child_process'); // Import child_process to spawn Python
+const {sequelize, testarConexao} = require('./config/database.js')
+const syncTables = require('./models/models.js')
+const allControllers = require('./controllers/controllers.js')
 
-// Declare variáveis para as janelas
+// Connection with the database
+async function inicia () {
+  await testarConexao()
+  await syncTables()
+}
+
+inicia()
+
+// Declare variables for windows
 let mainWindow;
+let newPageWindow;
+let registerPage;
 
 // Evento para quando o aplicativo Electron estiver pronto
 app.on('ready', () => {
@@ -26,6 +39,8 @@ app.on('ready', () => {
     // Certifique-se de que a janela principal esteja visível
     mainWindow.show();
   });
+
+  allControllers(ipcMain)
 
   // Event listener para receber código para análise
   ipcMain.on('code-for-analysers', (event, message) => {
