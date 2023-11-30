@@ -41,7 +41,7 @@ class Authentication {
             const hashedPassword = await servicePassword.readTherapistPassword(therapistId);
 
             // Check if the provided password matches the stored hashed password
-            if (crypto.originalPassword(password, String(hashedPassword))) {
+            if (crypto.originalPassword(password, hashedPassword.response.dataValues.password)) {
                 return {
                     isUser: true,
                     user: therapist,

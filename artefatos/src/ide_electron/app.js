@@ -58,7 +58,7 @@ app.on('ready', () => {
     }
   });
 
-  forgotPass.loadFile('./main/ForogotPassword/forgotpass.html')
+  forgotPass.loadFile('./main/ForgotPassword/forgotpass.html')
 
   // Event listener for opening the home page
   ipcMain.on('open-home-page', () => {
