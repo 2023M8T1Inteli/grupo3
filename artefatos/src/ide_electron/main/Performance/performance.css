@@ -20,6 +20,12 @@
     margin-left: 0.5rem;
 }
 
+.arrow-img:hover {
+    cursor: pointer;
+    background-color: #14a2a2; /* Cor e espessura da borda */
+    outline-offset: 15px; /* Ajuste conforme necessário para a distância entre a borda e o conteúdo */
+}
+
 /* Estilo do círculo de usuário */
 .circle {
     width: 2.5rem;

@@ -55,7 +55,6 @@ main {
   text-align: center;
   width: 100px;
   height: 100px;
-  border: 2px solid green;
   border-radius: 50%;
   overflow: hidden;
 }

@@ -161,6 +161,21 @@ importButton.addEventListener('click', function(e) {
     fileInput.click();
 });
 
+var tasks_button = document.getElementById('backtoprofile');
+var errorFeedbackButton = document.getElementById('title-feedback-wrong');
+var sucessFeedbackButton = document.getElementById('title-feedback-correct');
+
+tasks_button.addEventListener('click', function(e) {
+    window.location.href = "../Child_Information/tarefas.html";
+    });
+errorFeedbackButton.addEventListener('click', function(e) {
+    window.location.href = "../Feedback/errorFeedback.html";
+    });
+sucessFeedbackButton.addEventListener('click', function(e) {
+    window.location.href = "../Feedback/successFeedback.html";
+    });    
+
+
 
 
 

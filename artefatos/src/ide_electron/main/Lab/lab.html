@@ -18,30 +18,37 @@
                 <div id="space-tools-box">
                     <button id="button-tools">
                         <img src="../../assets/Polygon 4.png" id="mouse" alt="mouse" data-info="Teste">
+                        <div class="description_mouse">Mover</div>
                     </button>
                 </div>
                 <div id="space-tools-box">
                     <button id="button-tools">
                         <img src="../../assets/Rectangle 165.png" id="easer" alt="borracha">
+                        <div class="description_easer">Apagar</div>
                     </button>
                     <button class="img-btn" id="showModal">
                     <img src="../../assets/sound.png" id="sound" alt="som" width="25" height="auto">
+                    <div class="description_sound">Gravação de voz</div>
                     </button>
                     <button class="img-btn" id="showSheepModal">
                         <img src="../../assets/sheep.png" id="sheep" alt="ovelha" width="45" height="auto">
+                        <div class="description_sheep">Sons de animais</div>
                     </button>
                 </div>
             </div>
+          
             <div id="buttons-text-box">
                 <div id="text-box">
-                    <button id="back-to-profile" onclick="redirectToTasks()">Voltar para o perfil do paciente</button>
-                    <button id="title-confirm"> Confirmar </button>
+                <button id="title-confirm"> Confirmar </button> 
+                </div>
+                <div id="text-box"> 
+                <button id="backtoprofile" onclick="redirectToTasks()">Perfil</button>
                 </div>
                 <div id="text-box">
-                    <button id="title-feedback-correct"> Feedback Acerto </button>
+                <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
                 </div>
                 <div id="text-box">
-                    <button id="title-feedback-wrong"> Feedback Erro </button>
+                    <button id="title-feedback-wrong" onclick="redirectToErrorFeedback()"> Feedback Erro </button>
                 </div>
             </div>
         </div>
@@ -193,10 +200,7 @@
     </footer>
     <script src="./lab.js"/>
     </script>
-    <script>
-        function redirectToTasks() {
-            window.location.href = "../Child_Information/tarefas.html";
-        }
-    </script>
+    
+    
 </body>
 </html>
