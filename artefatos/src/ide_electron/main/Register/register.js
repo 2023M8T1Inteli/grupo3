@@ -1,3 +1,5 @@
+const{ ipcRenderer } = require("electron")
+
 var name_bool = false
 var last_name_bool = false
 var email_bool = false
@@ -180,11 +182,101 @@ function deleteImg(){
     file.value = "";
 }
 
+function positiveFeedback(div, text){
+    let message = "<p>" + text + "</p>"
+    let positiveSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>'
+
+    div.innerHTML = message + positiveSvg
+    div.style.backgroundColor = "rgba(52, 170, 52, 0.695)"
+    div.style.border = "1px solid white"
+}
+
+function negativeFeedback(div, text){
+    let message = "<p>" + text + "</p>"
+    let negativeSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>'
+
+    div.innerHTML = message + negativeSvg
+    div.style.backgroundColor = "rgba(255, 0, 0, 0.622)"
+    div.style.border = "1px solid white"
+}
+
+async function sendRegister(name, last_name, email){
+    ipcRenderer.send('register-therapist', {
+        first_name: name.value,
+        last_name: last_name.value,
+        email: email.value
+    });
+}
+
+async function getResponse(){
+    localStorage.clear()
+    const respostaPromise = new Promise((resolve) => {
+        ipcRenderer.once('resposta-register-therapist', (event, arg) => {
+            resolve(arg);
+        });
+    });
+
+    const resposta = await respostaPromise;
+    console.log(resposta);
+
+    let feedback = document.getElementById("feedback")
+    console.log(resposta.message)
+    if (resposta.message != "Houve erro no cadastramento!") {
+        localStorage.setItem('id', JSON.stringify(resposta.response.dataValues.id));
+    } else {
+        negativeFeedback(feedback, resposta.message)
+    }
+    return resposta
+}
+
+/**
+ * 
+ * @param password 
+ */
+async function sendPassword(password){
+    console.log(localStorage)
+    ipcRenderer.send('register-password', {
+        password: password.value,
+        TherapistId: parseInt(localStorage.getItem("id"))
+    });
+}
+
 /**
  * Se tudo estiver dentro das condições ideais, volta para a tela de login
  */
-function createAccount(){
+async function createAccount(){
+    checkEmail()
+    checkInfo()
+
+    var name = document.getElementById("first-name")
+    var last_name = document.getElementById("last-name")
+    var email = document.getElementById("email")
+    var password = document.getElementById("password")
+    var feedback = document.getElementById("feedback")
+
     if(name_bool && last_name_bool && email_bool && pass_bool){
-        window.location.href = "../Login/index.html"
+        await sendRegister(name, last_name, email)
+        let resposta = await getResponse()
+        await sendPassword(password)
+        console.log(resposta.message)
+
+        if(resposta.message == "Cadastro criado com sucesso!"){
+            positiveFeedback(feedback, resposta.message)
+            setTimeout(() => {
+                localStorage.clear()
+                feedback.innerHTML = ""
+                feedback.style.backgroundColor = ""
+                feedback.style.border = ""
+                window.location.href = "../Login/index.html"
+            }, 3000)
+        } else {
+            negativeFeedback(feedback, resposta.message)
+            setTimeout(() => {
+                localStorage.clear()
+                feedback.innerHTML = ""
+                feedback.style.backgroundColor = ""
+                feedback.style.border = ""
+            }, 3000)
+        }
     }
 }

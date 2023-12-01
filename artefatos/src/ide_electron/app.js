@@ -18,6 +18,7 @@ inicia()
 let mainWindow;
 let newPageWindow;
 let registerPage;
+let forgotPass;
 
 // Evento para quando o aplicativo Electron estiver pronto
 app.on('ready', () => {
@@ -35,6 +36,7 @@ app.on('ready', () => {
   mainWindow.loadFile('./main/Login/index.html');
 
   // Event listener para abrir a página home
+
   ipcMain.on('open-home-page', () => {
     // Certifique-se de que a janela principal esteja visível
     mainWindow.show();
