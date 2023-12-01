@@ -71,7 +71,7 @@ main {
   overflow: hidden;
 }
 
-#menu-lateral .btn-menu:hover {
+#menu-lateral #btn-tarefas:hover, #btn-perfil:hover {
   background-color: #356b69;
   border: 1px solid black;
   color: #eaeaea;
