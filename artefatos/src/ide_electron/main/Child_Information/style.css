@@ -89,6 +89,8 @@ main {
 #conteudo {
   padding: 50px;
   font-size: 18pt;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #inputs {
@@ -212,6 +214,23 @@ i.adicionar {
   width: 180px;
   text-align: center;
   font-size: 14pt;
+}
+
+#feedback{
+  display: flex;
+  position: absolute;
+  width: 250px;
+  height: 100px;
+  top: 0;
+  right: 0;
+  margin: 40px 40px;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  padding: 15px;
+  color: white;
 }
 
 @media screen and (max-width: 1250px) {
