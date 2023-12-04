@@ -74,6 +74,7 @@ ipcRenderer.send('register-therapist', {
     first_name: first_name, #tipo string
     last_name: last_name, #tipo string
     email: email #tipo string
+    file_name_image: name_of_image # tipo string, e vai armazenar o nome do arquivo, o arquivo real vai estar armazenado numa pasta chamada "Profile_images"
 });
 ```
 
@@ -114,7 +115,7 @@ Receba os dados atualizados como resposta:
 ```bash
 resposta-update-therapist
 ```
-## Login 
+### Login 
 
 A partir dessa rota acontecerá a autentificação de login:
 
@@ -129,6 +130,39 @@ Rota de resposta, devolverá as informações referentes ao terapeuta:
 
 ```bash
 resposta-login
+```
+
+### Inserir Codigo
+
+A partir dessa rota acontecerá a inserção do código a partir do email do usuário:
+
+```bash
+ipcRenderer.send('insert_codigo', {
+    email: email, # tipo string, o email que a terapeuta inseriu para recuperar a senha 
+    codigo: {
+        codigo: codigo # tipo string (no máximo seis caracteres), o código criado pelo Front 
+    }
+})
+```
+
+Rota de resposta, devolverá informações de sucesso da mensagem:
+
+```bash
+resposta-insert-codigo
+```
+
+### Read Codigo
+
+A partir dessa rota acontecerá a leitura do código pra ver se o código inserido pelo usuário tem no sistema:
+
+```bash
+ipcRenderer.send('read-codigo', codigo) # tipo string, no máximo seis caracteres;
+```
+
+Rota de resposta, que irá devolver o corpo de informações da terapeuta:
+
+```bash
+resposta-read-codigo
 ```
 
 ## Patient (Rotas da tabela paciente)

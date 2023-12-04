@@ -82,9 +82,8 @@ function controllerTherapist(ipc) {
     })
 
     ipc.on("read-codigo", async (event, message) => {
-        const {codigo} = message
 
-        const result = await therapist.checkCode(codigo);
+        const result = await therapist.checkCode(message);
 
         event.sender.send('resposta-read-codigo', result)
     })
