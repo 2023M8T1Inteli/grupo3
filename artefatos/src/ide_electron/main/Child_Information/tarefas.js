@@ -116,6 +116,7 @@ function setActiveButton(buttonId) {
 document.addEventListener('DOMContentLoaded', () => setActiveButton('#btn-tarefas'));
 
 function redirectToLab() {
+    localStorage.removeItem('taskTitle')
     window.location.href = '../Lab/lab.html';
 }
 

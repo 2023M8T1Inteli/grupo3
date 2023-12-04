@@ -1,6 +1,9 @@
 // Importe o módulo ipcRenderer do Electron para comunicação entre processos
 const { ipcRenderer } = require('electron');
 
+const fs = require('fs');
+const path = require('path');
+
 // Selecione todos os elementos com a classe 'block-box'
 var draggableElements = document.querySelectorAll('.block-box');
 
@@ -68,37 +71,88 @@ sequence.addEventListener('drop', function(e) {
 
 // Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', function(e) {
-    // Crie a parte inicial do programa
-    var start_of_program = 'programa "tarefa1":\n\tinicio';
-
-    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
-    var middle_of_program = "";
-
-    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
-    for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
-        middle_of_program += `
-            quadranteEsperado = ${sequenceBlocksListAdded[i]}
-            quadrantePressionado = ler()
-            enquanto quadrantePressionado <> quadranteEsperado faca
-            inicio
-                mostrar(0)
-                quadrantePressionado = ler()
-            fim
-            mostrar(1)\n`;
+    if (localStorage.getItem('feedback') == null) {
+        alert("Feedback não foi escolhido!")
+        return
     }
 
-    // Parte final do programa
-    var end_of_program = 'fim.';
+    if (localStorage.getItem('taskTitle') == undefined) {
+        alert("Título da tarefa não foi definido!")
+        return
+    } else {
+        ipcRenderer.send('register-task', {
+            name: localStorage.getItem('taskTitle'),
+        })
 
-    // Concatene as partes do programa para formar o programa completo
-    var program = start_of_program + middle_of_program + end_of_program;
+        let taskResponse
+        ipcRenderer.on('response-register-task', (event, arg) => {
+            taskResponse  = arg
+            if (taskResponse.message == "Erro ao cadastrar uma nova tarefa") {
+                alert("Não foi possível criar a tarefa")
+            }
+            localStorage.setItem('taskID', taskResponse.response.dataValues.id)
+        })
 
-    // Envie o código do programa aos analisadores via ipcRenderer
-    ipcRenderer.send('code-for-analysers', program);
+        let feedback = JSON.parse(localStorage.getItem('feedback'));
+        if (feedback.sound == undefined) {
+            ipcRenderer.send('register-feedback', {
+                message: feedback.message,
+                color: feedback.color,
+                type_feedback: feedback.type_feedback,
+                TaskId: parseInt(localStorage.getItem('taskID'))
+            })
+        } else {
+            ipcRenderer.send('register-feedback', {
+                message: feedback.message,
+                color: feedback.color,
+                sound: feedback.sound,
+                type_feedback: feedback.type_feedback,
+                TaskId: localStorage.getItem('taskID')
+            })
+        }
 
-    // Envie o código do programa para execução via ipcRenderer
-    ipcRenderer.send('call-python-code', program);
+        ipcRenderer.on('response-register-feedback', (event, arg) => {
+            localStorage.setItem('feedbackMessage', arg.message)
+        })
 
+        if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
+            alert("Não foi possível criar a tarefa")
+        } else {
+
+            // Crie a parte inicial do programa
+            var start_of_program = 'programa "tarefa1":\n\tinicio';
+
+            // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
+            var middle_of_program = "";
+
+            // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
+            for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
+                middle_of_program += `
+                    quadranteEsperado = ${sequenceBlocksListAdded[i]}
+                    quadrantePressionado = ler()
+                    enquanto quadrantePressionado <> quadranteEsperado faca
+                    inicio
+                        mostrar(0)
+                        quadrantePressionado = ler()
+                    fim
+                    mostrar(1)\n`;
+            }
+
+            // Parte final do programa
+            var end_of_program = 'fim.';
+
+            // Concatene as partes do programa para formar o programa completo
+            var program = start_of_program + middle_of_program + end_of_program;
+
+            // Envie o código do programa aos analisadores via ipcRenderer
+            ipcRenderer.send('code-for-analysers', program);
+
+            // Envie o código do programa para execução via ipcRenderer
+            ipcRenderer.send('call-python-code', program);
+
+            window.location.href = "../Child_Information/tarefas.html";
+        }
+    }
 });
 
 var openModalButton = document.getElementById('showModal');
@@ -107,7 +161,17 @@ openModalButton.addEventListener('click', function(e) {
     modal.style.display = 'block';
 });
 
+var modal = document.querySelector('.sheep-modal-body');
 
+modal.addEventListener('click', function(e) {
+    if (e.target.tagName === 'DIV') {
+        // Get the src attribute of the clicked image
+        let option = e.target.querySelector('p')
+        let feedback = document.getElementById('feedbackModal');
+        feedback.style.display = 'flex';
+        localStorage.setItem('feedback', option.textContent.toLowerCase());
+    }
+});
 
 var closeModalButton = document.querySelector('.close');
 
@@ -166,15 +230,103 @@ var errorFeedbackButton = document.getElementById('title-feedback-wrong');
 var sucessFeedbackButton = document.getElementById('title-feedback-correct');
 
 tasks_button.addEventListener('click', function(e) {
-    window.location.href = "../Child_Information/tarefas.html";
-    });
+    if(confirm("Tem certeza que deseja voltar? Todas as alterações serão perdidas.")) {
+        localStorage.removeItem('taskTitle');
+        localStorage.removeItem('feedback');
+        localStorage.removeItem('feedbackMessage');
+        localStorage.removeItem('taskID');
+        window.location.href = "../Child_Information/tarefas.html";
+    }
+});
+
 errorFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/errorFeedback.html";
     });
 sucessFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/successFeedback.html";
-    });    
+    });   
 
+// Function to debounce another function
+function debounce(func, delay) {
+    let timeoutId;
+
+    return function() {
+        const context = this;
+        const args = arguments;
+
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
+    };
+}
+
+// Your input element
+var taskTitle = document.getElementById('title-content');
+
+// Function to be called when typing stops
+function handleTypingStopped() {
+    var title = taskTitle.value;
+    localStorage.setItem('taskTitle', title);
+}
+
+// Add a debounced event listener to the input
+taskTitle.addEventListener('input', debounce(handleTypingStopped, 1000)); // Adjust the delay as needed (e.g., 500 milliseconds)
+
+if (localStorage.getItem('taskTitle') != null) {
+    taskTitle.value = localStorage.getItem('taskTitle');
+}
+
+function feedback(id) {
+    if (id == 0) {
+        const sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+            }
+        });
+    }
+    else if (id == 1) {
+        const sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+            }
+        });
+    }
+    else {
+        let sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+        let destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+            }
+        });
+
+        sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+        destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+            }
+        });
+    }
+}
 
 
 

@@ -608,26 +608,22 @@ h1 {
 /* ... Outros estilos ... */
 
 /* Estilos para os retângulos */
-.rectangle1, .rectangle2, .rectangle3, .rectangle4, .rectangle5, .rectangle6{
+.rectangle{
     width: 400px;
     height: 60px;
     background-color: #D9D9D9;
     margin-top: 10px;
     margin-left: 40px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
-.rectangle1:hover, .rectangle2:hover, .rectangle3:hover, .rectangle4:hover, .rectangle5:hover, .rectangle6:hover{
+.rectangle:hover{
     background-color: #D9D9D9;
     transform: scale(1.08);
 }
 
-.rectangle1 p,
-.rectangle2 p,
-.rectangle3 p,
-.rectangle4 p,
-.rectangle5 p,
-.rectangle6 p {
+.rectangle p {
     color: black; /* Cor do texto */
     font-weight: bold;
     text-align: center;
@@ -636,17 +632,44 @@ h1 {
     padding: 15px; /* Adicionar preenchimento ao redor do texto */
 }
 
-.rectangle1 img,
-.rectangle2 img,
-.rectangle3 img,
-.rectangle4 img,
-.rectangle5 img,
-.rectangle6 img {
-
+.rectangle img {
     object-fit: cover; 
     margin-left: 315px;
 }
 
+#feedbackModal {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    background-color: #B2A9A9;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 7px;
+    gap: 10px;
+    top: 30%;
+    left: 90%;
+    width: 200px;
+}
+
+#feedback-title {
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: 'Abel', cursive;
+}
+
+.feedback-options {
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    padding: 1px;
+    width: 150px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Abel', cursive;
+    cursor: pointer;
+}
 
 
 

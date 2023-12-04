@@ -39,7 +39,7 @@ body {
     padding: 5px 0;
 }
 
-#title-confirm, #title-back {
+#title-confirm, #title-back, #title-clear {
     outline: none;
     border-radius: 0;
     border-style: none;

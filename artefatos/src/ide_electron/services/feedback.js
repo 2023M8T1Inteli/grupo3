@@ -6,6 +6,7 @@ class CrudFeedback {
     
     // Method to create a new feedback
     static async create(body) {
+        console.log(body);
         try {
             const bodyReturn = await Feedback.create(body);
             return {
