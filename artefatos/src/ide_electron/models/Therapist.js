@@ -23,6 +23,16 @@ const Therapist = sequelize.define('Therapist', {
         type: DataTypes.STRING(100),
         allowNull: false,
         unique: true
+    },
+    codigo: {
+        type: DataTypes.STRING(6),
+        allowNull: true,
+        unique: false
+    },
+    file_name_image: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        unique: false
     }
 }, {
     timestamps: false

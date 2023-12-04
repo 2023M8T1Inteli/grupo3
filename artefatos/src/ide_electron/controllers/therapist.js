@@ -72,6 +72,22 @@ function controllerTherapist(ipc) {
         // Send the login response back to the renderer process
         event.sender.send('resposta-login', verify);
     });
+
+    ipc.on("insert-codigo", async (event, message) => {
+        const {email, codigo} = message;
+
+        const result = await therapist.inputCode(email, codigo);
+
+        event.sender.send('resposta-insert-codigo', result)
+    })
+
+    ipc.on("read-codigo", async (event, message) => {
+        const {codigo} = message
+
+        const result = await therapist.checkCode(codigo);
+
+        event.sender.send('resposta-read-codigo', result)
+    })
 }
 
 // Export the controller function for therapist operations

@@ -44,6 +44,8 @@ class CrudTherapist {
         }
     }
 
+
+
     // Method to update a therapist by ID
     static async update(id, body) {
         try {
@@ -63,6 +65,48 @@ class CrudTherapist {
                 response: e, 
                 message: 'Houve um erro durante a atualização!'
             };
+        }
+    }
+
+    static async inputCode(email, codigo) {
+        try {
+            const bodyReturn = await Therapist.update(codigo, {
+                where: {
+                    email: email
+                }
+            })
+            
+            return {
+                response: bodyReturn,
+                message: "Código colocado no seu perfil Terapeuta com sucesso!"
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: "Houve falha ao mandar o seu código para seu Perfil!"
+            }
+        }
+    }
+
+    static async checkCode(codigo) {
+        try {
+            const bodyReturn = await Therapist.findOne({
+                where: {
+                    codigo: codigo
+                }
+            })
+
+            return {
+                response: bodyReturn,
+                message: "Código confirmado"
+            }
+        }
+        catch(e) {
+            return {
+                response: e,
+                message: "Código incorreto"
+            }
         }
     }
 
