@@ -71,86 +71,105 @@ sequence.addEventListener('drop', function(e) {
 
 // Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', function(e) {
-    if (localStorage.getItem('feedback') == null) {
-        alert("Feedback não foi escolhido!")
-        return
-    }
-
-    if (localStorage.getItem('taskTitle') == undefined) {
-        alert("Título da tarefa não foi definido!")
+    console.log(localStorage.getItem('sucessFeedback'), localStorage.getItem('errorFeedback'));
+    if (localStorage.getItem('sucessFeedback') == null || localStorage.getItem('errorFeedback') == null) {
+        alert("Feedbacks não foram escolhidos!")
         return
     } else {
-        ipcRenderer.send('register-task', {
-            name: localStorage.getItem('taskTitle'),
-        })
 
-        let taskResponse
-        ipcRenderer.on('response-register-task', (event, arg) => {
-            taskResponse  = arg
-            if (taskResponse.message == "Erro ao cadastrar uma nova tarefa") {
-                alert("Não foi possível criar a tarefa")
-            }
-            localStorage.setItem('taskID', taskResponse.response.dataValues.id)
-        })
-
-        let feedback = JSON.parse(localStorage.getItem('feedback'));
-        if (feedback.sound == undefined) {
-            ipcRenderer.send('register-feedback', {
-                message: feedback.message,
-                color: feedback.color,
-                type_feedback: feedback.type_feedback,
-                TaskId: parseInt(localStorage.getItem('taskID'))
-            })
+        if (localStorage.getItem('taskTitle') == undefined) {
+            alert("Título da tarefa não foi definido!")
+            return
         } else {
-            ipcRenderer.send('register-feedback', {
-                message: feedback.message,
-                color: feedback.color,
-                sound: feedback.sound,
-                type_feedback: feedback.type_feedback,
-                TaskId: localStorage.getItem('taskID')
-            })
-        }
-
-        ipcRenderer.on('response-register-feedback', (event, arg) => {
-            localStorage.setItem('feedbackMessage', arg.message)
-        })
-
-        if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
-            alert("Não foi possível criar a tarefa")
-        } else {
-
-            // Crie a parte inicial do programa
-            var start_of_program = 'programa "tarefa1":\n\tinicio';
-
-            // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
-            var middle_of_program = "";
-
-            // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
-            for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
-                middle_of_program += `
-                    quadranteEsperado = ${sequenceBlocksListAdded[i]}
-                    quadrantePressionado = ler()
-                    enquanto quadrantePressionado <> quadranteEsperado faca
-                    inicio
-                        mostrar(0)
-                        quadrantePressionado = ler()
-                    fim
-                    mostrar(1)\n`;
+            let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
+            if (feedback.sound == undefined) {
+                ipcRenderer.send('register-feedback', {
+                    message: feedback.message,
+                    color: feedback.color,
+                    image: feedback.image,
+                    type_feedback: feedback.type_feedback,
+                    TaskId: parseInt(localStorage.getItem('taskId'))
+                })
+            } else {
+                ipcRenderer.send('register-feedback', {
+                    message: feedback.message,
+                    color: feedback.color,
+                    image: feedback.image,
+                    sound: feedback.sound,
+                    type_feedback: feedback.type_feedback,
+                    TaskId: localStorage.getItem('taskId')
+                })
             }
 
-            // Parte final do programa
-            var end_of_program = 'fim.';
+            ipcRenderer.on('response-register-feedback', (event, arg) => {
+                localStorage.setItem('feedbackMessage', arg.message)
+            })
 
-            // Concatene as partes do programa para formar o programa completo
-            var program = start_of_program + middle_of_program + end_of_program;
+            if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
+                alert("Não foi possível salvar a tarefa")
+            } else {
+                let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+                if (feedback.sound == undefined) {
+                    ipcRenderer.send('register-feedback', {
+                        message: feedback.message,
+                        color: feedback.color,
+                        image: feedback.image,
+                        type_feedback: feedback.type_feedback,
+                        TaskId: parseInt(localStorage.getItem('taskId'))
+                    })
+                } else {
+                    ipcRenderer.send('register-feedback', {
+                        message: feedback.message,
+                        color: feedback.color,
+                        image: feedback.image,
+                        sound: feedback.sound,
+                        type_feedback: feedback.type_feedback,
+                        TaskId: localStorage.getItem('taskId')
+                    })
+                }
 
-            // Envie o código do programa aos analisadores via ipcRenderer
-            ipcRenderer.send('code-for-analysers', program);
+                ipcRenderer.on('response-register-feedback', (event, arg) => {
+                    localStorage.setItem('feedbackMessage', arg.message)
+                })
+                if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
+                    alert("Não foi possível salvar a tarefa")
+                } else {
+                    // Crie a parte inicial do programa
+                    var start_of_program = 'programa "tarefa1":\n\tinicio';
 
-            // Envie o código do programa para execução via ipcRenderer
-            ipcRenderer.send('call-python-code', program);
+                    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
+                    var middle_of_program = "";
 
-            window.location.href = "../Child_Information/tarefas.html";
+                    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
+                    for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
+                        middle_of_program += `
+                            quadranteEsperado = ${sequenceBlocksListAdded[i]}
+                            quadrantePressionado = ler()
+                            enquanto quadrantePressionado <> quadranteEsperado faca
+                            inicio
+                                mostrar(0)
+                                quadrantePressionado = ler()
+                            fim
+                            mostrar(1)\n`;
+                    }
+
+                    // Parte final do programa
+                    var end_of_program = 'fim.';
+
+                    // Concatene as partes do programa para formar o programa completo
+                    var program = start_of_program + middle_of_program + end_of_program;
+
+                    // Envie o código do programa aos analisadores via ipcRenderer
+                    ipcRenderer.send('code-for-analysers', program);
+
+                    // Envie o código do programa para execução via ipcRenderer
+                    ipcRenderer.send('call-python-code', program);
+
+                    setTimeout(() => {
+                        window.location.href = "../Child_Information/tarefas.html";
+                    }, 3000)
+                }
+            }
         }
     }
 });
@@ -232,9 +251,8 @@ var sucessFeedbackButton = document.getElementById('title-feedback-correct');
 tasks_button.addEventListener('click', function(e) {
     if(confirm("Tem certeza que deseja voltar? Todas as alterações serão perdidas.")) {
         localStorage.removeItem('taskTitle');
-        localStorage.removeItem('feedback');
         localStorage.removeItem('feedbackMessage');
-        localStorage.removeItem('taskID');
+        localStorage.removeItem('taskId');
         window.location.href = "../Child_Information/tarefas.html";
     }
 });
@@ -278,6 +296,41 @@ if (localStorage.getItem('taskTitle') != null) {
     taskTitle.value = localStorage.getItem('taskTitle');
 }
 
+function setSuccessNotification() {
+    console.log(localStorage.getItem('successNotification'))
+    let successDiv = document.getElementById('success-text-box');
+
+    if (localStorage.getItem('successNotification') == "0" && document.querySelector('#success-badge') != null) {
+        let span = document.querySelector('#success-badge');
+        console.log(span)
+        successDiv.removeChild(span)
+    } else {
+        let span = document.createElement('span');
+        span.className = 'badge';
+        span.id = 'success-badge';
+        span.textContent = localStorage.getItem('successNotification');
+        successDiv.prepend(span)
+    }
+}
+
+function setErrorNotification() {
+    let errorDiv = document.getElementById('error-text-box');
+
+    if (localStorage.getItem('errorNotification') == "0" && document.querySelector('#error-badge') != null) {
+        let span = document.querySelector('#error-badge');
+        errorDiv.removeChild(span)
+    } else {
+        let span = document.createElement('span');
+        span.className = 'badge';
+        span.id = 'error-badge';
+        span.textContent = localStorage.getItem('errorNotification');
+        errorDiv.prepend(span)
+    }
+}
+
+setErrorNotification();
+setSuccessNotification();
+
 function feedback(id) {
     if (id == 0) {
         const sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
@@ -288,6 +341,8 @@ function feedback(id) {
                 console.error('Error copying file:', err);
             } else {
                 console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
             }
         });
     }
@@ -300,6 +355,8 @@ function feedback(id) {
                 console.error('Error copying file:', err);
             } else {
                 console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+                window.location.reload();
             }
         });
     }
@@ -312,6 +369,7 @@ function feedback(id) {
                 console.error('Error copying file:', err);
             } else {
                 console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
             }
         });
 
@@ -323,11 +381,24 @@ function feedback(id) {
                 console.error('Error copying file:', err);
             } else {
                 console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
             }
         });
+        console.log(localStorage)
     }
 }
 
+document.addEventListener('DOMContentLoaded', function(e) {
+    ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
+
+    ipcRenderer.on('response-read-task-feedback', (event, arg) => {
+        localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
+        localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
+    })
+
+    console.log(localStorage)
+})
 
 
 

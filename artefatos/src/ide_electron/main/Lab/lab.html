@@ -43,10 +43,10 @@
                 <div id="text-box"> 
                 <button id="backtoprofile" onclick="redirectToTasks()">Perfil</button>
                 </div>
-                <div id="text-box">
-                <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
+                <div id="success-text-box">
+                    <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
                 </div>
-                <div id="text-box">
+                <div id="error-text-box">
                     <button id="title-feedback-wrong" onclick="redirectToErrorFeedback()"> Feedback Erro </button>
                 </div>
             </div>
@@ -127,7 +127,9 @@
                 </div>
                 <div id="feedbackModal">
                     <p id="feedback-title">Onde deseja colocar o som? </p>
-                    <div class="feedback-options" onclick="feedback(0)"><p>Feedback Acerto</p></div>
+                    <div class="feedback-options" onclick="feedback(0)">
+                        <p>Feedback Acerto</p>
+                    </div>
                     <div class="feedback-options" onclick="feedback(1)"><p>Feedback Erro</p></div>
                     <div class="feedback-options" onclick="feedback(2)"><p>Ambos</p></div>
                 </div>

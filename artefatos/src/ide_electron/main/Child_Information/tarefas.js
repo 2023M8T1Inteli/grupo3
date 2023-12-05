@@ -176,6 +176,10 @@ function sendTask() {
 function goToLab(taskName, taskId) {
     localStorage.setItem('taskTitle', JSON.stringify(taskName));
     localStorage.setItem('taskId', JSON.stringify(taskId));
+    localStorage.setItem('successNotification', 0);
+    localStorage.setItem('errorNotification', 0);
+    localStorage.removeItem('successFeedback')
+    localStorage.removeItem('errorFeedback')
     window.location.href = '../Lab/lab.html';
 }
 
