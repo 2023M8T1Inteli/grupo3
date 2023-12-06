@@ -106,8 +106,35 @@ function sendCode() {
     }, 3000)
 }
 
+function addBlock() {
+    if (sequenceBlocksListAdded.length == 0) {
+        alert("Nenhum bloco foi adicionado à sequência!")
+        return false
+    } else {
+        sequenceBlocksListAdded.forEach(function(element) {
+            ipcRenderer.send('register-blocks-task', {
+                block: element,
+                timing: 100,
+                TaskId: parseInt(localStorage.getItem('taskId'))
+            })
+
+            ipcRenderer.on('response-register-blocks-task', (event, arg) => {
+                if (arg.message == "Falha ao criar sequência de blocos") {
+                    alert("Não foi possível salvar a tarefa")
+                    return false
+                }
+            })
+        })
+        return true
+    }
+}
+
 // Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', function(e) {
+    let block = addBlock()
+    if (!block) {
+        return
+    }
     if (localStorage.getItem('hasFeedback') == "true") {
         let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
         if (feedback.sound == undefined) {
@@ -322,6 +349,8 @@ tasks_button.addEventListener('click', function(e) {
         localStorage.removeItem('taskTitle');
         localStorage.removeItem('feedbackMessage');
         localStorage.removeItem('taskId');
+        localStorage.removeItem('hasFeedback');
+        localStorage.setItem('sequenceBlocksListAdded', '');
         window.location.href = "../Child_Information/tarefas.html";
     }
 });
@@ -366,12 +395,10 @@ if (localStorage.getItem('taskTitle') != null) {
 }
 
 function setSuccessNotification() {
-    console.log(localStorage.getItem('successNotification'))
     let successDiv = document.getElementById('success-text-box');
 
     if (localStorage.getItem('successNotification') == "0" && document.querySelector('#success-badge') != null) {
         let span = document.querySelector('#success-badge');
-        console.log(span)
         successDiv.removeChild(span)
     } else {
         let span = document.createElement('span');
@@ -454,7 +481,6 @@ function feedback(id) {
                 window.location.reload();
             }
         });
-        console.log(localStorage)
     }
 }
 
@@ -473,7 +499,27 @@ document.addEventListener('DOMContentLoaded', function(e) {
         }
     })
 
-    console.log(localStorage)
+    ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
+
+    ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
+        if (arg.response.length > 0) {
+            let blocks = []
+            arg.response.forEach(element => {
+                blocks.push(element.dataValues.block)
+            });
+            localStorage.setItem('sequenceBlocksListAdded', blocks)
+
+            if (localStorage.getItem('sequenceBlocksListAdded') != null) {
+                if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
+                    sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
+                    sequenceBlocksListAdded.forEach(function(element) {
+                        let block = document.getElementById(element);
+                        sequence.appendChild(block.cloneNode(true));
+                     });
+                }
+            }
+        }
+    })
 })
 
 
