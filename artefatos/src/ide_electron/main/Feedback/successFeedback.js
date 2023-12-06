@@ -82,17 +82,16 @@ function valueToHex(c) {
   
   }
 
-  function rgbToHex(r, g, b) {
+function rgbToHex(r, g, b) {
     return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
-  
-  }
+}
 
 document.addEventListener('DOMContentLoaded', function(e) {
     if (localStorage.getItem('successFeedback') != undefined) {
         let feedback = JSON.parse(localStorage.getItem('successFeedback'));
         colorInput = document.getElementById('color-input');
         const [r, g, b] = feedback.color.match(/\d+/g);
-        color = rgbToHex(r, g, b)
+        color = rgbToHex(parseInt(r), parseInt(g), parseInt(b));
         colorInput.value = color;
         main.innerHTML += '<input type="text" id="text-input" placeholder="Escreva a mensagem aqui">'
         textInput = document.getElementById('text-input');

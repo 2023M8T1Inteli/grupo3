@@ -69,46 +69,120 @@ sequence.addEventListener('drop', function(e) {
     sequence.appendChild(droppedElement);
 });
 
+function sendCode() {
+    // Crie a parte inicial do programa
+    var start_of_program = 'programa "tarefa1":\n\tinicio';
+
+    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
+    var middle_of_program = "";
+
+    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
+    for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
+        middle_of_program += `
+            quadranteEsperado = ${sequenceBlocksListAdded[i]}
+            quadrantePressionado = ler()
+            enquanto quadrantePressionado <> quadranteEsperado faca
+            inicio
+                mostrar(0)
+                quadrantePressionado = ler()
+            fim
+            mostrar(1)\n`;
+    }
+
+    // Parte final do programa
+    var end_of_program = 'fim.';
+
+    // Concatene as partes do programa para formar o programa completo
+    var program = start_of_program + middle_of_program + end_of_program;
+
+    // Envie o código do programa aos analisadores via ipcRenderer
+    ipcRenderer.send('code-for-analysers', program);
+
+    // Envie o código do programa para execução via ipcRenderer
+    ipcRenderer.send('call-python-code', program);
+
+    setTimeout(() => {
+        window.location.href = "../Child_Information/tarefas.html";
+    }, 3000)
+}
+
 // Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', function(e) {
-    console.log(localStorage.getItem('sucessFeedback'), localStorage.getItem('errorFeedback'));
-    if (localStorage.getItem('sucessFeedback') == null || localStorage.getItem('errorFeedback') == null) {
-        alert("Feedbacks não foram escolhidos!")
-        return
-    } else {
-
-        if (localStorage.getItem('taskTitle') == undefined) {
-            alert("Título da tarefa não foi definido!")
-            return
+    if (localStorage.getItem('hasFeedback') == "true") {
+        let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
+        if (feedback.sound == undefined) {
+            ipcRenderer.send('update-feedback', {
+                id: parseInt(localStorage.getItem('successFeedbackId')),
+                body: {
+                    message: feedback.message,
+                    color: feedback.color,
+                    image: feedback.image,
+                    type_feedback: feedback.type_feedback,
+                }
+            });
         } else {
-            let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
+            ipcRenderer.send('update-feedback', {
+                id: parseInt(localStorage.getItem('successFeedbackId')),
+                body: {
+                    message: feedback.message,
+                    color: feedback.color,
+                    image: feedback.image,
+                    type_feedback: feedback.type_feedback,
+                }
+            });
+        }
+
+        ipcRenderer.on('response-update-feedback', (event, arg) => {
+            localStorage.setItem('feedbackMessage', arg.message)
+        })
+
+        if (localStorage.getItem('feedbackMessage') == "Houve falhas para atualizar o feedback") {
+            alert("Não foi possível salvar a tarefa")
+        } else {
+            feedback = JSON.parse(localStorage.getItem('errorFeedback'));
             if (feedback.sound == undefined) {
-                ipcRenderer.send('register-feedback', {
-                    message: feedback.message,
-                    color: feedback.color,
-                    image: feedback.image,
-                    type_feedback: feedback.type_feedback,
-                    TaskId: parseInt(localStorage.getItem('taskId'))
-                })
+                ipcRenderer.send('update-feedback', {
+                    id: parseInt(localStorage.getItem('errorFeedbackId')),
+                    body: {
+                        message: feedback.message,
+                        color: feedback.color,
+                        image: feedback.image,
+                        type_feedback: feedback.type_feedback,
+                    }
+                });
             } else {
-                ipcRenderer.send('register-feedback', {
-                    message: feedback.message,
-                    color: feedback.color,
-                    image: feedback.image,
-                    sound: feedback.sound,
-                    type_feedback: feedback.type_feedback,
-                    TaskId: localStorage.getItem('taskId')
-                })
+                ipcRenderer.send('update-feedback', {
+                    id: parseInt(localStorage.getItem('errorFeedbackId')),
+                    body: {
+                        message: feedback.message,
+                        color: feedback.color,
+                        image: feedback.image,
+                        type_feedback: feedback.type_feedback,
+                    }
+                });
             }
 
-            ipcRenderer.on('response-register-feedback', (event, arg) => {
+            ipcRenderer.on('response-update-feedback', (event, arg) => {
                 localStorage.setItem('feedbackMessage', arg.message)
             })
 
-            if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
+            if (localStorage.getItem('feedbackMessage') == "Houve falhas para atualizar o feedback") {
                 alert("Não foi possível salvar a tarefa")
             } else {
-                let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+                sendCode();
+            }
+        }
+    } else {
+        if (localStorage.getItem('sucessFeedback') == null || localStorage.getItem('errorFeedback') == null) {
+            alert("Feedbacks não foram escolhidos!")
+            return
+        } else {
+
+            if (localStorage.getItem('taskTitle') == undefined) {
+                alert("Título da tarefa não foi definido!")
+                return
+            } else {
+                let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
                 if (feedback.sound == undefined) {
                     ipcRenderer.send('register-feedback', {
                         message: feedback.message,
@@ -131,43 +205,38 @@ buttonConfirm.addEventListener('click', function(e) {
                 ipcRenderer.on('response-register-feedback', (event, arg) => {
                     localStorage.setItem('feedbackMessage', arg.message)
                 })
+
                 if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
                     alert("Não foi possível salvar a tarefa")
                 } else {
-                    // Crie a parte inicial do programa
-                    var start_of_program = 'programa "tarefa1":\n\tinicio';
-
-                    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
-                    var middle_of_program = "";
-
-                    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
-                    for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
-                        middle_of_program += `
-                            quadranteEsperado = ${sequenceBlocksListAdded[i]}
-                            quadrantePressionado = ler()
-                            enquanto quadrantePressionado <> quadranteEsperado faca
-                            inicio
-                                mostrar(0)
-                                quadrantePressionado = ler()
-                            fim
-                            mostrar(1)\n`;
+                    let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+                    if (feedback.sound == undefined) {
+                        ipcRenderer.send('register-feedback', {
+                            message: feedback.message,
+                            color: feedback.color,
+                            image: feedback.image,
+                            type_feedback: feedback.type_feedback,
+                            TaskId: parseInt(localStorage.getItem('taskId'))
+                        })
+                    } else {
+                        ipcRenderer.send('register-feedback', {
+                            message: feedback.message,
+                            color: feedback.color,
+                            image: feedback.image,
+                            sound: feedback.sound,
+                            type_feedback: feedback.type_feedback,
+                            TaskId: localStorage.getItem('taskId')
+                        })
                     }
 
-                    // Parte final do programa
-                    var end_of_program = 'fim.';
-
-                    // Concatene as partes do programa para formar o programa completo
-                    var program = start_of_program + middle_of_program + end_of_program;
-
-                    // Envie o código do programa aos analisadores via ipcRenderer
-                    ipcRenderer.send('code-for-analysers', program);
-
-                    // Envie o código do programa para execução via ipcRenderer
-                    ipcRenderer.send('call-python-code', program);
-
-                    setTimeout(() => {
-                        window.location.href = "../Child_Information/tarefas.html";
-                    }, 3000)
+                    ipcRenderer.on('response-register-feedback', (event, arg) => {
+                        localStorage.setItem('feedbackMessage', arg.message)
+                    })
+                    if (localStorage.getItem('feedbackMessage') == "Não foi possível criar o feedback") {
+                        alert("Não foi possível salvar a tarefa")
+                    } else {
+                        sendCode();
+                    }
                 }
             }
         }
@@ -293,7 +362,7 @@ function handleTypingStopped() {
 taskTitle.addEventListener('input', debounce(handleTypingStopped, 1000)); // Adjust the delay as needed (e.g., 500 milliseconds)
 
 if (localStorage.getItem('taskTitle') != null) {
-    taskTitle.value = localStorage.getItem('taskTitle');
+    taskTitle.value = localStorage.getItem('taskTitle').replace(/['"]+/g, '');
 }
 
 function setSuccessNotification() {
@@ -393,8 +462,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
     ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
 
     ipcRenderer.on('response-read-task-feedback', (event, arg) => {
-        localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
-        localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
+        if (arg.response.length > 0) {
+            localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
+            localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
+            localStorage.setItem('hasFeedback', true)
+            localStorage.setItem('successFeedbackId', arg.response[0].dataValues.id)
+            localStorage.setItem('errorFeedbackId', arg.response[1].dataValues.id)
+        } else {
+            localStorage.setItem('hasFeedback', false)
+        }
     })
 
     console.log(localStorage)

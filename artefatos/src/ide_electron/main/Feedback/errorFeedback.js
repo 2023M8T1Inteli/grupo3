@@ -74,12 +74,25 @@ function saveFeedback() {
         }
     }
 }
+function valueToHex(c) {
+    var hex = c.toString(16);
+    return hex
+  
+  }
+
+function rgbToHex(r, g, b) {
+    return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
+}
 
 document.addEventListener('DOMContentLoaded', function(e) {
     if (localStorage.getItem('errorFeedback') != undefined) {
         let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
         main.innerHTML += '<input type="text" id="text-input" placeholder="Escreva a mensagem aqui">'
         textInput = document.getElementById('text-input');
+        colorInput = document.getElementById('color-input');
+        const [r, g, b] = feedback.color.match(/\d+/g);
+        color = rgbToHex(parseInt(r), parseInt(g), parseInt(b));
+        colorInput.value = color;
         textInput.value = feedback.message;
         textInput.style.color = feedback.color;
 
