@@ -1,5 +1,6 @@
 // Importe o módulo ipcRenderer do Electron para comunicação entre processos
 const { ipcRenderer } = require('electron');
+const sequelize = require('../../config/database.js');
 
 const fs = require('fs');
 const path = require('path');
@@ -64,7 +65,7 @@ sequence.addEventListener('drop', function(e) {
     // Adicione o ID do bloco à lista de blocos na sequência
     sequenceBlocksListAdded.push(temp_words[1]);
     // Registre a lista de blocos na sequência no console
-    console.log(sequenceBlocksListAdded);
+    localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
     // Anexe o elemento clonado à sequência
     sequence.appendChild(droppedElement);
 });
@@ -106,12 +107,31 @@ function sendCode() {
     }, 3000)
 }
 
-function addBlock() {
+function eraseBlocks() {
+    const boxes = sequence.querySelectorAll('.block-box');
+    boxes.forEach(box => {
+        box.remove();
+    });
+
+    sequenceBlocksListAdded = [];
+
+    localStorage.setItem('sequenceBlocksListAdded', '')
+} 
+
+async function addBlock() {
     if (sequenceBlocksListAdded.length == 0) {
         alert("Nenhum bloco foi adicionado à sequência!")
         return false
     } else {
-        sequenceBlocksListAdded.forEach(function(element) {
+        let blocks = localStorage.getItem('sequenceBlocksListAdded').split(',')
+        let ids = localStorage.getItem('sequenceBlocksListAddedIds').split(',')
+        
+        console.log(blocks)
+        ids.forEach(function(element) {
+            ipcRenderer.send('delete-blocks-task', element)
+        })
+        await sequelize.sequelize.query("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = 'BlocksTasks'")
+        blocks.forEach(function(element) {
             ipcRenderer.send('register-blocks-task', {
                 block: element,
                 timing: 100,
@@ -124,7 +144,7 @@ function addBlock() {
                     return false
                 }
             })
-        })
+        });
         return true
     }
 }
@@ -428,6 +448,9 @@ setErrorNotification();
 setSuccessNotification();
 
 function feedback(id) {
+    if (localStorage.getItem('feedback') == "pássaro") {
+        localStorage.setItem('feedback', "passaro")
+    }
     if (id == 0) {
         const sourcePath = path.join(__dirname, '..', 'Feedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
         const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${localStorage.getItem('feedback')}.mp3`);
@@ -504,12 +527,16 @@ document.addEventListener('DOMContentLoaded', function(e) {
     ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
         if (arg.response.length > 0) {
             let blocks = []
+            let ids = []
             arg.response.forEach(element => {
                 blocks.push(element.dataValues.block)
+                ids.push(element.dataValues.id)
             });
-            localStorage.setItem('sequenceBlocksListAdded', blocks)
 
-            if (localStorage.getItem('sequenceBlocksListAdded') != null) {
+            localStorage.setItem('sequenceBlocksListAdded', blocks)
+            localStorage.setItem('sequenceBlocksListAddedIds', ids)
+
+            if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
                 if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
                     sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
                     sequenceBlocksListAdded.forEach(function(element) {

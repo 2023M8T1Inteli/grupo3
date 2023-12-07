@@ -118,6 +118,10 @@ h1 {
     border-color: black;
 }
 
+.block-box-disabled {
+    opacity: 0.3;
+}
+
 #sequence-box .block-style {
     border-style: solid;
     border-width: 3px;

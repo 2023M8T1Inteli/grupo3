@@ -62,21 +62,42 @@ soundContainer.addEventListener('click', function (event) {
         var src = audioElement.src;
         
         let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-music-note-beamed" viewBox="0 0 16 16"><path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/><path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/><path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/></svg>'
-        if (document.getElementById('feedback-sound') == undefined) {
+        
+        let feedbackSound = document.getElementById('feedback-sound');
+        if (feedbackSound) {
+            feedbackSound.style.animation = 'none';
+            void feedbackSound.offsetWidth; // Trigger reflow to apply the 'none' animation
+        }
+        if (feedbackSound == undefined) {
             // Create a new sound element
-            let feedbackSound = document.createElement('div');
+            feedbackSound = document.createElement('div');
             feedbackSound.id = 'feedback-sound';
             feedbackSound.innerHTML += svg;
 
             let audio = document.createElement('audio');
             audio.src = src;
+            audio.autoplay = true;
 
             feedbackSound.appendChild(audio);
 
             // Append the new sound element to the main container
             main.appendChild(feedbackSound);
+            feedbackSound.removeAttribute('style');
+        } else {
+            feedbackSound = document.getElementById('feedback-sound');
+            feedbackSound.innerHTML = svg;
+
+            let audio = document.createElement('audio');
+            audio.src = src;
+            audio.autoplay = true;
+
+            feedbackSound.appendChild(audio);
         }
 
-        let feedbackSound = document.getElementById('feedback-sound');
+        feedbackSound = document.getElementById('feedback-sound');
         feedbackSound.src = src;
+        feedbackSound.style.animation = 'bounce 0.3s';
+        feedbackSound.style.animationDirection = 'alternate';
+        feedbackSound.style.animationTimingFunction = 'cubic-bezier(.5, 0.05, 1, .5)';
+        feedbackSound.style.animationIterationCount = '1';
     }});
