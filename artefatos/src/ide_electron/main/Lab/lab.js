@@ -124,13 +124,14 @@ async function addBlock() {
         return false
     } else {
         let blocks = localStorage.getItem('sequenceBlocksListAdded').split(',')
-        let ids = localStorage.getItem('sequenceBlocksListAddedIds').split(',')
-        
-        console.log(blocks)
-        ids.forEach(function(element) {
-            ipcRenderer.send('delete-blocks-task', element)
-        })
-        await sequelize.sequelize.query("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = 'BlocksTasks'")
+        if (localStorage.getItem('sequenceBlocksListAddedIds') != null) {
+            let ids = localStorage.getItem('sequenceBlocksListAddedIds').split(',')
+
+            ids.forEach(function(element) {
+                ipcRenderer.send('delete-blocks-task', element)
+            })
+            await sequelize.sequelize.query("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = 'BlocksTasks'")
+        }
         blocks.forEach(function(element) {
             ipcRenderer.send('register-blocks-task', {
                 block: element,
