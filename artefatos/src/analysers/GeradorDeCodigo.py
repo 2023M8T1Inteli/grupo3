@@ -65,6 +65,7 @@ class GeradorDeCodigo:
                     self.expression(dir)
                 else:
                     self.expression(esq.getNode("factor"))
+                    
 
     def assignStatement(self, statement):
         esq = statement.getNode("esq")
@@ -84,15 +85,29 @@ class GeradorDeCodigo:
                 self.assignStatement(esq)
                 if dir:
                     self.assignStatement(dir)
+            elif esq.op == "multTerm":
+                self.assignStatement(esq)
+                if dir:
+                    self.assignStatement(dir)
             self.pythonString += "\n"
-        elif statement.op == "sumExpression":
-            if esq.op == "factor":
-                self.pythonString += str(esq.getNode("factor").value) + " "
-                self.pythonString += str(statement.getNode("oper")) + " "
+        elif statement.op in ["sumExpression", "multTerm"]:
+            if esq.op in ["sumExpression", "multTerm"]:
+                self.assignStatement(esq)
+                if dir:
+                    self.assignStatement(dir)
+            elif esq.op == "factor":
+                if esq.getNode("factor").op == "expression":
+                    self.expression(esq.getNode("factor"))
+                else:
+                    self.pythonString += str(esq.getNode("factor").value) + " "
             if dir.op == "factor":
-                self.pythonString += str(dir.getNode("factor").value)
+                self.pythonString += str(statement.getNode("oper")) + " "
+                self.pythonString += str(dir.getNode("factor").value) + " "
             if dir:
                 self.assignStatement(dir)
+
+           
+           
 
     def inputStatement(self, inputStatement):
         command = inputStatement.getNode("command")
@@ -117,5 +132,3 @@ class GeradorDeCodigo:
                 esq = commandStatement.getNode("esq").getNode("factor").value
                 dir = commandStatement.getNode("dir").getNode("factor").value
                 self.pythonString += command.value + "(" + str(esq) + ", " + str(dir) +")\n"
-            elif commandStatement.getNode("esq").op == "sumExpression":
-                pass

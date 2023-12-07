@@ -24,4 +24,3 @@ if __name__ == "__main__":
     print(tree)
     print("\n\n\n")
     print(GeradorDeCodigo(tree).generateCode())
-    string = GeradorDeCodigo(tree).generateCode()
