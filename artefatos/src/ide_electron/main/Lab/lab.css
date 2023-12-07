@@ -54,14 +54,40 @@ h1 {
     background-color: #2B7F7F;
 }
 
-#button-tools:hover {
-    background-color: #2B7F7F;
-    transform: scale(1.6);
+
+#easer {
+    align-self: center;
+    margin-left: -70px;
+    width: 28px;
 }
 
-
-#mouse, #easer {
+#back {
     align-self: center;
+    margin-left: -25px;
+    width: 28px;
+}
+#sound{
+    align-self: center;
+    margin-left: 2px;
+    width: 28px;
+}
+
+#numbers{
+    align-self: center;
+    margin-left: -15px;
+    width: 32px;
+}
+
+#alphabet{
+    align-self: center;
+    margin-left: -15px;
+    width: 32px;
+}
+
+#colors{
+    align-self: center;
+    margin-left: -5px;
+    width: 32px;
 }
 
 #space-tools-box {
@@ -351,10 +377,6 @@ h1 {
     opacity: 0.5;
   }
 
-  #sound:hover{
-    background-color: #2B7F7F;
-    transform: scale(1.4);
-  }
   
   .modal-header {
     display: flex;
@@ -438,12 +460,6 @@ h1 {
 
 .image-container{
     margin-left: 20px;
-}
-
-#sheep:hover{
-    background-color: #2B7F7F;
-    transform: scale(1.4);
-
 }
 
 .modal-body {
@@ -570,15 +586,6 @@ h1 {
     opacity: 1;
 }
 
-.description_sheep {
-    position: absolute;
-    background-color: #2B7F7F;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    display: none;
-    z-index: 1;
-}
 
 #sheep:hover + .description_sheep{
     display: block;
@@ -692,9 +699,225 @@ h1 {
     cursor: pointer;
 }
 
+/* Estilo para o modal dos números */
+.number-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+}
 
+.number-modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    height: 550px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
+.number-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+    margin-left: 4px;
+}
 
+.number-close {
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    padding: 1rem;
+    margin: -1rem -1rem -1rem 8rem;
+    margin-top: -20px;
 
+}
 
+.number-modal-body {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 90px;
+    margin-top: 20px;
+}
 
+.number-modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    margin-left: -100px;
+    margin-top: -15px;
+
+}
+
+.circle-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px 95px;
+    width: 70%;
+}
+
+.circle{
+    width: 65px;
+    height: 65px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+}
+
+.circle img {
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out;
+}
+
+.circle:hover {
+    transform: scale(1.2); /* Aumenta o tamanho em 20% durante o hover */
+    cursor: pointer;
+}
+
+.number-img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block; 
+    margin: auto; 
+}
+
+/* Estilos para o modal do alfabeto */
+.alphabet-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+}
+
+.alphabet-modal-dialog {
+    margin: 10% auto;
+    padding: 20px;
+    width: 505px;
+    height: 420px;
+    background-color: #fff;
+   
+}
+.alphabet-close{
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    padding: 1rem;
+    margin: -1rem -1rem -1rem 9.5rem;
+    top: -50px;
+}
+
+.alphabet-modal-header {
+    padding: 10px;
+    margin-left: 280px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alphabet-modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.alphabet-item {
+    text-align: center;
+    margin: 10px;
+}
+
+.alphabet-img {
+    width: 50px; 
+    height: auto;
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out; /* Adiciona uma transição suave para uma animação mais agradável */
+    border: 2px solid transparent; /* Adiciona uma borda transparente inicialmente */
+}
+
+.alphabet-img:hover {
+    transform: scale(1.5); /* Aumenta o tamanho em 20% durante o hover */
+    cursor: pointer;
+}
+
+.color-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+}
+
+.color-modal-dialog {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    width: 600px;
+    height: 520px;
+}
+
+.color-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.color-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.color-modal-header h1 {
+    font-size: 24px;
+}
+
+.color-close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.color-modal-body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.color-option {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.color-img{
+    transition: transform 0.3s ease-in-out, border 0.3s ease-in-out; /* Adiciona uma transição suave para uma animação mais agradável */
+    border: 2px solid transparent; /* Adiciona uma borda transparente inicialmente */
+    border-radius: 50%;
+}
+
+.color-img:hover {
+    transform: scale(1.2); /* Aumenta o tamanho em 20% durante o hover */
+    border: 2px solid black; /* Adiciona uma borda preta durante o hover */
+    cursor: pointer;
+}
