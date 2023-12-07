@@ -2,13 +2,13 @@
 const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
 const { spawn } = require('child_process'); // Import child_process to spawn Python
-const {sequelize, testarConexao} = require('./config/database.js')
+const {sequelize, testConnection} = require('./config/database.js')
 const syncTables = require('./models/models.js')
 const allControllers = require('./controllers/controllers.js')
 
 // Connection with the database
 async function inicia () {
-  await testarConexao()
+  await testConnection()
   await syncTables()
 }
 
