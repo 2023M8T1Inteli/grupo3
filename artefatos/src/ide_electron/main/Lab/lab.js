@@ -51,6 +51,7 @@ sequence.addEventListener('dragover', function(e) {
     e.preventDefault();
 });
 
+
 // Adicione um ouvinte de eventos para o evento de soltar na sequência
 sequence.addEventListener('drop', function(e) {
     // Evite o comportamento padrão do evento
@@ -58,12 +59,13 @@ sequence.addEventListener('drop', function(e) {
     // Obtenha o ID do elemento arrastado
     var data = e.dataTransfer.getData('text/plain');
     // Obtenha a referência ao elemento clonado
-    var droppedElement = document.getElementById(data);
+    var droppedElement = document.getElementById(data.split(" ")[1]);
+    droppedElement = droppedElement.cloneNode(true);
     // Extraia informações do ID do elemento clonado
     var address = droppedElement.id;
-    var temp_words = address.split(" ");
     // Adicione o ID do bloco à lista de blocos na sequência
-    sequenceBlocksListAdded.push(temp_words[1]);
+    sequenceBlocksListAdded.push(address);
+    console.log(sequenceBlocksListAdded);
     // Registre a lista de blocos na sequência no console
     localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
     // Anexe o elemento clonado à sequência
@@ -119,7 +121,7 @@ function eraseBlocks() {
 } 
 
 async function addBlock() {
-    if (sequenceBlocksListAdded.length == 0) {
+    if (localStorage.getItem('sequenceBlocksListAdded') == "") {
         alert("Nenhum bloco foi adicionado à sequência!")
         return false
     } else {
@@ -151,13 +153,13 @@ async function addBlock() {
 }
 
 // Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
-buttonConfirm.addEventListener('click', function(e) {
-    let block = addBlock()
+buttonConfirm.addEventListener('click', async function(e) {
+    let block = await addBlock()
     if (!block) {
         return
     }
     if (localStorage.getItem('hasFeedback') == "true") {
-        let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
+        let feedback = JSON.parse(localStorage.getItem('successFeedback'));
         if (feedback.sound == undefined) {
             ipcRenderer.send('update-feedback', {
                 id: parseInt(localStorage.getItem('successFeedbackId')),
@@ -221,7 +223,7 @@ buttonConfirm.addEventListener('click', function(e) {
             }
         }
     } else {
-        if (localStorage.getItem('sucessFeedback') == null || localStorage.getItem('errorFeedback') == null) {
+        if (localStorage.getItem('successFeedback') == null || localStorage.getItem('errorFeedback') == null) {
             alert("Feedbacks não foram escolhidos!")
             return
         } else {
@@ -230,7 +232,7 @@ buttonConfirm.addEventListener('click', function(e) {
                 alert("Título da tarefa não foi definido!")
                 return
             } else {
-                let feedback = JSON.parse(localStorage.getItem('sucessFeedback'));
+                let feedback = JSON.parse(localStorage.getItem('successFeedback'));
                 if (feedback.sound == undefined) {
                     ipcRenderer.send('register-feedback', {
                         message: feedback.message,
@@ -403,9 +405,9 @@ importButton.addEventListener('click', function(e) {
     fileInput.click();
 });
 
-var tasks_button = document.getElementById('backtoprofile');
+var tasks_button = document.getElementById('back');
 var errorFeedbackButton = document.getElementById('title-feedback-wrong');
-var sucessFeedbackButton = document.getElementById('title-feedback-correct');
+var successFeedbackButton = document.getElementById('title-feedback-correct');
 
 tasks_button.addEventListener('click', function(e) {
     if(confirm("Tem certeza que deseja voltar? Todas as alterações serão perdidas.")) {
@@ -421,7 +423,7 @@ tasks_button.addEventListener('click', function(e) {
 errorFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/errorFeedback.html";
     });
-sucessFeedbackButton.addEventListener('click', function(e) {
+successFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/successFeedback.html";
     });   
 
@@ -568,6 +570,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
     ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
 
     ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
+        console.log(arg.response)
         if (arg.response.length > 0) {
             let blocks = []
             let ids = []
@@ -575,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
                 blocks.push(element.dataValues.block)
                 ids.push(element.dataValues.id)
             });
-
+            console.log(blocks)
             localStorage.setItem('sequenceBlocksListAdded', blocks)
             localStorage.setItem('sequenceBlocksListAddedIds', ids)
 
@@ -583,6 +586,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
                 if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
                     sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
                     sequenceBlocksListAdded.forEach(function(element) {
+                        console.log(localStorage)
                         let block = document.getElementById(element);
                         sequence.appendChild(block.cloneNode(true));
                      });

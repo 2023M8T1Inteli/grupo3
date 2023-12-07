@@ -3,7 +3,6 @@ const path = require('path')
 const { ipcRenderer } = require('electron')
 
 localStorage.setItem('successNotification', 0);
-
 function readImages() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/images')
 
@@ -51,7 +50,7 @@ function saveFeedback() {
         let sound = soundContainer.querySelector('audio').getAttribute('src').replace(/\\/g, '/').split('/')
         sound = sound[sound.length - 1]
 
-        localStorage.setItem('sucessFeedback', JSON.stringify({
+        localStorage.setItem('successFeedback', JSON.stringify({
             message: message,
             color: color,
             image: image,
@@ -59,7 +58,7 @@ function saveFeedback() {
             type_feedback: true
         }))
     } else {
-        localStorage.setItem('sucessFeedback', JSON.stringify({
+        localStorage.setItem('successFeedback', JSON.stringify({
             message: message,
             color: color,
             image: image,
@@ -67,7 +66,7 @@ function saveFeedback() {
         }))
     }
 
-    if (localStorage.getItem('sucessFeedback') != undefined) {
+    if (localStorage.getItem('successFeedback') != undefined) {
         if(confirm('Feedback salvo com sucesso! Deseja retornar?')) {
             window.location.href = '../Lab/lab.html'
         } else {
@@ -87,6 +86,7 @@ function rgbToHex(r, g, b) {
 }
 
 document.addEventListener('DOMContentLoaded', function(e) {
+    console.log('DOM fully loaded and parsed');
     if (localStorage.getItem('successFeedback') != undefined) {
         let feedback = JSON.parse(localStorage.getItem('successFeedback'));
         colorInput = document.getElementById('color-input');

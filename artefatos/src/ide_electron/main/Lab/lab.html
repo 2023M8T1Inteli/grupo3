@@ -19,11 +19,11 @@
                     </button>
                 </div>
                 <div id="space-tools-box">
-                    <button id="button-tools" onclick="eraseBlocks()">
-                        <img src="../../assets/borracha.png" id="easer" alt="borracha">
+                    <button id="button-tools">
+                        <img src="../../assets/borracha.png" onclick="eraseBlocks()" id="easer" alt="borracha">
                     </button>
                    <button id="button-tools">
-                    <img src="../../assets/voltar.png" id="back" alt="voltar">
+                    <img src="../../assets/voltar.png" onclick="redirectToTasks()" id="back" alt="voltar">
                    </button>
                     <button class="img-btn" id="showModal">
                     <img src="../../assets/sound.png" id="sound" alt="som" width="25" height="auto">
@@ -46,9 +46,6 @@
             <div id="buttons-text-box">
                 <div id="text-box">
                 <button id="title-confirm"> Confirmar </button> 
-                </div>
-                <div id="text-box"> 
-                <button id="backtoprofile" onclick="redirectToTasks()">Perfil</button>
                 </div>
                 <div id="success-text-box">
                     <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
@@ -333,7 +330,7 @@
                 <img src="../../assets/block-4.png" height="60px" width="60px" alt="bloco 12">
             </div>
             <div class="block-box-disabled" draggable="false" id="22">
-                <img src="../../assets/block-5.png" height="60px" width="60px" alt="bloco 11">
+                <img src="../../assets/block-5.png" height="60px" width="60px" alt="bloco 22">
             </div>
             <div class="block-box-disabled" draggable="false" id="32">
                 <img src="../../assets/block-6.png" height="60px" width="60px" alt="bloco 32">
@@ -379,7 +376,7 @@
             <div class="block-box-disabled" draggable="false" id="26">
                 <img src="../../assets/block-17.png" height="60px" width="60px" alt="bloco 26">
             </div>
-            <div class="block-box" draggable="true" id="36">
+            <div class="block-box-disabled" draggable="false" id="36">
                 <img src="../../assets/block-18.png" height="60px" width="60px" alt="bloco 36">
             </div>
         </div>   
