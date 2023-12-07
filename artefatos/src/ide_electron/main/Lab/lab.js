@@ -130,6 +130,48 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+var openNumberModalButton = document.getElementById('showNumberModal');
+openNumberModalButton.addEventListener('click', function(e) {
+modal = document.querySelector('.number-modal');
+modal.style.display = 'block';
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var numberModalCloseBtn = document.getElementById('numberModalCloseBtn');
+    numberModalCloseBtn.addEventListener('click', function() {
+        var numberModal = document.querySelector('.number-modal');
+        numberModal.style.display = 'none';
+    });
+});
+
+var openAlphabetModalButton = document.getElementById('showAlphabetModal');
+openAlphabetModalButton.addEventListener('click', function(e) {
+modal = document.querySelector('.alphabet-modal');
+modal.style.display = 'block';
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var alphabetModalCloseBtn = document.getElementById('alphabetModalCloseBtn');
+    alphabetModalCloseBtn.addEventListener('click', function() {
+        var alphabetModal = document.querySelector('.alphabet-modal');
+        alphabetModal.style.display = 'none';
+    });
+});
+
+var openColorModalButton = document.getElementById('showColorModal');
+openColorModalButton.addEventListener('click', function(e) {
+modal = document.querySelector('.color-modal');
+modal.style.display = 'block';
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var colorModalCloseBtn = document.getElementById('colorModalCloseBtn');
+    colorModalCloseBtn.addEventListener('click', function() {
+        var colorModal = document.querySelector('.color-modal');
+        colorModal.style.display = 'none';
+    });
+});
+
 
 var importButton = document.getElementById('importRecording');
 var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
