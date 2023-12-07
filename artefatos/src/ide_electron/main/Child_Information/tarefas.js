@@ -28,9 +28,9 @@ function createTaskCard(task) {
     let newTask = document.createElement('div');
     newTask.classList.add('card');
     newTask.innerHTML = `
-    <div onclick="goToLab('${task.name}', ${task.id})">
-        <div class="topo"></div>
-        <p class="titulo">${task.name}</p>
+    <div>
+        <div class="topo" onclick="goToLab('${task.name}', ${task.id})"></div>
+        <p class="titulo" onclick="goToLab('${task.name}', ${task.id})">${task.name}</p>
         <button class="btn-card desempenho" onclick="redirectToGraphic(${task.id})">Desempenho</button>
         <button class="btn-card excluir excluir-novo" onclick="removeTask(${task.id})">Excluir</button>
     </div>
