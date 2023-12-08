@@ -121,7 +121,7 @@ function eraseBlocks() {
 } 
 
 async function addBlock() {
-    if (localStorage.getItem('sequenceBlocksListAdded') == "") {
+    if (localStorage.getItem('sequenceBlocksListAdded') == "" || localStorage.getItem('sequenceBlocksListAdded') == null) {
         alert("Nenhum bloco foi adicionado à sequência!")
         return false
     } else {
