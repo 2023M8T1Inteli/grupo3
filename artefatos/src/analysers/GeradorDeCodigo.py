@@ -49,23 +49,20 @@ class GeradorDeCodigo:
             statementList = statementList.getNode("prox")
 
     def expression(self, expression):
-        if expression:
-            if expression.op == "factor":
-                if expression.getNode("factor").op in ["int", "id"]:
-                    self.pythonString += str(expression.getNode("factor").value)
-                elif expression.getNode("esq"):
-                    esq = expression.getNode("esq")
-                    self.expression(esq.getNode("factor"))
-            elif expression.op == "expression":
-                esq = expression.getNode("esq")
-                dir = expression.getNode("dir")
-                if dir:
-                    self.expression(esq)
-                    self.pythonString += " " + expression.getNode("oper") + " "
-                    self.expression(dir)
-                else:
-                    self.expression(esq.getNode("factor"))
-                    
+        if expression.op in ["expression", "sumExpression", "multTerm"]:
+            esq = expression.getNode("esq")
+            dir = expression.getNode("dir")
+            if dir:     
+                self.pythonString += "("
+                self.expression(esq)
+                self.pythonString += f" {expression.getNode('oper')} "
+                self.expression(dir)
+                self.pythonString += ")"
+            else:  
+                self.expression(esq)
+        elif expression.op == "factor":
+            factorNode = expression.getNode("factor")
+            self.pythonString += str(factorNode.value)
 
     def assignStatement(self, statement):
         esq = statement.getNode("esq")
