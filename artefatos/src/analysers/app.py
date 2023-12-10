@@ -17,10 +17,8 @@ def read_file(file_name):
     
 if __name__ == "__main__":
     # code = read_file("programa.txt")
-    code = read_file("test_file/exemploGerador1.txt")
+    code = read_file("test_file/exemploGerador2.txt")
     tokens = AnalisadorLexico(code).getTokens()
     tree = AnalisadorSintatico(tokens).program()
     AnalisadorSemantico(tree).program()
-    print(tree)
-    print("\n\n\n")
     print(GeradorDeCodigo(tree).generateCode())

@@ -24,7 +24,6 @@ class GeradorDeCodigo:
                 self.expression(statement.getNode("expression"))
                 self.pythonString += ":\n"
                 self.currentT += "\t"
-                self.pythonString += self.currentT
                 self.block(statement.getNode("block"))
                 self.currentT = self.currentT[:-1]
             if statement.op == "ifStatement":
@@ -52,17 +51,20 @@ class GeradorDeCodigo:
         if expression.op in ["expression", "sumExpression", "multTerm"]:
             esq = expression.getNode("esq")
             dir = expression.getNode("dir")
-            if dir:     
+            if dir:
                 self.pythonString += "("
                 self.expression(esq)
-                self.pythonString += f" {expression.getNode('oper')} "
+                self.addOper(expression.getNode('oper'))
                 self.expression(dir)
                 self.pythonString += ")"
             else:  
                 self.expression(esq)
         elif expression.op == "factor":
             factorNode = expression.getNode("factor")
-            self.pythonString += str(factorNode.value)
+            if factorNode.op in ["factor", "int", "log", "id"]:
+                self.pythonString += str(factorNode.value)
+            elif factorNode.op == "expression":
+                self.expression(factorNode)
 
     def assignStatement(self, statement):
         esq = statement.getNode("esq")
@@ -87,8 +89,8 @@ class GeradorDeCodigo:
                 if dir:
                     self.assignStatement(dir)
             self.pythonString += "\n"
-        elif statement.op in ["sumExpression", "multTerm"]:
-            if esq.op in ["sumExpression", "multTerm"]:
+        elif statement.op in ["sumExpression", "multTerm", "powerTerm"]:
+            if esq.op in ["sumExpression", "multTerm", "powerTerm"]:
                 self.assignStatement(esq)
                 if dir:
                     self.assignStatement(dir)
@@ -96,9 +98,9 @@ class GeradorDeCodigo:
                 if esq.getNode("factor").op == "expression":
                     self.expression(esq.getNode("factor"))
                 else:
-                    self.pythonString += str(esq.getNode("factor").value) + " "
+                    self.pythonString += str(esq.getNode("factor").value)
+            self.addOper(statement.getNode("oper"))
             if dir.op == "factor":
-                self.pythonString += str(statement.getNode("oper")) + " "
                 self.pythonString += str(dir.getNode("factor").value) + " "
             if dir:
                 self.assignStatement(dir)
@@ -120,12 +122,23 @@ class GeradorDeCodigo:
         command = commandStatement.getNode("command")
         if command.value in ["mostrar", "tocar", "esperar"]:
             self.pythonString += self.currentT
-            self.pythonString += commandStatement.getNode("command").value + "("
+            self.pythonString += commandStatement.getNode("command").value
+            self.pythonString += "("
             self.expression(commandStatement.getNode("sumExpression"))
-            self.pythonString += ")\n"
+            self.pythonString += ")"
+            self.pythonString += "\n"
         elif command.value in ["mostrar_tocar"]:
             self.pythonString += self.currentT
-            if commandStatement.getNode("esq").getNode("factor"):
-                esq = commandStatement.getNode("esq").getNode("factor").value
-                dir = commandStatement.getNode("dir").getNode("factor").value
-                self.pythonString += command.value + "(" + str(esq) + ", " + str(dir) +")\n"
+            esq = commandStatement.getNode("esq")
+            dir = commandStatement.getNode("dir")
+            self.pythonString += command.value + "("
+            self.expression(esq)
+            self.pythonString += ", "
+            self.expression(dir)
+            self.pythonString += ")\n"
+
+    def addOper(self, oper):
+        if oper == "<>":
+            self.pythonString += " != "
+        else:
+            self.pythonString += " " + oper + " "

@@ -230,12 +230,12 @@ class AnalisadorSemantico:
             
             dir = statement.getNode("dir").getNode("factor")
 
-            if dir.op == "id":
+            if dir and dir.op == "id":
                 if dir.value not in self.table:
                     raise SemanticException(f"O identificador {dir.value} na linha {dir.line} não foi declarado")
                 elif self.table[dir.value].type != "int":
                     raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
-            elif dir.op != "int":
+            elif dir and dir.op != "int":
                 raise SemanticException(f"A função {command} na linha {node.line} só pode receber inteiro")
 
     def atribution(self):
