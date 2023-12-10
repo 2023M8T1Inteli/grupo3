@@ -39,7 +39,7 @@ body {
     padding: 5px 0;
 }
 
-#title-confirm, #title-back {
+#title-confirm, #title-back, #title-clear {
     outline: none;
     border-radius: 0;
     border-style: none;
@@ -94,6 +94,15 @@ body {
     top: 15vh;
     right: 15vw;
 }
+
+@keyframes bounce { 
+    from { 
+        transform: translate3d(0, 0, 0); 
+    } 
+    to { 
+        transform: translate3d(0, 10px, 0); 
+    } 
+} 
 
 svg {
     fill: white;

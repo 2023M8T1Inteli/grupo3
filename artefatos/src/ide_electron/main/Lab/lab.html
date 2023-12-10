@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>Laboratorio para edicao de blocos</title>
     <link rel="stylesheet" href="lab.css">
 </head>
@@ -11,29 +10,36 @@
 </div>
     <header id="header-box">
         <div id="title-box">
-            <input type="text" id="title-content" placeholder="Coloque o nome da nova tarefa...">
+            <input type="text" id="title-content" value="" maxlength="21" placeholder="Coloque o nome da nova tarefa...">
         </div>
         <div id="tools-box">
             <div id="all-tools-box">
                 <div id="space-tools-box">
                     <button id="button-tools">
-                        <img src="../../assets/Polygon 4.png" id="mouse" alt="mouse" data-info="Teste">
-                        <div class="description_mouse">Mover</div>
                     </button>
                 </div>
                 <div id="space-tools-box">
                     <button id="button-tools">
-                        <img src="../../assets/Rectangle 165.png" id="easer" alt="borracha">
-                        <div class="description_easer">Apagar</div>
+                        <img src="../../assets/borracha.png" onclick="eraseBlocks()" id="easer" alt="borracha">
                     </button>
+                   <button id="button-tools">
+                    <img src="../../assets/voltar.png" onclick="redirectToTasks()" id="back" alt="voltar">
+                   </button>
                     <button class="img-btn" id="showModal">
                     <img src="../../assets/sound.png" id="sound" alt="som" width="25" height="auto">
-                    <div class="description_sound">Gravação de voz</div>
                     </button>
                     <button class="img-btn" id="showSheepModal">
                         <img src="../../assets/sheep.png" id="sheep" alt="ovelha" width="45" height="auto">
-                        <div class="description_sheep">Sons de animais</div>
                     </button>
+                    <button class="img-btn" id="showNumberModal">
+                        <img src="../../assets/numeros.png" id="numbers" alt="numeros">
+                       </button>
+                    <button class="img-btn" id="showAlphabetModal">
+                        <img src="../../assets/alfabeto.png" id="alphabet" alt="alfabeto"> 
+                    </button>  
+                    <button class="img-btn" id="showColorModal">
+                        <img src="../../assets/cores.png" id="colors" alt="cores">
+                    </button>  
                 </div>
             </div>
           
@@ -41,13 +47,10 @@
                 <div id="text-box">
                 <button id="title-confirm"> Confirmar </button> 
                 </div>
-                <div id="text-box"> 
-                <button id="backtoprofile" onclick="redirectToTasks()">Perfil</button>
+                <div id="success-text-box">
+                    <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
                 </div>
-                <div id="text-box">
-                <button id="title-feedback-correct" onclick="redirectToSucessFeedback()"> Feedback Acerto </button>
-                </div>
-                <div id="text-box">
+                <div id="error-text-box">
                     <button id="title-feedback-wrong" onclick="redirectToErrorFeedback()"> Feedback Erro </button>
                 </div>
             </div>
@@ -95,61 +98,241 @@
                     </div>
                     <div class="sheep-modal-body">
                     <h1 class="sheep-modal-title">Sons de animais</h1>
-                    <div class="rectangle1">
+                    <div class="rectangle">
                         <img src="../../assets/cow.png" alt="Vaca">
                         <p>Vaca</p>
                     </div>
 
-                    <div class="rectangle2">
+                    <div class="rectangle">
                         <img src="../../assets/dog.png" alt="Cachorro">
                         <p>Cachorro</p>
                     </div>
 
-                    <div class="rectangle3">
+                    <div class="rectangle">
                         <img src="../../assets/cat.png" alt="Gato">
                         <p>Gato</p>
                     </div>
 
-                    <div class="rectangle4">
+                    <div class="rectangle">
                         <img src="../../assets/bird.png" alt="Pássaro">
                         <p>Pássaro</p>
                     </div>
 
-                    <div class="rectangle5">
+                    <div class="rectangle">
                         <img src="../../assets/elephant.png" alt="Elefante">
                         <p>Elefante</p>
                     </div>
 
-                    <div class="rectangle6">
+                    <div class="rectangle">
                         <img src="../../assets/frog.png" alt="Sapo">
                         <p>Sapo</p>
                     </div>
                     </div>
                 </div>
+                <div id="feedbackModal">
+                    <p id="feedback-title">Onde deseja colocar o som? </p>
+                    <div class="feedback-options" onclick="feedback(0)">
+                        <p>Feedback Acerto</p>
+                    </div>
+                    <div class="feedback-options" onclick="feedback(1)"><p>Feedback Erro</p></div>
+                    <div class="feedback-options" onclick="feedback(2)"><p>Ambos</p></div>
+                </div>
             </div>
         </div>
-    </main>
+        <!-- Modal dos números -->
+<div class="number-modal fade" id="showNumberModal" tabindex="-1" role="dialog" aria-labelledby="numberModalLabel">
+    <div class="number-modal-dialog" role="document">
+        <div class="number-modal-content">
+            <div class="number-modal-header">
+                <h1>Números</h1>
+                <button type="button" class="number-close" id="numberModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="number-modal-body">
+                <div class="circle-container">
+                    <div class="circle">
+                        <img src="../../assets/numero_1.png" alt="1" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_2.png" alt="2" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_3.png" alt="3" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_4.png" alt="4" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_5.png" alt="5" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_6.png" alt="6" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_7.png" alt="7" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_8.png" alt="8" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_9.png" alt="9" class="number-img">
+                    </div>
+                    <div class="circle">
+                        <img src="../../assets/numero_10.png" alt="10" class="number-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal do alfabeto -->
+<div class="alphabet-modal fade" id="showAlphabetModal" tabindex="-1" role="dialog" aria-labelledby="alphabetModalLabel">
+    <div class="alphabet-modal-dialog" role="document">
+        <div class="alphabet-modal-content">
+            <div class="alphabet-modal-header">
+                <h1>Alfabeto</h1>
+                <button type="button" class="alphabet-close" id="alphabetModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alphabet-modal-body" id="alphabetContainer">
+                <div class="alphabet-item" onclick="chooseLetter('A')">
+                    <img src="../../assets/letra_A.png" alt="A" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('B')">
+                    <img src="../../assets/letra_B.png" alt="B" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('C')">
+                    <img src="../../assets/letra_C.png" alt="C" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('D')">
+                    <img src="../../assets/letra_D.png" alt="D" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('E')">
+                    <img src="../../assets/letra_E.png" alt="E" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('F')">
+                    <img src="../../assets/letra_F.png" alt="F" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('G')">
+                    <img src="../../assets/letra_G.png" alt="G" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('H')">
+                    <img src="../../assets/letra_H.png" alt="H" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('I')">
+                    <img src="../../assets/letra_I.png" alt="I" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('J')">
+                    <img src="../../assets/letra_J.png" alt="J" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('K')">
+                    <img src="../../assets/letra_K.png" alt="K" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('L')">
+                    <img src="../../assets/letra_L.png" alt="L" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('M')">
+                    <img src="../../assets/letra_M.png" alt="M" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('N')">
+                    <img src="../../assets/letra_N.png" alt="N" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('O')">
+                    <img src="../../assets/letra_O.png" alt="O" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('P')">
+                    <img src="../../assets/letra_P.png" alt="P" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('Q')">
+                    <img src="../../assets/letra_Q.png" alt="Q" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('R')">
+                    <img src="../../assets/letra_R.png" alt="R" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('S')">
+                    <img src="../../assets/letra_S.png" alt="S" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('T')">
+                    <img src="../../assets/letra_T.png" alt="T" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('U')">
+                    <img src="../../assets/letra_U.png" alt="U" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('V')">
+                    <img src="../../assets/letra_V.png" alt="V" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('W')">
+                    <img src="../../assets/letra_W.png" alt="W" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('X')">
+                    <img src="../../assets/letra_X.png" alt="X" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('Y')">
+                    <img src="../../assets/letra_Y.png" alt="B" class="alphabet-img">
+                </div>
+                <div class="alphabet-item" onclick="chooseLetter('Z')">
+                    <img src="../../assets/letra_Z.png" alt="Z" class="alphabet-img">
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function chooseLetter(letter) {
+        alert('Letra escolhida: ' + letter); // Altere isso para a lógica que você deseja ao escolher uma letra
+        // Adicione aqui a lógica para lidar com a escolha da letra, por exemplo, enviar para o servidor, atualizar a interface, etc.
+        // ...
+    }
+</script>
+<!-- Modal das cores -->
+<div class="color-modal fade" id="showColorModal" tabindex="-1" role="dialog" aria-labelledby="colorsModalLabel">
+    <div class="color-modal-dialog" role="document">
+        <div class="color-modal-content">
+            <div class="color-modal-header">
+                <h1>Cores</h1>
+                <button type="button" class="color-close" id="colorModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           <img src="../../assets/cor_verde.png" alt="Verde" class="color-img">
+           <img src="../../assets/cor_vermelha.png" alt="Vermelho" class="color-img">
+           <img src="../../assets/cor_azul.png" alt="Azul" class="color-img">
+           <img src="../../assets/cor_amarela.png" alt="Amarelo" class="color-img">
+           <img src="../../assets/cor_roxa.png" alt="Roxo" class="color-img">
+           <img src="../../assets/cor_rosa.png" alt="Rosa" class="color-img">
+           <img src="../../assets/cor_marrom.png" alt="Marrom" class="color-img">
+           <img src="../../assets/cor_preta.png" alt="Preto" class="color-img">
+           <img src="../../assets/cor_branca.png" alt="Branco" class="color-img">
+        </div>
+    </div>
+</div>
+
+   </main>
     </div>
     <footer id="blocks-box">
         <div class="column-box">
-            <div class="block-box" draggable="true" id="11">
-                <img src="../../assets/block-1.png" height="60px" width="60px" alt="bloco 11">
+            <div class="block-box-disabled" draggable="false" id="11">
+                <img src="../../assets/block-1.png" height="60px" width="60px" alt = "bloco 11">
             </div>
             <div class="block-box" draggable="true" id="21">
                 <img src="../../assets/block-2.png" height="60px" width="60px" alt="bloco 21">
             </div>
-            <div class="block-box" draggable="true" id="31">
+            <div class="block-box-disabled" draggable="false" id="31">
                 <img src="../../assets/block-3.png" height="60px" width="60px" alt="bloco 31">
             </div>
         </div>
         <div class="column-box">
-            <div class="block-box" draggable="true" id="12">
+            <div class="block-box-disabled" draggable="false" id="12">
                 <img src="../../assets/block-4.png" height="60px" width="60px" alt="bloco 12">
             </div>
-            <div class="block-box" draggable="true" id="22">
-                <img src="../../assets/block-5.png" height="60px" width="60px" alt = "bloco 22">
+            <div class="block-box-disabled" draggable="false" id="22">
+                <img src="../../assets/block-5.png" height="60px" width="60px" alt="bloco 22">
             </div>
-            <div class="block-box" draggable="true" id="32">
+            <div class="block-box-disabled" draggable="false" id="32">
                 <img src="../../assets/block-6.png" height="60px" width="60px" alt="bloco 32">
             </div>
         </div>
@@ -157,32 +340,32 @@
             <div class="block-box" draggable="true" id="13">
                 <img src="../../assets/block-7.png" height="60px" width="60px" alt="bloco 13">
             </div>
-            <div class="block-box" draggable="true" id="23">
+            <div class="block-box-disabled" draggable="false" id="23">
                 <img src="../../assets/block-8.png" height="60px" width="60px" alt="bloco 23">
             </div>
-            <div class="block-box" draggable="true" id="33">
+            <div class="block-box-disabled" draggable="false" id="33">
                 <img src="../../assets/block-9.png" height="60px" width="60px" alt="bloco 33">
             </div>
         </div>
         <div class="column-box">
-            <div class="block-box" draggable="true" id="14">
+            <div class="block-box-disabled" draggable="false" id="14">
                 <img src="../../assets/block-10.png" height="60px" width="60px" alt="bloco 14">
             </div>
             <div class="block-box" draggable="true" id="24">
                 <img src="../../assets/block-11.png" height="60px" width="60px" alt="bloco 24">
             </div>
-            <div class="block-box" draggable="true" id="34">
+            <div class="block-box-disabled" draggable="false" id="34">
                 <img src="../../assets/block-12.png" height="60px" width="60px" alt="bloco 34">
             </div>
         </div>
         <div class="column-box">
-            <div class="block-box" draggable="true" id="15">
+            <div class="block-box-disabled" draggable="false" id="15">
                 <img src="../../assets/block-13.png" height="60px" width="60px" alt="bloco 15">
             </div>
             <div class="block-box" draggable="true" id="25">
                 <img src="../../assets/block-14.png" height="60px" width="60px" alt="bloco 25">
             </div>
-            <div class="block-box" draggable="true" id="35">
+            <div class="block-box-disabled" draggable="false" id="35">
                 <img src="../../assets/block-15.png" height="60px" width="60px" alt="bloco 35">
             </div>
         </div>
@@ -190,17 +373,15 @@
             <div class="block-box" draggable="true" id="16">
                 <img src="../../assets/block-16.png" height="60px" width="60px" alt="bloco 16">
             </div>
-            <div class="block-box" draggable="true" id="26">
+            <div class="block-box-disabled" draggable="false" id="26">
                 <img src="../../assets/block-17.png" height="60px" width="60px" alt="bloco 26">
             </div>
-            <div class="block-box" draggable="true" id="36">
+            <div class="block-box-disabled" draggable="false" id="36">
                 <img src="../../assets/block-18.png" height="60px" width="60px" alt="bloco 36">
             </div>
         </div>   
     </footer>
-    <script src="./lab.js"/>
+    <script src="./lab.js">
     </script>
-    
-    
 </body>
 </html>
