@@ -3,7 +3,6 @@ const path = require('path')
 
 localStorage.setItem('errorNotification', 0);
 
-// Function to display all the images in the images folder
 function readImages() {
     const fullPath = path.join(__dirname, 'ErrorFeedback/images')
 
@@ -16,7 +15,6 @@ function readImages() {
     })
 }
 
-// Function to display all the sounds in the sounds folder
 function readSounds() {
     const fullPath = path.join(__dirname, 'ErrorFeedback/sounds')
 
@@ -29,7 +27,6 @@ function readSounds() {
     })
 }
 
-// Function to save the feedback with the selected message, image and sound
 function saveFeedback() {
     let text = document.getElementById('text-input')
     let imageContainer = document.getElementById('feedback-img')
@@ -77,20 +74,16 @@ function saveFeedback() {
         }
     }
 }
-
-// Function to change the color value to hexadecimal
 function valueToHex(c) {
     var hex = c.toString(16);
     return hex
   
   }
 
-// Function to convert rgb to hexadecimal
 function rgbToHex(r, g, b) {
     return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
 }
 
-// Load the feedback if it exists when the page is loaded
 document.addEventListener('DOMContentLoaded', function(e) {
     if (localStorage.getItem('errorFeedback') != undefined) {
         let feedback = JSON.parse(localStorage.getItem('errorFeedback'));

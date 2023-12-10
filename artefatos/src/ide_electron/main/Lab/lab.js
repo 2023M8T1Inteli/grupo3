@@ -1,78 +1,85 @@
-// Import the ipcRenderer module from Electron for inter-process communication
+// Importe o módulo ipcRenderer do Electron para comunicação entre processos
 const { ipcRenderer } = require('electron');
 const sequelize = require('../../config/database.js');
 
 const fs = require('fs');
 const path = require('path');
 
+// Selecione todos os elementos com a classe 'block-box'
 var draggableElements = document.querySelectorAll('.block-box');
 
+// Obtenha uma referência ao elemento com o id 'sequence-box'
 var sequence = document.getElementById('sequence-box');
 
-// Variable to store the currently dragged element
+// Variável para armazenar o elemento atualmente arrastado
 var draggingElement = null;
 
+// Variável de controle temporário
 var temp = 0;
 
+// Obtenha uma referência ao botão com o id 'title-confirm'
 var buttonConfirm = document.getElementById('title-confirm');
 
-// List to store the IDs of blocks added to the sequence
+// Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
-// Iterate over all elements with the class 'block-box'
+// Itere sobre todos os elementos com a classe 'block-box'
 draggableElements.forEach(function(element) {
+    // Adicione um ouvinte de eventos para o evento de arrastar (dragstart)
     element.addEventListener('dragstart', function(e) {
-        // Clone the dragged element and add the 'dragging' class
+        // Clone o elemento arrastado e adicione a classe 'dragging'
         draggingElement = e.target.cloneNode(true);
         draggingElement.classList.add('dragging');
-        // Logic to add a white border if the block is black
+        // Lógica para adicionar a borda branca se o bloco for preto
         if (element.id == '15') {
             draggingElement.classList.add('block-style-black-box');
         } else {
             draggingElement.classList.add('block-style');
         }
         draggingElement.id = `temp ${element.id} ${temp}`;
-        // Set the transfer data to the ID of the cloned element
+        // Defina os dados de transferência para o ID do elemento clonado
         e.dataTransfer.setData('text/plain', draggingElement.id);
-        // Append the cloned element to the document body
+        // Anexe o elemento clonado ao corpo do documento
         document.body.appendChild(draggingElement);
         temp++;
     });
 });
 
-// Add an event listener for the dragover event on the sequence
+// Adicione um ouvinte de eventos para o evento de arrastar sobre a sequência
 sequence.addEventListener('dragover', function(e) {
+    // Evite o comportamento padrão do evento
     e.preventDefault();
 });
 
 
-// Add an event listener for the drop event on the sequence
+// Adicione um ouvinte de eventos para o evento de soltar na sequência
 sequence.addEventListener('drop', function(e) {
+    // Evite o comportamento padrão do evento
     e.preventDefault();
-    // Get the ID of the dragged element
+    // Obtenha o ID do elemento arrastado
     var data = e.dataTransfer.getData('text/plain');
-    // Get the reference to the cloned element
+    // Obtenha a referência ao elemento clonado
     var droppedElement = document.getElementById(data.split(" ")[1]);
     droppedElement = droppedElement.cloneNode(true);
-    // Extract information from the ID of the cloned element
+    // Extraia informações do ID do elemento clonado
     var address = droppedElement.id;
-    // Add the block ID to the list of blocks in the sequence
+    // Adicione o ID do bloco à lista de blocos na sequência
     sequenceBlocksListAdded.push(address);
-    // Log the list of blocks in the sequence to the console
+    console.log(sequenceBlocksListAdded);
+    // Registre a lista de blocos na sequência no console
     localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
-    // Append the cloned element to the sequence
+    // Anexe o elemento clonado à sequência
     sequence.appendChild(droppedElement);
 });
 
-// Function to create the QAL code according to the blocks added to the sequence
 function sendCode() {
-    // Create the initial part of the program
+    // Crie a parte inicial do programa
     var start_of_program = 'programa "tarefa1":\n\tinicio';
 
-    // Section of the program to be filled based on the blocks added to the sequence
+    // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
     var middle_of_program = "";
 
-    // Iterate over the list of blocks in the sequence to build the middle part of the program
+    // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
         middle_of_program += `
             quadranteEsperado = ${sequenceBlocksListAdded[i]}
@@ -85,16 +92,16 @@ function sendCode() {
             mostrar(1)\n`;
     }
 
-    // Final part of the program
+    // Parte final do programa
     var end_of_program = 'fim.';
 
-    // Concatenate the parts of the program to form the complete program
+    // Concatene as partes do programa para formar o programa completo
     var program = start_of_program + middle_of_program + end_of_program;
 
-    // Send the program code to the analyzers via ipcRenderer
+    // Envie o código do programa aos analisadores via ipcRenderer
     ipcRenderer.send('code-for-analysers', program);
 
-    // Send the program code for execution via ipcRenderer
+    // Envie o código do programa para execução via ipcRenderer
     ipcRenderer.send('call-python-code', program);
 
     setTimeout(() => {
@@ -102,7 +109,6 @@ function sendCode() {
     }, 3000)
 }
 
-// Function to erase all blocks from the sequence
 function eraseBlocks() {
     const boxes = sequence.querySelectorAll('.block-box');
     boxes.forEach(box => {
@@ -114,7 +120,6 @@ function eraseBlocks() {
     localStorage.setItem('sequenceBlocksListAdded', '')
 } 
 
-// Function to add each block of the sequence to the database
 async function addBlock() {
     if (localStorage.getItem('sequenceBlocksListAdded') == "" || localStorage.getItem('sequenceBlocksListAdded') == null) {
         alert("Nenhum bloco foi adicionado à sequência!")
@@ -147,8 +152,7 @@ async function addBlock() {
     }
 }
 
-// Add an event listener for the click event on the confirmation button
-// If everything is ok, send the code to the analyzers and for execution and create the feedbacks on the database
+// Adicione um ouvinte de eventos para o evento de clique no botão de confirmação
 buttonConfirm.addEventListener('click', async function(e) {
     let block = await addBlock()
     if (!block) {
@@ -372,32 +376,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 var importButton = document.getElementById('importRecording');
-var fileNameDisplay = document.getElementById('fileNameDisplay');
+var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
 
 importButton.addEventListener('click', function(e) {
-    // Create an input of type "file"
+    // Crie um input do tipo "file"
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
 
-    // Add the input to the document body
+    // Adicione o input ao corpo do documento
     document.body.appendChild(fileInput);
 
-    // Hide the input
+    // Oculte o input
     fileInput.style.display = 'none';
 
-    // Add an event listener for the change event on the file input
+    // Adicione um ouvinte de eventos para o evento de alteração no input de arquivo
     fileInput.addEventListener('change', function(event) {
-        // Get the selected file
+        // Obtenha o arquivo selecionado
         var selectedFile = event.target.files[0];
 
-        // Show the file name in the designated element
+        // Exiba o nome do arquivo no elemento designado
         fileNameDisplay.textContent = selectedFile.name;
 
-        // Remove the file input from the document body
+        // Remova o input de arquivo do corpo do documento
         document.body.removeChild(fileInput);
     });
 
-    // Trigger a click on the file input
+    // Dispare um clique no input de arquivo
     fileInput.click();
 });
 
@@ -405,7 +409,6 @@ var tasks_button = document.getElementById('back');
 var errorFeedbackButton = document.getElementById('title-feedback-wrong');
 var successFeedbackButton = document.getElementById('title-feedback-correct');
 
-// Function to redirect to the tasks page without saving the changes
 tasks_button.addEventListener('click', function(e) {
     if(confirm("Tem certeza que deseja voltar? Todas as alterações serão perdidas.")) {
         localStorage.removeItem('taskTitle');
@@ -420,7 +423,6 @@ tasks_button.addEventListener('click', function(e) {
 errorFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/errorFeedback.html";
     });
-
 successFeedbackButton.addEventListener('click', function(e) {
     window.location.href = "../Feedback/successFeedback.html";
     });   
@@ -457,7 +459,6 @@ if (localStorage.getItem('taskTitle') != null) {
     taskTitle.value = localStorage.getItem('taskTitle').replace(/['"]+/g, '');
 }
 
-// Function to add a notification badge to the success feedback button
 function setSuccessNotification() {
     let successDiv = document.getElementById('success-text-box');
 
@@ -473,7 +474,6 @@ function setSuccessNotification() {
     }
 }
 
-// Function to add a notification badge to the error feedback button
 function setErrorNotification() {
     let errorDiv = document.getElementById('error-text-box');
 
@@ -492,9 +492,6 @@ function setErrorNotification() {
 setErrorNotification();
 setSuccessNotification();
 
-/** Function to copy a sound to the success or error feedback folder
- * @param {number} id - 0 for success feedback, 1 for error feedback, 2 for both
-*/ 
 function feedback(id) {
     if (localStorage.getItem('feedback') == "pássaro") {
         localStorage.setItem('feedback', "passaro")
@@ -555,7 +552,6 @@ function feedback(id) {
     }
 }
 
-// Function to get the feedbacks and blocks of the selected task from the database
 document.addEventListener('DOMContentLoaded', function(e) {
     ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
 

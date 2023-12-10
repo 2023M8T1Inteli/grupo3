@@ -3,8 +3,6 @@ const path = require('path')
 const { ipcRenderer } = require('electron')
 
 localStorage.setItem('successNotification', 0);
-
-// Function to display all the images in the images folder
 function readImages() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/images')
 
@@ -17,7 +15,6 @@ function readImages() {
     })
 }
 
-// Function to display all the sounds in the sounds folder
 function readSounds() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/sounds')
 
@@ -30,7 +27,6 @@ function readSounds() {
     })
 }
 
-// Function to save the feedback with the selected message, image and sound
 function saveFeedback() {
     let text = document.getElementById('text-input')
     let imageContainer = document.getElementById('feedback-img')
@@ -79,7 +75,6 @@ function saveFeedback() {
     }
 }
 
-// Function to change the color value to hexadecimal
 function valueToHex(c) {
     var hex = c.toString(16);
     return hex
@@ -90,7 +85,6 @@ function rgbToHex(r, g, b) {
     return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
 }
 
-// Function to convert rgb to hexadecimal
 document.addEventListener('DOMContentLoaded', function(e) {
     console.log('DOM fully loaded and parsed');
     if (localStorage.getItem('successFeedback') != undefined) {

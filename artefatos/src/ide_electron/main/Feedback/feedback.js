@@ -4,21 +4,18 @@ var backButton = document.getElementById('title-back');
 var clearButton = document.getElementById('title-clear');
 var main = document.getElementById('main');
 
-// Function to redirect to the lab page
 backButton.addEventListener('click', function () {
     if (confirm('Tem certeza que deseja voltar? As alterações não salvas serão perdidas!')) {
         window.location.href = '../Lab/lab.html';
     }
 });
 
-// Function to clear the feedback
 clearButton.addEventListener('click', function () {
     if (confirm('Tem certeza que deseja limpar o feedback?')) {
         main.innerHTML = '';
     }
 })
 
-// Function to change the color of the message
 colorInput.addEventListener('change', function () {
 
     if (textInput == undefined) {
@@ -32,7 +29,7 @@ colorInput.addEventListener('change', function () {
 
 var imageContainer = document.getElementById('images');
 
-// Add the selected image to the feedback 
+// Add a click event listener to the container
 imageContainer.addEventListener('click', function (event) {
     // Check if the clicked element is an img tag
     if (event.target.tagName === 'IMG') {
@@ -57,7 +54,6 @@ imageContainer.addEventListener('click', function (event) {
 
 var soundContainer = document.getElementById('sounds');
 
-// Add the selected sound to the feedback
 soundContainer.addEventListener('click', function (event) {
     // Check if the clicked element is an img tag
     if (event.target.tagName === 'DIV') {
@@ -98,7 +94,6 @@ soundContainer.addEventListener('click', function (event) {
             feedbackSound.appendChild(audio);
         }
 
-        // Animation to the sound icon to show change of sound
         feedbackSound = document.getElementById('feedback-sound');
         feedbackSound.src = src;
         feedbackSound.style.animation = 'bounce 0.3s';
