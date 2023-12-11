@@ -61,7 +61,7 @@ html, body {
     font-size: 1.5rem;
 }
 
-.child-list {
+#child-list {
     display: flex;
     flex-direction: column;
     align-items: stretch;

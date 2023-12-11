@@ -38,6 +38,21 @@ function createTaskCard(task) {
     cardsContainer.prepend(newTask);
 }
 
+function getName(){
+    let name = document.getElementById("name")
+
+    childId = localStorage.getItem("childId")
+    ipcRenderer.send('read-patient', childId)
+
+    ipcRenderer.on('response-read-patient', (event,arg) => {
+        console.log(arg)
+
+        name.innerHTML = arg.response.dataValues.name
+    })
+}
+
+getName()
+
 async function showTasks() {
     console.log("showTasks")
     await getTasks()
