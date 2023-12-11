@@ -85,12 +85,13 @@ function valueToHex(c) {
     return hex
   
   }
-
+  
+// Function to convert rgb to hexadecimal
 function rgbToHex(r, g, b) {
     return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
 }
 
-// Function to convert rgb to hexadecimal
+// Load the feedback if it exists when the page is loaded
 document.addEventListener('DOMContentLoaded', function(e) {
     console.log('DOM fully loaded and parsed');
     if (localStorage.getItem('successFeedback') != undefined) {
