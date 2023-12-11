@@ -64,6 +64,8 @@ class AnalisadorSintatico:
         elif self.tokens[0].tipo in ["ID", "INTEGER", "verdade", "falso", "OPSUM", "NAO", "LPAR"]:
             expression = self.expression()
             node = InternNode("assignStatement", id=LeafNode("id", idValue, idLine), expression=expression)
+        else:
+            raise SyntaticException(f"A variável '{idValue}' não pode receber '{self.tokens[0].valor}' - linha {self.tokens[0].linha}")
         return node
 
     #Regra: <input_statement> ::= 'ler' LPAR RPAR | 'ler_varios' LPAR <sum_expression> COMMA <sum_expression> COMMA <sum_expression> RPAR
@@ -134,9 +136,9 @@ class AnalisadorSintatico:
         dir = None
         esq = self.sum_expression()
         if self.tokens[0].tipo == "OPREL":
+            oper = self.tokens[0].valor
             self.relop()
             dir = self.sum_expression()
-            oper = self.tokens[0].valor
         return InternNode("expression", oper=oper, esq=esq, dir=dir)
 
     #Regra: <relop> ::= '==' | '<>' | '>' | '<' | '>=' | '<='
