@@ -47,7 +47,7 @@ app.on('ready', () => {
   // Event listener para receber código para análise
   ipcMain.on('code-for-analysers', (event, message) => {
     // Salve a mensagem em um arquivo
-    fs.writeFile('../test_file/programa.txt', message, function(err) {
+    fs.writeFile('../programa.txt', message, function(err) {
       if (err) {
         console.log(err);
       }
