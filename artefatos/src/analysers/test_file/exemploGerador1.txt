@@ -1,0 +1,6 @@
+programa "geracao_codigo1":
+inicio
+    a = 5
+    c = (3+a)*a/2
+    tocar(a%4)
+fim.

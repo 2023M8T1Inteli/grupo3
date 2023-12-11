@@ -1,6 +1,7 @@
 from AnalisadorLexico import AnalisadorLexico
 from AnalisadorSintatico import AnalisadorSintatico
 from AnalisadorSemantico import AnalisadorSemantico
+from GeradorDeCodigo import GeradorDeCodigo
 import os
 
 # Função para ler um arquivo a partir de um nome de arquivo.
@@ -15,9 +16,8 @@ def read_file(file_name):
         raise Exception(f"File {path} not found")
     
 if __name__ == "__main__":
-    # code = read_file("programa.txt")
-    code = read_file("test_file/exemploSM3.txt")
+    code = read_file("../programa.txt")
     tokens = AnalisadorLexico(code).getTokens()
     tree = AnalisadorSintatico(tokens).program()
-    print(tree)
     AnalisadorSemantico(tree).program()
+    print(GeradorDeCodigo(tree).generateCode())
