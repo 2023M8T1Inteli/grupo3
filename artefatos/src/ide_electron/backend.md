@@ -180,6 +180,7 @@ ipcRenderer.send('register-patient', {
     degree: degree, #tipo inteiro (o grau da deficiência)
     first_consultation: first_consultation, # é uma data no formato (DD/MM/AAAA) do tipo string
     last_consultation: last_consultation,
+    type_of_disability: type_of_disability, # tipo string
     # é uma data no formato (DD/MM/AAAA) do tipo string
     interests: interests, # tipo string, são os interesses da criança
     background: background, # tipo string, é a história da criança. Obs: o valor é opcional
