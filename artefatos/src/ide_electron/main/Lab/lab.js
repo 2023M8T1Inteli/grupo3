@@ -459,6 +459,7 @@ if (localStorage.getItem('taskTitle') != null) {
     taskTitle.value = localStorage.getItem('taskTitle').replace(/['"]+/g, '');
 }
 
+//Function to set the success notification badge
 function setSuccessNotification() {
     let successDiv = document.getElementById('success-text-box');
 
@@ -474,6 +475,7 @@ function setSuccessNotification() {
     }
 }
 
+//Function to set the error notification badge
 function setErrorNotification() {
     let errorDiv = document.getElementById('error-text-box');
 
@@ -492,6 +494,10 @@ function setErrorNotification() {
 setErrorNotification();
 setSuccessNotification();
 
+/**
+ * Function to save a sound file in the success or error feedback folder
+ * @param {number} id: 0 for success feedback, 1 for error feedback, 2 for both 
+ */
 function feedback(id) {
     if (localStorage.getItem('feedback') == "pássaro") {
         localStorage.setItem('feedback', "passaro")
@@ -552,6 +558,7 @@ function feedback(id) {
     }
 }
 
+// Function to get the blocks and feedbacks from the database if it exists
 document.addEventListener('DOMContentLoaded', function(e) {
     ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
 
