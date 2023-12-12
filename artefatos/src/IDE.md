@@ -32,7 +32,7 @@ Este manual fornece instruções detalhadas sobre como instalar e usar a IDE Dol
 - Crie novas tarefas, nomeie-as e realize atividades interativas.
 Ícones na parte superior esquerda permitem desfazer ações, apagar todas as ações e acessar opções de áudio.
 ### 5. Criando Atividades Gamificadas
-- Use ícones para selecionar números, alfabeto e cores para criar atividades gamificadas.
+- Use os ícones para selecionar números, alfabeto e cores para criar atividades gamificadas.
 - O tapete tátil na parte inferior possui quadrantes travados.
 ### 6. Feedbacks Acerto e Erro
 - Crie designs e sons interativos para proporcionar experiências positivas à criança ao acertar ou errar uma atividade.
