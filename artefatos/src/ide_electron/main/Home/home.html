@@ -5,6 +5,7 @@
     <!-- Meta information, specifying character set and linking external stylesheet -->
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="home.css">
+    <link rel="stylesheet" type="text/css" href="Modal/modal.css">
     <!-- Title of the webpage -->
     <title>Home</title>
 </head>
@@ -25,42 +26,108 @@
         <input type="text" class="search-bar" placeholder="Pesquise o paciente...">
         <!-- Container for the add button -->
         <div class="add-button">
-            <!-- Plus symbol for the add button -->
-            <div class="plus-symbol">+</div>
+            <button id="call-modal" onclick="openModal()"></button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal-overlay">
+        <div id="modal">
+            <div id="feedback"></div>
+            <div id="top">
+                <button id="back-arrow" onclick="closeModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                </button>
+                <p id="patient-register"> Cadastro de um novo paciente </p>
+            </div>
+            <div id="inputs">
+                <div class="row-data">
+                    <div class="info">
+                        <p> Nome completo </p>
+                        <input type="text" class="write-info" name="" id="name">
+                        <div class="alert-error" id="alert-name-error">
+                            <p class="didnt-write" id="name-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p> Idade </p>
+                        <input type="number" class="write-info" name="" id="age">
+                        <div class="alert-error" id="alert-age-error">
+                            <p  class="didnt-write" id="age-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-data">
+                    <div class="info">
+                        <p> Tipo de deficiência </p>
+                        <input type="text" class="write-info" name="" id="deficiency">
+                        <div class="alert-error" id="alert-deficiency-error">
+                            <p class="didnt-write" id="deficiency-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p> Grau de deficiência </p>
+                        <input type="number" class="write-info" name="" id="degree">
+                        <div class="alert-error" id="alert-degree-error">
+                            <p  class="didnt-write" id="degree-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-data">
+                    <div class="info">
+                        <p> Primeira consulta </p>
+                        <input type="text" class="write-info" name="" id="first-appointment">
+                        <div class="alert-error" id="alert-first-appointment-error">
+                            <p class="didnt-write" id="first-appointment-error"> Preencha o campo acima </p>
+                        </div>
+                        <div class="alert-error" id="alert-first-date-error">
+                            <p class="didnt-write" id="first-time-error"> Data inválida </p>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p> Última consulta </p>
+                        <input type="text" class="write-info" name="" id="last-appointment">
+                        <div class="alert-error" id="alert-last-appointment-error">
+                            <p  class="didnt-write" id="last-appointment-error"> Preencha o campo acima </p>
+                        </div>
+                        <div class="alert-error" id="alert-last-date-error">
+                            <p class="didnt-write" id="second-time-error"> Data inválida </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info">
+                    <p> Interesses </p>
+                    <input type="text" class="write-info" name="" id="hobbies">
+                    <div class="alert-error" id="alert-hobbies-error">
+                        <p class="didnt-write" id="hobbies-error"> Preencha o campo acima </p>
+                    </div>
+                </div>
+                <div class="info">
+                    <p> História </p>
+                    <input type="text" class="write-info" name="" id="background">
+                    <div class="alert-error" id="alert-background-error">
+                        <p class="didnt-write" id="background-error"> Preencha o campo acima </p>
+                    </div>
+                </div>
+                <div id="register-patient">
+                    <button id="register-button" onclick="registerPatient()">
+                        Cadastrar paciente
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- List of clickable links representing child names -->
-    <div class="child-list">
-        <!-- Child names with inline styles for black text color -->
-        <a href="javascript:void(0);" class="child"  onclick="redirectToProfile()"><strong style="color: black;">Caio da Silva</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Clara de Souza</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Lucas Pereira Souza</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Maria Fernanda Costa</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">João Pedro Almeida Barbosa</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Ana Clara Carvalho Rodrigues</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Enzo Matheus Santos Rocha</strong></a>
-        <a href="javascript:void(0);" class="child"><strong style="color: black;">Isabela Ferreira Rodrigues</strong></a>
-        <!-- Special styling for the last child link -->
-        <a href="javascript:void(0);" class="child red"><strong style="color: black;">Larissa Gomes Pereira</strong></a>
-    </div>
+    <div id="child-list"></div>
 
-    <script>
-          function redirectToRegister() {
-            window.location.href = '../Performance/performance.html';
-        }
-
-          function redirectToProfile() {
-            window.location.href = '../Child_Information/tarefas.html';
-        }
-          function redirectToPerformance() {
-            window.location.href = '../Chil_Information/desempenho.html';
-          }
-          function redirectToTasks() {
-            window.location.href = '../Child_Information/tarefas.html';
-          }
-    </script>
-
+    <script src="home.js"></script>
+    <script src="Modal/modal.js"></script>
 </body>
 
 </html>

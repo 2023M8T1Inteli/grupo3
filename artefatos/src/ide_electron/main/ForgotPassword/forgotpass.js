@@ -78,7 +78,7 @@ const createCode = () => {
  * @param user: JSON contendo as informações email e mensagem (código)
  * Função que envia uma mensagem de email para o email inserido na caixa de texto
  */
-const sendCode = async (user) => {
+const sendCodeToEmail = async (user) => {
     const mailOptions = {
       from: 'dolphin.aacd@gmail.com',
       to: user.email,
@@ -111,6 +111,10 @@ const sendCode = async (user) => {
 
     email_bool = email_response
 };
+
+function sendCodeToDatabase(){
+    
+}
 
 function positiveFeedback(div){
     let message = "<p>Email enviado com sucesso</p>"
@@ -145,7 +149,7 @@ const sendEmail = async () => {
         message: "Seu código é: " + code
     };
     
-    await sendCode(user)
+    await sendCodeToEmail(user)
 
     let feedback = document.getElementById("feedback")
 
