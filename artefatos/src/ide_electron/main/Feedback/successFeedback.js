@@ -7,12 +7,13 @@ localStorage.setItem('successNotification', 0);
 // Function to display all the images in the images folder
 function readImages() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/images')
-
+    let index = 0
     fs.readdir(fullPath, (error, files) => {
         if (error) console.log(error)
         files.forEach( file => { 
             let images = document.getElementById('images');
-            images.innerHTML += `<img class="feedback-images" src="${fullPath}/${file}" alt="${file}">`
+            images.innerHTML += `<img class="feedback-images" id="${index}" src="${fullPath}/${file}" alt="${file}">`
+            index++
         })
     })
 }
@@ -20,12 +21,13 @@ function readImages() {
 // Function to display all the sounds in the sounds folder
 function readSounds() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/sounds')
-
+    let index = 0
     fs.readdir(fullPath, (error, files) => {
         if (error) console.log(error)
         files.forEach( file => { 
             let sounds = document.getElementById('sounds');
-            sounds.innerHTML += `<div class="feedback-sounds" >Som de ${file.split('.')[0]} <audio src="${fullPath}/${file}"></div>`
+            sounds.innerHTML += `<div class="feedback-sounds">Som de ${file.split('.')[0]} <audio id="${index}" src="${fullPath}/${file}"></div>`
+            index++
         })
     })
 }
@@ -33,7 +35,7 @@ function readSounds() {
 // Function to save the feedback with the selected message, image and sound
 function saveFeedback() {
     let text = document.getElementById('text-input')
-    let imageContainer = document.getElementById('feedback-img')
+    let imageContainer = document.querySelector('.feedback-img')
 
     if (text == undefined || imageContainer == undefined) {
         alert('Digite uma mensagem e adicione uma imagem')
@@ -59,14 +61,18 @@ function saveFeedback() {
             color: color,
             image: image,
             sound: sound,
-            type_feedback: true
+            type_feedback: true,
+            sound_id: parseInt(soundContainer.querySelector('audio').id),
+            image_id: parseInt(imageContainer.id)
         }))
     } else {
         localStorage.setItem('successFeedback', JSON.stringify({
             message: message,
             color: color,
             image: image,
-            type_feedback: true
+            type_feedback: true,
+            sound_id: -1,
+            image_id: parseInt(imageContainer.id)
         }))
     }
 

@@ -79,6 +79,10 @@ function sendCode() {
     // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
     var middle_of_program = "";
 
+    let success_image_id = JSON.parse(localStorage.getItem('successFeedback')).image_id
+    let success_sound_id = JSON.parse(localStorage.getItem('successFeedback')).sound_id
+    let error_image_id = JSON.parse(localStorage.getItem('errorFeedback')).image_id
+    let error_sound_id = JSON.parse(localStorage.getItem('errorFeedback')).sound_id
     // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
         middle_of_program += `
@@ -86,10 +90,10 @@ function sendCode() {
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
-                mostrar(0)
+                mostrar_tocar(${error_sound_id}, ${error_image_id})
                 quadrantePressionado = ler()
             fim
-            mostrar(1)\n`;
+            mostrar_tocar(${success_sound_id}, ${success_image_id})\n`;
     }
 
     // Parte final do programa

@@ -61,7 +61,10 @@ class GeradorDeCodigo:
                 self.expression(esq)
         elif expression.op == "factor":
             factorNode = expression.getNode("factor")
+            signal = expression.getNode("sinal")
             if factorNode.op in ["factor", "int", "log", "id"]:
+                if signal == "-":
+                    self.pythonString += "-"    
                 self.pythonString += str(factorNode.value)
             elif factorNode.op == "expression":
                 self.expression(factorNode)

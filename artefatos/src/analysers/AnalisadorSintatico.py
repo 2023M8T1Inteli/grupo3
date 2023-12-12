@@ -190,7 +190,7 @@ class AnalisadorSintatico:
         if self.tokens[0].tipo == "OPSUM":
             sinal = self.tokens[0].valor
             self.matchToken("OPSUM")
-        elif self.tokens[0].tipo == "ID":
+        if self.tokens[0].tipo == "ID":
             idValue = self.tokens[0].valor
             idLine = self.tokens[0].linha
             self.matchToken("ID")
