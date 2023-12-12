@@ -112,7 +112,8 @@ document.addEventListener('DOMContentLoaded', function(e) {
         textInput.style.color = feedback.color;
 
         let feedbackImg = document.createElement('img');
-        feedbackImg.id = id;
+        feedbackImg.id = feedback.image_id;
+        feedbackImg.className = 'feedback-img';
 
         let fullPath = path.join(__dirname, 'SuccessFeedback/images/')
         feedbackImg.src = fullPath + feedback.image;
@@ -133,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
             
             fullPath = path.join(__dirname, 'SuccessFeedback/sounds/cachorro.mp3')
             audio.src = fullPath;
+            audio.id = feedback.sound_id;
 
             feedbackSound.appendChild(audio);
 

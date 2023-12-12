@@ -60,6 +60,11 @@ app.on('ready', () => {
       // Ouvintes de eventos para saída e conclusão do processo Python
       pythonProcess.stdout.on('data', (data) => {
         console.log(`Python stdout: ${data}`);
+        fs.writeFile('../task.py', data, { encoding: 'utf-8' }, function(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
       });
 
       pythonProcess.stderr.on('data', (data) => {
@@ -78,6 +83,12 @@ app.on('ready', () => {
           icon: 'None'
         });
       });
+
+      const task = spawn('python', ['../task.py']);
+
+      task.stdout.on('data', (data) => {
+        console.log(`Python stdout: ${data}`);
+      })
 
     } catch (e) {
         // Mostre uma caixa de diálogo em caso de falhas nos serviços internos

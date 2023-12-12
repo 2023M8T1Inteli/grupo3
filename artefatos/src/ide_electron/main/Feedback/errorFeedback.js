@@ -111,11 +111,12 @@ document.addEventListener('DOMContentLoaded', function(e) {
         textInput.style.color = feedback.color;
 
         let feedbackImg = document.createElement('img');
-        feedbackImg.id = id;
+        feedbackImg.id = feedback.image_id;
+        feedbackImg.className = 'feedback-img';
         
         let fullPath = path.join(__dirname, 'ErrorFeedback/images/')
         feedbackImg.src = fullPath + feedback.image;
-       
+        
         feedbackImg.alt = 'Imagem de feedback';
 
         // Append the new img element to the main container
@@ -132,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
             
             fullPath = path.join(__dirname, 'ErrorFeedback/sounds/')
             audio.src = fullPath + feedback.sound
+            audio.id = feedback.sound_id
 
             feedbackSound.appendChild(audio);
 

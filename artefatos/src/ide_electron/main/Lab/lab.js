@@ -90,10 +90,10 @@ function sendCode() {
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
-                mostrar_tocar(${error_sound_id}, ${error_image_id})
+                mostrar_tocar_feedback(${error_sound_id}, ${error_image_id}, 0)
                 quadrantePressionado = ler()
             fim
-            mostrar_tocar(${success_sound_id}, ${success_image_id})\n`;
+            mostrar_tocar_feedback(${success_sound_id}, ${success_image_id}, 1)\n`;
     }
 
     // Parte final do programa
@@ -164,6 +164,11 @@ buttonConfirm.addEventListener('click', async function(e) {
     }
     if (localStorage.getItem('hasFeedback') == "true") {
         let feedback = JSON.parse(localStorage.getItem('successFeedback'));
+        fs.writeFile(path.join(__dirname, "..", "Feedback", "SuccessFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+        });
         if (feedback.sound == undefined) {
             ipcRenderer.send('update-feedback', {
                 id: parseInt(localStorage.getItem('successFeedbackId')),
@@ -198,6 +203,11 @@ buttonConfirm.addEventListener('click', async function(e) {
             alert("Não foi possível salvar a tarefa")
         } else {
             feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+            fs.writeFile(path.join(__dirname, "..", "Feedback", "ErrorFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+            });
             if (feedback.sound == undefined) {
                 ipcRenderer.send('update-feedback', {
                     id: parseInt(localStorage.getItem('errorFeedbackId')),
