@@ -172,6 +172,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                     color: feedback.color,
                     image: feedback.image,
                     type_feedback: feedback.type_feedback,
+                    sound_id: feedback.sound_id,
+                    image_id: feedback.image_id,
                 }
             });
         } else {
@@ -182,6 +184,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                     color: feedback.color,
                     image: feedback.image,
                     type_feedback: feedback.type_feedback,
+                    sound_id: feedback.sound_id,
+                    image_id: feedback.image_id,
                 }
             });
         }
@@ -202,6 +206,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                     }
                 });
             } else {
@@ -212,6 +218,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                     }
                 });
             }
@@ -243,6 +251,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                         TaskId: parseInt(localStorage.getItem('taskId'))
                     })
                 } else {
@@ -252,6 +262,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         image: feedback.image,
                         sound: feedback.sound,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                         TaskId: localStorage.getItem('taskId')
                     })
                 }
@@ -270,6 +282,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                             color: feedback.color,
                             image: feedback.image,
                             type_feedback: feedback.type_feedback,
+                            sound_id: feedback.sound_id,
+                            image_id: feedback.image_id,
                             TaskId: parseInt(localStorage.getItem('taskId'))
                         })
                     } else {
@@ -279,6 +293,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                             image: feedback.image,
                             sound: feedback.sound,
                             type_feedback: feedback.type_feedback,
+                            sound_id: feedback.sound_id,
+                            image_id: feedback.image_id,
                             TaskId: localStorage.getItem('taskId')
                         })
                     }

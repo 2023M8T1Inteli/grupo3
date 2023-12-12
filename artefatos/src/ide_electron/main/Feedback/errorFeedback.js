@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
         textInput.style.color = feedback.color;
 
         let feedbackImg = document.createElement('img');
-        feedbackImg.id = 'feedback-img';
+        feedbackImg.id = id;
         
         let fullPath = path.join(__dirname, 'ErrorFeedback/images/')
         feedbackImg.src = fullPath + feedback.image;
