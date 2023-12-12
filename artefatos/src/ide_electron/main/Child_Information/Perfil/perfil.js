@@ -52,7 +52,7 @@ function getInfo(){
     name.innerHTML = arg.response.dataValues.name
     age.innerHTML = arg.response.dataValues.age
     degree.innerHTML = arg.response.dataValues.degree
-    // deficiency.innerHTML = arg.response.dataValues.deficiency
+    deficiency.innerHTML = arg.response.dataValues.type_of_disability
     first_appointment.innerHTML = arg.response.dataValues.first_consultation
     last_appointment.innerHTML = arg.response.dataValues.last_consultation
     hobbies.innerHTML = arg.response.dataValues.interests

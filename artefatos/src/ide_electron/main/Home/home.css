@@ -56,10 +56,15 @@ html, body {
     margin-right: 0.25rem;
 }
 
-.plus-symbol {
-    color: #000;
-    font-size: 1.5rem;
+#call-modal{
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    opacity: 0%;
+    cursor: pointer;
 }
+
 
 #child-list {
     display: flex;
@@ -67,6 +72,13 @@ html, body {
     align-items: stretch;
     padding: 0;
     margin: 0;
+}
+
+#placeholder{
+    font-size: 30px;
+    color: rgb(93, 91, 91);
+    margin: 30px;
+    text-align: center;
 }
 
 .child {
@@ -104,4 +116,3 @@ html, body {
     margin-left: 0.2rem; 
     margin-right: 0.5rem; 
 }
-
