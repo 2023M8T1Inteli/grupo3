@@ -32,6 +32,10 @@ const Patient = sequelize.define('Patient', {
         type: DataTypes.STRING(15),
         allowNull: false
     },
+    type_of_disability: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
     interests: {
         type: DataTypes.TEXT,
         allowNull: true
