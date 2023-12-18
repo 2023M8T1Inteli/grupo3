@@ -66,26 +66,46 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Gravação de voz</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gravação de voz</h5>
+                    <button type="button" class="close" onclick="closeRecordModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="initial-record">
+                        <img src="../../assets/sound_image.png" alt="Imagem de som">
+                        <button class="recordButton" onclick="startRecording()">Fazer uma gravação</button>
+                        <div class="historicButton">Veja aqui as últimas gravações!</div>
+                        <div class="importButton">
+                                <button id="importRecording">Importar gravação
+                                    <div id="fileNameDisplay"></div>
+                                </button>
+                            <div id="fileNameDisplay"></div>
+                        </div>            
+                    </div>
+                    <div id="record-screen">
+                        <img id="record-mic" src="../../assets/icon_mic.png" alt="Imagem de microfone">
+                        <button onclick="startRecording()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#2B7F7F" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="recording-screen">
+                        <img id="record-mic" src="../../assets/icon_mic.png" alt="Imagem de microfone" width="112" height="144">
+                        <h1 id="record-time">00:00:00</h1>
+                        <div id="line"></div>
+                        <div id="recording">
+                            <button id="recording-button">Descartar</button>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#2B7F7F" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5m3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5"/>
+                            </svg>
+                            <button id="recording-button">Finalizar</button>
+                        </div>
+                    </div|>
+                </div>
             </div>
-            <div class="modal-body">
-            <img src="../../assets/sound_image.png" alt="Imagem de som">
-            <div class="recordButton">Fazer uma gravação</div>
-            <div class="historicButton">Veja aqui as últimas gravações!</div>
-            <div class="importButton">
-                <button id="importRecording">Importar gravação
-                <div id="fileNameDisplay"></div>
-                </button>
-                <!-- Adicione este elemento onde você deseja exibir o nome do arquivo -->
-               <div id="fileNameDisplay"></div>
-            </div>            
-            </div>
-            </div>
-        </div>
         </div>
         <!-- Modal da ovelha -->
         <div class="sheep-modal fade" id="showSheepModal" tabindex="-1" role="dialog" aria-labelledby="sheepModalLabel">

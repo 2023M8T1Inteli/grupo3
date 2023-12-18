@@ -603,5 +603,64 @@ document.addEventListener('DOMContentLoaded', function(e) {
     })
 })
 
+function startRecording() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
 
+    if (initialRecordScreen.style.display != "none") {
+        initialRecordScreen.style.display = "none";
+        recordScreen.style.display = "flex";
+    }
+    else if (recordScreen.style.display != "none") {
+        recordScreen.style.display = "none";
+        recordingScreen.style.display = "flex";
+        setTimeout(() => {
+            recordingTime(-1, 0, 0);
+        }, 1000)
+    }
+}
 
+function recordingTime(actualSeconds, actualMinutes, actualHours) {
+    recordingScreen = document.getElementById("recording-screen");
+    
+    seconds = actualSeconds + 1;
+    minutes = actualMinutes;
+    hours = actualHours;
+
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+
+    if (minutes >= 60) {
+        minutes = 0;
+        hours += 1;
+    }
+
+    secondsString = seconds < 10 ? "0" + String(seconds) : String(seconds)
+    minutesString = minutes < 10 ? "0" + String(minutes) : String(minutes)
+    hoursString = hours < 10 ? "0" + String(hours) : String(hours)
+
+    recordTime = document.getElementById("record-time");
+    recordTime.innerHTML = hoursString + ":" + minutesString + ":" + secondsString;
+
+    if (recordingScreen.style.display == "flex") {
+        setTimeout(() => {
+            recordingTime(seconds, minutes, hours);
+        }, 1000)
+    }
+
+}
+
+function closeRecordModal() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
+    recordTime = document.getElementById("record-time");
+
+    initialRecordScreen.style.display = "flex";
+    recordScreen.style.display = "none";
+    recordingScreen.style.display = "none";
+    recordTime.innerHTML = "00:00:00"
+}
