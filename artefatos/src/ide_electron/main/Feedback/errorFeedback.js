@@ -75,9 +75,10 @@ function saveFeedback() {
             image_id: parseInt(imageContainer.id)
         }))
     }
-    console.log(localStorage.getItem('errorFeedback'))
+
     if (localStorage.getItem('errorFeedback') != undefined) {
         if(confirm('Feedback salvo com sucesso! Deseja retornar?')) {
+            localStorage.setItem('changedFeedback', 'true')
             window.location.href = '../Lab/lab.html'
         } else {
             localStorage.removeItem('errorFeedback')
@@ -88,13 +89,12 @@ function saveFeedback() {
 // Function to change the color value to hexadecimal
 function valueToHex(c) {
     var hex = c.toString(16);
-    return hex
+    return hex.length === 1 ? '0' + hex : hex; // Ensure two digits
+}
   
-  }
-
-// Function to convert rgb to hexadecimal
+  // Function to convert rgb to hexadecimal
 function rgbToHex(r, g, b) {
-    return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
+    return '#' + valueToHex(r) + valueToHex(g) + valueToHex(b);
 }
 
 // Load the feedback if it exists when the page is loaded

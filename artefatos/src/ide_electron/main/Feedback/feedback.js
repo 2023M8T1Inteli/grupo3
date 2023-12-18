@@ -52,7 +52,9 @@ imageContainer.addEventListener('click', function (event) {
             main.appendChild(feedbackImg);
         }
 
-        textInput.style.color = colorInput.value;
+        if (textInput != undefined) {
+            textInput.style.color = colorInput.value;
+        }
         let feedbackImg = document.querySelector('.feedback-img');
         feedbackImg.src = src;
         feedbackImg.id = id;

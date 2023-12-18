@@ -26,7 +26,7 @@ class GeradorDeCodigo:
         self.pythonString += self.currentT
         self.pythonString += "display.fill((255, 255, 255))\n"
         self.pythonString += self.currentT
-        self.pythonString += "txtsurf = pygame.font.SysFont(\"Arial\", 70).render('Parabéns! Você finalizou a tarefa.', True, (0, 0, 0))\n"
+        self.pythonString += "txtsurf = pygame.font.SysFont(\"Arial\", 70).render('Parabens! Voce finalizou a tarefa.', True, (0, 0, 0))\n"
         self.pythonString += self.currentT
         self.pythonString += "display.blit(txtsurf, (640 - (txtsurf.get_size()[0] / 2), 360 - (txtsurf.get_size()[1] / 2)))\n"
         self.pythonString += self.currentT

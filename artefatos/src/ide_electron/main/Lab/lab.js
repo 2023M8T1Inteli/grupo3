@@ -23,6 +23,16 @@ var buttonConfirm = document.getElementById('title-confirm');
 // Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
+if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
+    if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
+        sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
+        sequenceBlocksListAdded.forEach(function(element) {
+            let block = document.getElementById(element);
+            sequence.appendChild(block.cloneNode(true));
+         });
+    }
+}
+
 // Itere sobre todos os elementos com a classe 'block-box'
 draggableElements.forEach(function(element) {
     // Adicione um ouvinte de eventos para o evento de arrastar (dragstart)
@@ -65,7 +75,6 @@ sequence.addEventListener('drop', function(e) {
     var address = droppedElement.id;
     // Adicione o ID do bloco à lista de blocos na sequência
     sequenceBlocksListAdded.push(address);
-    console.log(sequenceBlocksListAdded);
     // Registre a lista de blocos na sequência no console
     localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
     // Anexe o elemento clonado à sequência
@@ -83,6 +92,7 @@ function sendCode() {
     let success_sound_id = JSON.parse(localStorage.getItem('successFeedback')).sound_id
     let error_image_id = JSON.parse(localStorage.getItem('errorFeedback')).image_id
     let error_sound_id = JSON.parse(localStorage.getItem('errorFeedback')).sound_id
+    console.log(sequenceBlocksListAdded)
     // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
         middle_of_program += `
@@ -109,6 +119,11 @@ function sendCode() {
     ipcRenderer.send('call-python-code', program);
 
     setTimeout(() => {
+        localStorage.removeItem("changedFeedback")
+        sequenceBlocksListAdded = [];
+
+        localStorage.setItem('sequenceBlocksListAdded', '')
+        localStorage.removeItem("changedBlocks")
         window.location.href = "../Child_Information/tarefas.html";
     }, 3000)
 }
@@ -122,6 +137,8 @@ function eraseBlocks() {
     sequenceBlocksListAdded = [];
 
     localStorage.setItem('sequenceBlocksListAdded', '')
+
+    localStorage.setItem('changedBlocks', 'true')
 } 
 
 async function addBlock() {
@@ -255,6 +272,11 @@ buttonConfirm.addEventListener('click', async function(e) {
                 return
             } else {
                 let feedback = JSON.parse(localStorage.getItem('successFeedback'));
+                fs.writeFile(path.join(__dirname, "..", "Feedback", "SuccessFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                    if(err) {
+                        return console.log(err);
+                    }
+                });
                 if (feedback.sound == undefined) {
                     ipcRenderer.send('register-feedback', {
                         message: feedback.message,
@@ -286,6 +308,11 @@ buttonConfirm.addEventListener('click', async function(e) {
                     alert("Não foi possível salvar a tarefa")
                 } else {
                     let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+                    fs.writeFile(path.join(__dirname, "..", "Feedback", "ErrorFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                        if(err) {
+                            return console.log(err);
+                        }
+                    });
                     if (feedback.sound == undefined) {
                         ipcRenderer.send('register-feedback', {
                             message: feedback.message,
@@ -446,6 +473,8 @@ tasks_button.addEventListener('click', function(e) {
         localStorage.removeItem('taskId');
         localStorage.removeItem('hasFeedback');
         localStorage.setItem('sequenceBlocksListAdded', '');
+        localStorage.removeItem("changedFeedback")
+        localStorage.removeItem("changedBlocks")
         window.location.href = "../Child_Information/tarefas.html";
     }
 });
@@ -590,47 +619,49 @@ function feedback(id) {
 
 // Function to get the blocks and feedbacks from the database if it exists
 document.addEventListener('DOMContentLoaded', function(e) {
-    ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
+    if (localStorage.getItem('changedFeedback') != 'true') {
+        ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
 
-    ipcRenderer.on('response-read-task-feedback', (event, arg) => {
-        if (arg.response.length > 0) {
-            localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
-            localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
-            localStorage.setItem('hasFeedback', true)
-            localStorage.setItem('successFeedbackId', arg.response[0].dataValues.id)
-            localStorage.setItem('errorFeedbackId', arg.response[1].dataValues.id)
-        } else {
-            localStorage.setItem('hasFeedback', false)
-        }
-    })
+        ipcRenderer.on('response-read-task-feedback', (event, arg) => {
+            if (arg.response.length > 0) {
+                localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
+                localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
+                localStorage.setItem('hasFeedback', true)
+                localStorage.setItem('successFeedbackId', arg.response[0].dataValues.id)
+                localStorage.setItem('errorFeedbackId', arg.response[1].dataValues.id)
+                localStorage.setItem('changedFeedback', 'false')
+            } else {
+                localStorage.setItem('hasFeedback', false)
+            }
+        })
+    }
 
-    ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
+    if (localStorage.getItem('changedBlocks') != 'true') {
+        ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
 
-    ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
-        console.log(arg.response)
-        if (arg.response.length > 0) {
-            let blocks = []
-            let ids = []
-            arg.response.forEach(element => {
-                blocks.push(element.dataValues.block)
-                ids.push(element.dataValues.id)
-            });
-            console.log(blocks)
-            localStorage.setItem('sequenceBlocksListAdded', blocks)
-            localStorage.setItem('sequenceBlocksListAddedIds', ids)
+        ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
+            if (arg.response.length > 0) {
+                let blocks = []
+                let ids = []
+                arg.response.forEach(element => {
+                    blocks.push(element.dataValues.block)
+                    ids.push(element.dataValues.id)
+                });
+                localStorage.setItem('sequenceBlocksListAdded', blocks)
+                localStorage.setItem('sequenceBlocksListAddedIds', ids)
 
-            if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
-                if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
-                    sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
-                    sequenceBlocksListAdded.forEach(function(element) {
-                        console.log(localStorage)
-                        let block = document.getElementById(element);
-                        sequence.appendChild(block.cloneNode(true));
-                     });
+                if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
+                    if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
+                        sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
+                        sequenceBlocksListAdded.forEach(function(element) {
+                            let block = document.getElementById(element);
+                            sequence.appendChild(block.cloneNode(true));
+                        });
+                    }
                 }
             }
-        }
-    })
+        })
+    }
 })
 
 
