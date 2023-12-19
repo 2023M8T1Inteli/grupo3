@@ -1,4 +1,6 @@
 const { ipcRenderer } = require("electron");
+const path = require('path')
+const fs = require('fs')
 
 const cardsContainer = document.querySelector('#cards');
 const btnAdicionar = document.querySelector("#btn-adicionar-tarefa");
@@ -6,23 +8,99 @@ let btnsExcluir = document.querySelectorAll('.excluir');
 
 // function to get all tasks from the database
 async function getTasks() {
-    ipcRenderer.send('read-all-task')
+    ipcRenderer.send('read-patient-myTask', localStorage.getItem("childId"))
 }
 
 // function to get the response from the above request
 async function getResponse(){
     const promise = new Promise((resolve) => {
-        ipcRenderer.once('response-readAll-task', (event, arg) => {
+        ipcRenderer.once('response-read-patient-myTask', (event, arg) => {
             resolve(arg);
         });
     });
 
     const response = await promise
 
-    if (response.message == 'Todas as tarefas criadas') {
+    if (response.message == 'Tarefas do paciente retornadas com sucesso!') {
         return response.response
     }
     return null
+}
+
+var file = document.getElementById("file")
+var image = document.getElementById("image-profile")
+var placeholder = document.getElementById("placeholder-img") 
+var trash = document.getElementById("trash")
+var imageFile
+/**
+ * Fica de olho se a pessoa inputa uma imagem, caso ela inpute, coloca a imagem inserida como background da div
+ * faz com que o input nao seja visivel e acrescenta uma lixeira para a remoção da imagem
+ */
+file.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0]
+        imageFile = file
+        imageUrl = URL.createObjectURL(file)
+        placeholder.style.display = "none"
+        image.style.cssText = ` display: flex; 
+                                border: 5px solid white; 
+                                width: 90px; 
+                                height: 90px; 
+                                border-radius: 50%; 
+                                background-image: url(${imageUrl}); 
+                                background-size: cover;
+                                justify-content: center;
+                                align-items: center;
+                                margin-top: -20px;`
+        trash.style.display = "block"
+    }
+
+    console.log(imageFile.name)
+    ipcRenderer.send('update-patient', {
+        id: localStorage.getItem("childId"),
+        body: {
+            file_name_image: imageFile.name
+        } 
+    })
+
+    let destinationPath = path.join(__dirname, '..', 'Pacient_images', imageFile.name)
+        fs.copyFile(imageFile.path, destinationPath, (err) => {
+            if (err) throw err;
+            console.log('Arquivo copiado com sucesso!');
+        });
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    ipcRenderer.send('read-patient', localStorage.getItem("childId"))
+
+    ipcRenderer.on('response-read-patient', (event,arg) => {
+        if (arg.response.dataValues.file_name_image != null) {
+            let dirPath = path.join(__dirname, '..', 'Pacient_images', arg.response.dataValues.file_name_image)
+            newImage = document.createElement('img')
+            newImage.src = dirPath
+            document.querySelector('#image-profile').innerHTML = ""
+            document.querySelector('#image-profile').appendChild(newImage)
+        }
+    })
+})
+
+/**
+ * Caso a lixeira seja clicada, apaga a imagem, retorna o input e a lixeira some
+ */
+function deleteImg(){
+    image.style.cssText =     ` display: flex; 
+                                border: 5px solid white; 
+                                width: 90px; 
+                                height: 90px; 
+                                border-radius: 50%; 
+                                background-color: #174040; 
+                                background-size: cover;
+                                justify-content: center;
+                                align-items: center;
+                                margin-top: -20px;`
+    placeholder.style.display = "block"
+    trash.style.display = "none"
+    file.value = "";
 }
 
 // function to create a card for each task
@@ -47,8 +125,6 @@ function getName(){
     ipcRenderer.send('read-patient', childId)
 
     ipcRenderer.on('response-read-patient', (event,arg) => {
-        console.log(arg)
-
         name.innerHTML = arg.response.dataValues.name
     })
 }
@@ -62,8 +138,6 @@ function getName(){
     ipcRenderer.send('read-patient', childId)
 
     ipcRenderer.on('response-read-patient', (event,arg) => {
-        console.log(arg)
-
         name.innerHTML = arg.response.dataValues.name
     })
 }
@@ -73,11 +147,16 @@ getName()
 // function to show all tasks and create a card for each one
 async function showTasks() {
     await getTasks()
-    let tasks = await getResponse()
-    if (tasks != null) {
-        tasks.forEach(task => {
-            createTaskCard(task.dataValues)
+    let patientTasks = await getResponse()
+    if (patientTasks != null) {
+        patientTasks.forEach(patientTask => {
+            let taskId = patientTask.dataValues.TaskId
+            ipcRenderer.send("read-task", taskId)
         });
+
+        ipcRenderer.on("response-read-task", (event, arg) => {
+            createTaskCard(arg.response.dataValues)
+        })
     }
 }
 
@@ -207,17 +286,28 @@ function sendTask() {
                 alert("Não foi possível criar a tarefa")
             }
             else {
-                let feedback = document.querySelector('#feedback')
-                let modal = document.querySelector('.modal');
-                modal.style.display = 'none';
-                positiveFeedback(feedback, "Tarefa criada com sucesso!")
-                setTimeout(() => {
-                    feedback.innerHTML = ""
-                    feedback.style.backgroundColor = ""
-                    feedback.style.border = ""
-                    feedback.style.display = "none"
-                    window.location.reload()
-                }, 3000)
+                ipcRenderer.send("register-myTask", {
+                    PatientId: localStorage.getItem("childId"),
+                    TaskId: taskResponse.response.dataValues.id
+                })
+                
+                ipcRenderer.on('response-register-myTask', (event, arg) => {
+                    if (arg.message == "Erro ao cadastrar uma nova tarefa ao paciente") {
+                        alert("Erro ao cadastrar uma nova tarefa ao paciente")
+                    } else {
+                        let feedback = document.querySelector('#feedback')
+                        let modal = document.querySelector('.modal');
+                        modal.style.display = 'none';
+                        positiveFeedback(feedback, "Tarefa criada com sucesso!")
+                        setTimeout(() => {
+                            feedback.innerHTML = ""
+                            feedback.style.backgroundColor = ""
+                            feedback.style.border = ""
+                            feedback.style.display = "none"
+                            window.location.reload()
+                        }, 3000)
+                    }
+                })
             }
         })
     }
