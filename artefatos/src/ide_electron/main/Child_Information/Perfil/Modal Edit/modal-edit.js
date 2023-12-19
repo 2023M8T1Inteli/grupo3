@@ -2,11 +2,9 @@
 
 var name_bool = false
 var age_bool = false
-var deficiency_bool = false
 var degree_bool = false
 var first_appointment_bool = false
 var last_appointment_bool = false
-var hobbies_bool = false
 var background_bool = false
 
 function getInfo(){
@@ -135,6 +133,10 @@ function checkInfo(){
     var last_appointment = document.getElementById("last-appointment-inputs")
     var alert_last_appointment = document.getElementById("alert-last-appointment-error")
     var last_appointment_error = document.getElementById("last-appointment-error")
+    
+    var background = document.getElementById("background-inputs")
+    var alert_background = document.getElementById("alert-background-error")
+    var background_error = document.getElementById("background-error")
 
     if(name.value == "" && name_error.style.display == "") {
         alert_name.style.display = "block"
@@ -154,6 +156,7 @@ function checkInfo(){
         age_error.style.display = "block"
         age.style.border = "2px solid red"
         inputs.style.gap = "0px"
+        age_bool = false
     } else if (age.value != "") {
         alert_age.style.display = ""
         age_error.style.display = ""
@@ -167,6 +170,7 @@ function checkInfo(){
         degree_error.style.display = "block"
         degree.style.border = "2px solid red"
         inputs.style.gap = "0px"
+        degree_bool = false
     } else if (degree.value != "") {
         alert_degree.style.display = ""
         degree_error.style.display = ""
@@ -181,6 +185,7 @@ function checkInfo(){
         first_appointment_error.style.display = "block"
         first_appointment.style.border = "2px solid red"
         inputs.style.gap = "0px"
+        first_appointment_bool = false
     } else if (first_appointment.value != "") {
         if(regexDate(first_appointment.value)){
             alert_first_appointment.style.display = ""
@@ -195,6 +200,7 @@ function checkInfo(){
             first_appointment_error.style.display = "block"
             first_appointment.style.border = "2px solid red"
             inputs.style.gap = "0px"
+            first_appointment_bool = false
         }
     }
 
@@ -204,6 +210,7 @@ function checkInfo(){
         last_appointment_error.style.display = "block"
         last_appointment.style.border = "2px solid red"
         inputs.style.gap = "0px"
+        last_appointment_bool = false
     } else if (last_appointment.value != "") {
         if(regexDate(last_appointment.value)){
             alert_last_appointment.style.display = ""
@@ -218,12 +225,27 @@ function checkInfo(){
             last_appointment_error.style.display = "block"
             last_appointment.style.border = "2px solid red"
             inputs.style.gap = "0px"
+            last_appointment_bool = false
         }
+    }
+
+    if(background.value == "" && background_error.style.display == "") {
+        alert_background.style.display = "block"
+        background_error.style.display = "block"
+        background.style.border = "2px solid red"
+        inputs.style.gap = "0px"
+        background_bool = false
+    } else if (background.value != "") {
+        alert_background.style.display = ""
+        background_error.style.display = ""
+        background.style.border = ""
+        inputs.style.gap = "15px"
+        background_bool = true
     }
 }
 
 function positiveFeedback(div){
-    let message = "<p> Dados do paciente ataulizado com sucesso </p>"
+    let message = "<p> Dados do paciente atualizado com sucesso </p>"
     let positiveSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/></svg>'
 
     div.innerHTML = message + positiveSvg
@@ -238,6 +260,12 @@ function negativeFeedback(div){
     div.innerHTML = message + negativeSvg
     div.style.backgroundColor = "rgba(255, 0, 0, 1)"
     div.style.border = "1px solid white"
+}
+
+function clearFeedback(div){
+    div.innerHTML = ""
+    div.style.backgroundColor = ""
+    div.style.border = ""
 }
 
 function updatePatient(){
@@ -255,68 +283,48 @@ function updatePatient(){
     let deficiency_value = null
     let hobbies_value = null
 
-    if(deficiency.value != ""){
-        deficiency_value = deficiency.value
-    }
-    
-    if(hobbies.value != ""){
-        hobbies_value = hobbies.value
-    }
-
-    childId = localStorage.getItem("childId")
-    ipcRenderer.send('read-patient', childId)
-
-    ipcRenderer.send('update-patient', {
-        id: childId,
-        body: {
-            name: name.value,
-            age: age.value,
-            degree: degree.value,
-            first_consultation: first_appointment.value,
-            last_consultation: last_appointment.value,
-            type_of_disability: deficiency_value,
-            interests: hobbies_value,
-            background: background.value,
+    console.log(background_bool)
+    if(name_bool && age_bool && degree_bool && first_appointment_bool && last_appointment_bool && background_bool){
+        if(deficiency.value != ""){
+            deficiency_value = deficiency.value
         }
-    })
-
-    let feedback = document.getElementById("feedback")
-    ipcRenderer.on('response-uptdate-patient', (event, arg) => {
-        console.log(arg.message)
-        console
-        console.log(arg.message == "Perfil do paciente")
-        if(arg.message == "Perfil do paciente"){
-            positiveFeedback(feedback)
-            setTimeout(() => {
-                localStorage.clear()
-                feedback.innerHTML = ""
-                feedback.style.backgroundColor = ""
-                feedback.style.border = ""
-                name.value = ""
-                age.value = ""
-                deficiency.value = ""
-                degree.value = ""
-                first_appointment.value = ""
-                hobbies.value = ""
-                background.value = ""
-                getInfo()
-                closeModal()
-            }, 3000)
-        } else {
-            negativeFeedback(feedback)
-            setTimeout(() => {
-                localStorage.clear()
-                feedback.innerHTML = ""
-                feedback.style.backgroundColor = ""
-                feedback.style.border = ""
-                name.value = ""
-                age.value = ""
-                deficiency.value = ""
-                degree.value = ""
-                first_appointment.value = ""
-                hobbies.value = ""
-                background.value = ""
-            }, 3000)
+        
+        if(hobbies.value != ""){
+            hobbies_value = hobbies.value
         }
-    })
+
+        childId = localStorage.getItem("childId")
+        ipcRenderer.send('read-patient', childId)
+
+        ipcRenderer.send('update-patient', {
+            id: childId,
+            body: {
+                name: name.value,
+                age: age.value,
+                degree: degree.value,
+                first_consultation: first_appointment.value,
+                last_consultation: last_appointment.value,
+                type_of_disability: deficiency_value,
+                interests: hobbies_value,
+                background: background.value,
+            }
+        })
+
+        let feedback = document.getElementById("feedback")
+        ipcRenderer.on('response-update-patient', (event, arg) => {
+            if(arg.message == "Perfil do paciente atualizado com sucesso !"){
+                positiveFeedback(feedback)
+                setTimeout(() => {
+                    getInfo()
+                    clearFeedback(feedback)
+                    closeModal()
+                }, 3000)
+            } else {
+                negativeFeedback(feedback)
+                setTimeout(() => {
+                    clearFeedback(feedback)
+                }, 3000)
+            }
+        })
+    }
 }

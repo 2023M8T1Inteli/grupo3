@@ -1,3 +1,5 @@
+const { ipcRenderer } = require("electron")
+
 var code_bool = false
 var new_pass_bool = false
 var confirm_pass_bool = false
@@ -64,13 +66,7 @@ function checkInfo(){
         code.style.border = "2px solid red"
         inputs.style.gap = "0px";
     } else if (code.value != "") {
-        alert_code_error.style.display = ""
-        code_error.style.display = ""
-        code.style.border = ""
-        inputs.style.gap = "15px";
-        if(code.value.length == 6) {
-            code_bool = true
-        }
+        checkCode(code.value)
     }
 
     if(new_password.value == "" && new_pass_error.style.display == "") {
@@ -107,7 +103,7 @@ function checkInfo(){
  * Confere se o código tem tamanho 6, caso não tenha, ele torna visivel um erro
  * Obs.: medida provisória devida a falta de back
  */
-function checkCode(){
+function sdsadsadz(){
     var inputs = document.getElementById("inputs")
     var code = document.getElementById("code")
     var alert_code_len_error = document.getElementById("alert-code-len-error")
@@ -118,14 +114,27 @@ function checkCode(){
         code_len_error.style.display = "block"
         code.style.border = "2px solid red"
         inputs.style.gap = "0px"
+        return false
     } else {
         alert_code_len_error.style.display = ""
         code_len_error.style.display = ""
         if(code.value.length != 6 && code.value != ""){
             inputs.style.gap = "15px"
             code.style.border = ""
-            code_bool = true
+            return true
         }
+    }
+}
+
+function checkCode(code){
+    if(code.length != 6){
+        return false
+    } else {
+        console.log("vitor")
+        ipcRenderer.send('read-codigo', code)
+        ipcRenderer.on("resposta-read-codigo", (event, arg) => {
+            console.log(arg)
+        })
     }
 }
  /**
@@ -164,7 +173,9 @@ function passMatch(){
  * Dependendo de todas as variáveis que indicam que estão num cenário correto, o botão leva para a tela de login
  */
 function changePass(){
-    if(code_bool && new_pass_bool && confirm_pass_bool){
-        window.location.href = '../Login/index.html'
-    }
+    passMatch()
+    checkInfo()
+//     if(code_bool && new_pass_bool && confirm_pass_bool){
+//         window.location.href = '../Login/index.html'
+//     }
 }
