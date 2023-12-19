@@ -23,6 +23,11 @@ var buttonConfirm = document.getElementById('title-confirm');
 // Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
+let isRecording = false;
+let mediaRecorder;
+let audioChunks = [];
+let audioContext;
+
 // Itere sobre todos os elementos com a classe 'block-box'
 draggableElements.forEach(function(element) {
     // Adicione um ouvinte de eventos para o evento de arrastar (dragstart)
@@ -622,6 +627,7 @@ function startRecording() {
         recordScreen.style.display = "none";
         recordingScreen.style.display = "flex";
         recordModalTitle.innerHTML = "Gravando";
+        toggleRecording();
         setTimeout(() => {
             recordingTime(0, 0, 0);
         }, 1000)
@@ -650,7 +656,10 @@ function recordingTime(actualSeconds, actualMinutes, actualHours) {
     hoursString = hours < 10 ? "0" + String(hours) : String(hours)
 
     recordTime = document.getElementById("record-time");
-    recordTime.innerHTML = hoursString + ":" + minutesString + ":" + secondsString;
+
+    if (isRecording) {
+        recordTime.innerHTML = hoursString + ":" + minutesString + ":" + secondsString;
+    }
 
     if (recordingScreen.style.display == "flex") {
         setTimeout(() => {
@@ -693,7 +702,6 @@ function expandRecordItem(recordClass) {
     recordItemButton = document.querySelector("." + recordClass + "-buttons");
 
     if (recordItem.style.height == "66.6px") {
-        console.log("grow")
         recordItem.style.height = "100px";
         recordItemButton.style.display = "flex";
     }
@@ -711,10 +719,7 @@ function readSounds() {
         if (error) console.log(error)
         recordList.innerHTML = "";
 
-        files.forEach((file, index) => { 
-            // let sounds = document.getElementById('sounds');
-            // sounds.innerHTML += `<div class="feedback-sounds" >Som de ${file.split('.')[0]} <audio src="${fullPath}/${file}"></div>`
-
+        files.forEach((file, index) => {
             let recordList = document.getElementById('records-list');
             recordList.innerHTML += `<div id="record-item" class="record-item-${index}">
                                         <div id="record-item-title" onclick="expandRecordItem('record-item-${index}')">
@@ -736,9 +741,6 @@ function readSounds() {
 }
 
 function recordFeedback(id, fileName) {
-    console.log("asd");
-    console.log(path.join(__dirname, 'records', `${fileName}.mp3`));
-
     if (id == 0) {
         const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
         const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
@@ -792,5 +794,74 @@ function recordFeedback(id, fileName) {
                 window.location.reload();
             }
         });
+    }
+}
+
+async function toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+        isRecording = false;
+    } else {
+        startRec();
+        isRecording = true;
+    }
+}
+    
+async function startRec() {
+    console.log("Starting recording");
+
+    audioContext = new AudioContext({ sampleRate: 16000 });
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(stream); // Remove mimeType option
+
+    mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+    mediaRecorder.onstop = () => saveAudio();
+    mediaRecorder.start();
+}
+
+function stopRecording() {
+    console.log("Stopping recording")
+
+    audioContext.close();
+    mediaRecorder.stop();
+}
+
+function saveAudio() {
+    if (audioChunks.length) {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+
+        audio.play();
+
+        var audioBlobUrl = URL.createObjectURL(audioBlob);
+
+        // Crie um elemento de link
+        var downloadLink = document.createElement('a');
+
+        // Defina o atributo 'href' do link como o URL do blob
+        downloadLink.href = audioBlobUrl;
+
+        // Defina o atributo 'download' para o nome do arquivo que você deseja para o download
+        downloadLink.download = 'gravação.mp3'; // Substitua pelo nome desejado e a extensão apropriada
+        
+        console.log(downloadLink);
+
+        // Adicione o link ao documento
+        document.body.appendChild(downloadLink);
+
+        // Acione o clique no link para iniciar o download
+        downloadLink.click();
+
+        // Remova o link do documento
+        document.body.removeChild(downloadLink);
+
+        // Limpe o objeto URL
+        URL.revokeObjectURL(audioBlobUrl);
+
+        isRecording = false;
+        audioChunks = [];
     }
 }
