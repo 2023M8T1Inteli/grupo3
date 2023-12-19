@@ -44,6 +44,10 @@ const Patient = sequelize.define('Patient', {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    file_name_image: {
+        type: DataTypes.STRING(150),
+        allowNull: true
+    },
     TherapistId: {
         type: DataTypes.INTEGER,
         allowNull: false
