@@ -383,36 +383,34 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+var file = document.getElementById("importRecording");
+var audioFile;
+/**
+ * Fica de olho se a pessoa inputa uma imagem, caso ela inpute, coloca a imagem inserida como background da div
+ * faz com que o input nao seja visivel e acrescenta uma lixeira para a remoção da imagem
+ */
+file.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        audioFile = file;
+    }
 
-var importButton = document.getElementById('importRecording');
-var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
+    let destinationPath = path.join(__dirname, 'records', audioFile.name);
 
-importButton.addEventListener('click', function(e) {
-    // Crie um input do tipo "file"
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
-
-    // Adicione o input ao corpo do documento
-    document.body.appendChild(fileInput);
-
-    // Oculte o input
-    fileInput.style.display = 'none';
-
-    // Adicione um ouvinte de eventos para o evento de alteração no input de arquivo
-    fileInput.addEventListener('change', function(event) {
-        // Obtenha o arquivo selecionado
-        var selectedFile = event.target.files[0];
-
-        // Exiba o nome do arquivo no elemento designado
-        fileNameDisplay.textContent = selectedFile.name;
-
-        // Remova o input de arquivo do corpo do documento
-        document.body.removeChild(fileInput);
+    fs.copyFile(audioFile.path, destinationPath, (err) => {
+        if (err) throw err;
+        console.log('Arquivo copiado com sucesso!');
     });
 
-    // Dispare um clique no input de arquivo
-    fileInput.click();
-});
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    initialRecordScreen.style.display = "none";
+    recordList.style.display = "flex";
+    recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+    readSounds();
+})
 
 var tasks_button = document.getElementById('back');
 var errorFeedbackButton = document.getElementById('title-feedback-wrong');
@@ -831,34 +829,20 @@ function stopRecording() {
 function saveAudio() {
     if (audioChunks.length) {
         const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-
-        audio.play();
-
-        var audioBlobUrl = URL.createObjectURL(audioBlob);
-
-        // Crie um elemento de link
-        var downloadLink = document.createElement('a');
-
-        // Defina o atributo 'href' do link como o URL do blob
-        downloadLink.href = audioBlobUrl;
-
-        // Defina o atributo 'download' para o nome do arquivo que você deseja para o download
-        downloadLink.download = 'gravação.mp3'; // Substitua pelo nome desejado e a extensão apropriada
         
-        console.log(downloadLink);
+        var audioBlobUrl = URL.createObjectURL(audioBlob);
+        var downloadLink = document.createElement('a');
+        
+        const audio = new Audio(audioBlobUrl);
+        // audio.play();
 
-        // Adicione o link ao documento
+        downloadLink.href = audioBlobUrl;
+        downloadLink.download = 'gravação.mp3'; 
+        
         document.body.appendChild(downloadLink);
-
-        // Acione o clique no link para iniciar o download
         downloadLink.click();
-
-        // Remova o link do documento
         document.body.removeChild(downloadLink);
 
-        // Limpe o objeto URL
         URL.revokeObjectURL(audioBlobUrl);
 
         isRecording = false;
