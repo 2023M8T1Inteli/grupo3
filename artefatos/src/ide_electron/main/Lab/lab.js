@@ -320,8 +320,8 @@ closeModalButton.addEventListener('click', function() {
 
 var openSheepModalButton = document.getElementById('showSheepModal');
 openSheepModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.sheep-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.sheep-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -334,8 +334,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openNumberModalButton = document.getElementById('showNumberModal');
 openNumberModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.number-modal');
-modal.style.display = 'block';
+    console.log("open number modal")
+    modal = document.querySelector('.number-modal');
+    console.log(modal);
+    console.log(modal.style.display);
+    modal.style.display = 'block';
+    console.log(modal.style.display);
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -348,8 +352,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openAlphabetModalButton = document.getElementById('showAlphabetModal');
 openAlphabetModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.alphabet-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.alphabet-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -362,8 +366,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openColorModalButton = document.getElementById('showColorModal');
 openColorModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.color-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.color-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -608,7 +612,7 @@ function startRecording() {
     recordScreen = document.getElementById("record-screen");
     recordingScreen = document.getElementById("recording-screen");
     recordModalTitle = document.getElementById("record-modal-title");
-
+    
     if (initialRecordScreen.style.display != "none") {
         initialRecordScreen.style.display = "none";
         recordScreen.style.display = "flex";
@@ -619,7 +623,7 @@ function startRecording() {
         recordingScreen.style.display = "flex";
         recordModalTitle.innerHTML = "Gravando";
         setTimeout(() => {
-            recordingTime(-1, 0, 0);
+            recordingTime(0, 0, 0);
         }, 1000)
     }
 }
@@ -676,9 +680,11 @@ function closeRecordModal() {
 function recordsList() {
     initialRecordScreen = document.getElementById("initial-record");
     recordList = document.getElementById("records-list");
-
+    recordModalTitle = document.getElementById("record-modal-title");
+    
     initialRecordScreen.style.display = "none";
     recordList.style.display = "flex";
+    recordModalTitle.innerHTML = "Iniciar uma nova gravação"
     readSounds();
 }
 
