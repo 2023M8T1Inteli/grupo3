@@ -615,12 +615,16 @@ h1 {
     margin-top: 20px;
 }
 
-#record-item-buton {
+#record-item-button {
     border-style: none;
     border-radius: 15px;
     width: 30.75%;
     background-color: #D9D9D9;
     color: #000000;
+}
+
+#record-item-button:hover {
+    cursor: pointer;
 }
 
 .importButton {

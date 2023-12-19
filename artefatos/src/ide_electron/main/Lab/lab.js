@@ -710,8 +710,8 @@ function readSounds() {
             // sounds.innerHTML += `<div class="feedback-sounds" >Som de ${file.split('.')[0]} <audio src="${fullPath}/${file}"></div>`
 
             let recordList = document.getElementById('records-list');
-            recordList.innerHTML += `<div id="record-item" class="record-item-${index}" onclick="expandRecordItem('record-item-${index}')">
-                                        <div id="record-item-title">
+            recordList.innerHTML += `<div id="record-item" class="record-item-${index}">
+                                        <div id="record-item-title" onclick="expandRecordItem('record-item-${index}')">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFFFFF" class="bi bi-file-earmark-music" viewBox="0 0 16 16">
                                                 <path d="M11 6.64a1 1 0 0 0-1.243-.97l-1 .25A1 1 0 0 0 8 6.89v4.306A2.572 2.572 0 0 0 7 11c-.5 0-.974.134-1.338.377-.36.24-.662.628-.662 1.123s.301.883.662 1.123c.364.243.839.377 1.338.377.5 0 .974-.134 1.338-.377.36-.24.662-.628.662-1.123V8.89l2-.5V6.64z"/>
                                                 <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
@@ -720,11 +720,71 @@ function readSounds() {
                                         </div>
                                         <div>10 de set de 2022 - 20:30 h</div>
                                         <div id="record-item-butons" class="record-item-${index}-buttons">
-                                            <button id="record-item-buton" class="record-item-${index}-button">Feedback Acerto</button>
-                                            <button id="record-item-buton" class="record-item-${index}-button">Feedback Erro</button>
-                                            <button id="record-item-buton" class="record-item-${index}-button">Ambos</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(0, '${file.split('.')[0]}')">Feedback Acerto</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(1, '${file.split('.')[0]}')">Feedback Erro</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(2, '${file.split('.')[0]}')">Ambos</button>
                                         </div>
                                     </div>`
         })
     })
+}
+
+function recordFeedback(id, fileName) {
+    console.log("asd");
+    console.log(path.join(__dirname, 'records', `${fileName}.mp3`));
+
+    if (id == 0) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+        
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else if (id == 1) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        let destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+            }
+        });
+
+        destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
 }
