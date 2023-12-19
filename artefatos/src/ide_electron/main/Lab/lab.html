@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="lab.css">
 </head>
 <body>
+</div>
     <header id="header-box">
         <div id="title-box">
             <input type="text" id="title-content" value="" maxlength="21" placeholder="Coloque o nome da nova tarefa...">
@@ -32,7 +33,7 @@
                     </button>
                     <button class="img-btn" id="showNumberModal">
                         <img src="../../assets/numeros.png" id="numbers" alt="numeros">
-                    </button>
+                       </button>
                     <button class="img-btn" id="showAlphabetModal">
                         <img src="../../assets/alfabeto.png" id="alphabet" alt="alfabeto"> 
                     </button>  
@@ -61,50 +62,30 @@
             <img src="../../assets/Polygon 1.png" id="start-component" alt="bloco que começa">
         </div>
         </div>
-        <!-- Record Modal -->
+        <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="record-modal-title">Gravação de voz</h5>
-                        <button type="button" class="close" onclick="closeRecordModal()" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="initial-record">
-                            <img src="../../assets/sound_image.png" alt="Imagem de som">
-                            <button class="recordButton" onclick="startRecording()">Fazer uma gravação</button>
-                            <div class="historicButton" onclick="recordsList()">Veja aqui as últimas gravações!</div>
-                            <div class="importButton">
-                                <input type="file" name="" id="importRecording" accept="audio/mpeg">
-                            </div>            
-                        </div>
-                        <div id="record-screen">
-                            <img id="record-mic" src="../../assets/icon_mic.png" alt="Imagem de microfone">
-                            <button id="start-record" onclick="startRecording()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#2B7F7F" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="recording-screen">
-                            <img id="record-mic" src="../../assets/icon_mic.png" alt="Imagem de microfone" width="112" height="144">
-                            <h1 id="record-time">00:00:00</h1>
-                            <div id="line"></div>
-                            <div id="recording">
-                                <button id="recording-button">Descartar</button>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#2B7F7F" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5m3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5"/>
-                                </svg>
-                                <button id="recording-button" onclick="toggleRecording()">Finalizar</button>
-                            </div>
-                        </div>
-                        <div id="records-list">
-                        </div>
-                    </div>
-                </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gravação de voz</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+            <img src="../../assets/sound_image.png" alt="Imagem de som">
+            <div class="recordButton">Fazer uma gravação</div>
+            <div class="historicButton">Veja aqui as últimas gravações!</div>
+            <div class="importButton">
+                <button id="importRecording">Importar gravação
+                <div id="fileNameDisplay"></div>
+                </button>
+                <!-- Adicione este elemento onde você deseja exibir o nome do arquivo -->
+               <div id="fileNameDisplay"></div>
+            </div>            
+            </div>
+            </div>
+        </div>
         </div>
         <!-- Modal da ovelha -->
         <div class="sheep-modal fade" id="showSheepModal" tabindex="-1" role="dialog" aria-labelledby="sheepModalLabel">
@@ -159,178 +140,178 @@
             </div>
         </div>
         <!-- Modal dos números -->
-        <div class="number-modal fade" id="showNumberModal" tabindex="-1" role="dialog" aria-labelledby="numberModalLabel">
-            <div class="number-modal-dialog" role="document">
-                <div class="number-modal-content">
-                    <div class="number-modal-header">
-                        <h1>Números</h1>
-                        <button type="button" class="number-close" id="numberModalCloseBtn" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+<div class="number-modal fade" id="showNumberModal" tabindex="-1" role="dialog" aria-labelledby="numberModalLabel">
+    <div class="number-modal-dialog" role="document">
+        <div class="number-modal-content">
+            <div class="number-modal-header">
+                <h1>Números</h1>
+                <button type="button" class="number-close" id="numberModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="number-modal-body">
+                <div class="block-modal" id="number">
+                    <input type="number" id="number-block-content" value="" maxlength="1" placeholder="Em qual bloco deseja inserir?">
+                </div>
+                <div class="circle-container circle" onclick="chooseNumber('1')">
+                        <p class="number">1</p>
                     </div>
-                    <div class="number-modal-body">
-                        <div class="circle-container">
-                            <div class="circle">
-                                <img src="../../assets/numero_1.png" alt="1" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_2.png" alt="2" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_3.png" alt="3" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_4.png" alt="4" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_5.png" alt="5" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_6.png" alt="6" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_7.png" alt="7" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_8.png" alt="8" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_9.png" alt="9" class="number-img">
-                            </div>
-                            <div class="circle">
-                                <img src="../../assets/numero_10.png" alt="10" class="number-img">
-                            </div>
-                        </div>
+                    <div class="circle-container circle" onclick="chooseNumber('2')">
+                        <p class="number">2</p>
                     </div>
+                    <div class="circle-container circle" onclick="chooseNumber('3')">
+                        <p class="number">3</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('4')">
+                        <p class="number">4</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('5')">
+                        <p class="number">5</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('6')">
+                        <p class="number">6</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('7')">
+                        <p class="number">7</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('8')">
+                        <p class="number">8</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('9')">
+                        <p class="number">9</p>
+                    </div>
+                    <div class="circle-container circle" onclick="chooseNumber('10')">
+                        <p class="number">10</p>
+                    </div>
+                   
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal do alfabeto -->
+<div class="alphabet-modal fade" id="showAlphabetModal" tabindex="-1" role="dialog" aria-labelledby="alphabetModalLabel">
+    <div class="alphabet-modal-dialog" role="document">
+        <div class="alphabet-modal-content">
+            <div class="alphabet-modal-header">
+                <h1>Alfabeto</h1>
+                <button type="button" class="alphabet-close" id="alphabetModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alphabet-modal-body" id="alphabetContainer">
+                <div class="block-modal" id="letter">
+                    <input type="number" id="letter-block-content" value="" maxlength="1" placeholder="Em qual bloco deseja inserir?">
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('A')">
+                    <p class="letter">A</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('B')">
+                    <p class="letter">B</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('C')">
+                    <p class="letter">C</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('D')">
+                    <p class="letter">D</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('E')">
+                    <p class="letter">E</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('F')">
+                    <p class="letter">F</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('G')">
+                    <p class="letter">G</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('H')">
+                    <p class="letter">H</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('I')">
+                    <p class="letter">I</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('J')">
+                    <p class="letter">J</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('K')">
+                    <p class="letter">K</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('L')">
+                    <p class="letter">L</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('M')">
+                    <p class="letter">M</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('N')">
+                    <p class="letter">N</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('O')">
+                    <p class="letter">O</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('P')">
+                    <p class="letter">P</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('Q')">
+                    <p class="letter">Q</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('R')">
+                    <p class="letter">R</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('S')">
+                    <p class="letter">S</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('T')">
+                    <p class="letter">T</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('U')">
+                    <p class="letter">U</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('V')">
+                    <p class="letter">V</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('W')">
+                    <p class="letter">W</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('X')">
+                    <p class="letter">X</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('Y')">
+                    <p class="letter">Y</p>
+                </div>
+                <div class="alphabet-item letter-circle" onclick="chooseLetter('Z')">
+                    <p class="letter">Z</p>
+                </div>
+                    
+                </div>
                 </div>
             </div>
         </div>
-        <!-- Modal do alfabeto -->
-        <div class="alphabet-modal fade" id="showAlphabetModal" tabindex="-1" role="dialog" aria-labelledby="alphabetModalLabel">
-            <div class="alphabet-modal-dialog" role="document">
-                <div class="alphabet-modal-content">
-                    <div class="alphabet-modal-header">
-                        <h1>Alfabeto</h1>
-                        <button type="button" class="alphabet-close" id="alphabetModalCloseBtn" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="alphabet-modal-body" id="alphabetContainer">
-                        <div class="alphabet-item" onclick="chooseLetter('A')">
-                            <img src="../../assets/letra_A.png" alt="A" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('B')">
-                            <img src="../../assets/letra_B.png" alt="B" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('C')">
-                            <img src="../../assets/letra_C.png" alt="C" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('D')">
-                            <img src="../../assets/letra_D.png" alt="D" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('E')">
-                            <img src="../../assets/letra_E.png" alt="E" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('F')">
-                            <img src="../../assets/letra_F.png" alt="F" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('G')">
-                            <img src="../../assets/letra_G.png" alt="G" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('H')">
-                            <img src="../../assets/letra_H.png" alt="H" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('I')">
-                            <img src="../../assets/letra_I.png" alt="I" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('J')">
-                            <img src="../../assets/letra_J.png" alt="J" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('K')">
-                            <img src="../../assets/letra_K.png" alt="K" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('L')">
-                            <img src="../../assets/letra_L.png" alt="L" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('M')">
-                            <img src="../../assets/letra_M.png" alt="M" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('N')">
-                            <img src="../../assets/letra_N.png" alt="N" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('O')">
-                            <img src="../../assets/letra_O.png" alt="O" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('P')">
-                            <img src="../../assets/letra_P.png" alt="P" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('Q')">
-                            <img src="../../assets/letra_Q.png" alt="Q" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('R')">
-                            <img src="../../assets/letra_R.png" alt="R" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('S')">
-                            <img src="../../assets/letra_S.png" alt="S" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('T')">
-                            <img src="../../assets/letra_T.png" alt="T" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('U')">
-                            <img src="../../assets/letra_U.png" alt="U" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('V')">
-                            <img src="../../assets/letra_V.png" alt="V" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('W')">
-                            <img src="../../assets/letra_W.png" alt="W" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('X')">
-                            <img src="../../assets/letra_X.png" alt="X" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('Y')">
-                            <img src="../../assets/letra_Y.png" alt="B" class="alphabet-img">
-                        </div>
-                        <div class="alphabet-item" onclick="chooseLetter('Z')">
-                            <img src="../../assets/letra_Z.png" alt="Z" class="alphabet-img">
-                        </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
+</div>
+<!-- Modal das cores -->
+<div class="color-modal fade" id="showColorModal" tabindex="-1" role="dialog" aria-labelledby="colorsModalLabel">
+    <div class="color-modal-dialog" role="document">
+        <div class="color-modal-content">
+            <div class="color-modal-header">
+                <h1>Cores</h1>
+                <button type="button" class="color-close" id="colorModalCloseBtn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+           <img src="../../assets/cor_verde.png" alt="Verde" class="color-img">
+           <img src="../../assets/cor_vermelha.png" alt="Vermelho" class="color-img">
+           <img src="../../assets/cor_azul.png" alt="Azul" class="color-img">
+           <img src="../../assets/cor_amarela.png" alt="Amarelo" class="color-img">
+           <img src="../../assets/cor_roxa.png" alt="Roxo" class="color-img">
+           <img src="../../assets/cor_rosa.png" alt="Rosa" class="color-img">
+           <img src="../../assets/cor_marrom.png" alt="Marrom" class="color-img">
+           <img src="../../assets/cor_preta.png" alt="Preto" class="color-img">
+           <img src="../../assets/cor_branca.png" alt="Branco" class="color-img">
         </div>
+    </div>
+</div>
 
-        <script>
-            function chooseLetter(letter) {
-                alert('Letra escolhida: ' + letter); // Altere isso para a lógica que você deseja ao escolher uma letra
-                // Adicione aqui a lógica para lidar com a escolha da letra, por exemplo, enviar para o servidor, atualizar a interface, etc.
-                // ...
-            }
-        </script>
-        
-        <!-- Modal das cores -->
-        <div class="color-modal fade" id="showColorModal" tabindex="-1" role="dialog" aria-labelledby="colorsModalLabel">
-            <div class="color-modal-dialog" role="document">
-                <div class="color-modal-content">
-                    <div class="color-modal-header">
-                        <h1>Cores</h1>
-                        <button type="button" class="color-close" id="colorModalCloseBtn" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                <img src="../../assets/cor_verde.png" alt="Verde" class="color-img">
-                <img src="../../assets/cor_vermelha.png" alt="Vermelho" class="color-img">
-                <img src="../../assets/cor_azul.png" alt="Azul" class="color-img">
-                <img src="../../assets/cor_amarela.png" alt="Amarelo" class="color-img">
-                <img src="../../assets/cor_roxa.png" alt="Roxo" class="color-img">
-                <img src="../../assets/cor_rosa.png" alt="Rosa" class="color-img">
-                <img src="../../assets/cor_marrom.png" alt="Marrom" class="color-img">
-                <img src="../../assets/cor_preta.png" alt="Preto" class="color-img">
-                <img src="../../assets/cor_branca.png" alt="Branco" class="color-img">
-                </div>
-            </div>
-        </div>
-    </main>
+   </main>
+    </div>
     <footer id="blocks-box">
         <div class="column-box">
             <div class="block-box-disabled" draggable="false" id="11">

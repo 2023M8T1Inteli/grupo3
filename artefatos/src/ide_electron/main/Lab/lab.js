@@ -66,6 +66,7 @@ sequence.addEventListener('dragover', function(e) {
     e.preventDefault();
 });
 
+var currentBlock = 0
 
 // Adicione um ouvinte de eventos para o evento de soltar na sequência
 sequence.addEventListener('drop', function(e) {
@@ -83,8 +84,116 @@ sequence.addEventListener('drop', function(e) {
     // Registre a lista de blocos na sequência no console
     localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
     // Anexe o elemento clonado à sequência
+
+    droppedElement.id = droppedElement.id + String(currentBlock);
+    currentBlock += 1;
     sequence.appendChild(droppedElement);
 });
+
+var chooseBlockLetter = document.querySelector('#letter');
+var chooseBlockNumber = document.querySelector('#number')
+var x = 0
+var y = 0
+var currentX = 0
+var currentY = 0
+
+function chooseLetter(letter) { 
+    console.log('chooseLetter called with letter:', letter);
+    chooseBlockLetter.style.display = 'flex';
+
+    function createEventHandler(currentLetter) {
+        return function handleInput(e) {
+            if (x == 0) {
+                currentX += 1
+                x = currentX
+                console.log('handleInput called with letter:', currentLetter);
+
+                if (e.target.value === "") {
+                    return;
+                }
+
+                if (e.target.value - 1 >= sequenceBlocksListAdded.length) {
+                    alert("O número deve ser menor ou igual ao número de blocos na sequência!");
+                    e.target.value = "";
+                    e.target.focus();
+                } else {
+                    let droppedElement = sequence.querySelector('[id="' + (sequenceBlocksListAdded[e.target.value - 1]) + String(e.target.value - 1) + '"]');
+                    console.log(droppedElement);
+                    if (droppedElement.querySelector('span') != null) {
+                        droppedElement.removeChild(droppedElement.querySelector('span'));
+                    }
+
+                    span = document.createElement('span');
+                    span.innerText = currentLetter;
+                    droppedElement.prepend(span);
+                    chooseBlockLetter.style.display = 'none';
+                    document.getElementById('letter-block-content').value = "";
+                }
+            }
+            else {
+                x --
+            }
+        };
+    }
+
+    const inputElement = document.getElementById('letter-block-content');
+    console.log(inputElement)
+    // Remove the existing event listener before adding a new one
+    inputElement.removeEventListener('input', createEventHandler(letter));
+
+    // Add the new event listener
+    inputElement.addEventListener('input', createEventHandler(letter));
+}
+
+function chooseNumber(letter) { 
+    console.log('chooseLetter called with letter:', letter);
+    chooseBlockNumber.style.display = 'flex';
+
+    function createEventNumberHandler(currentLetter) {
+        return function handleNumberInput(e) {
+            if (y == 0) {
+                currentY += 1
+                y = currentY
+                console.log('handleInput called with letter:', currentLetter);
+
+                if (e.target.value === "") {
+                    return;
+                }
+
+                if (e.target.value - 1 >= sequenceBlocksListAdded.length) {
+                    alert("O número deve ser menor ou igual ao número de blocos na sequência!");
+                    e.target.value = "";
+                    e.target.focus();
+                } else {
+                    let droppedElement = sequence.querySelector('[id="' + (sequenceBlocksListAdded[e.target.value - 1]) + String(e.target.value - 1) + '"]');
+                    console.log(droppedElement);
+
+                    if (droppedElement.querySelector('span') != null) {
+                        droppedElement.removeChild(droppedElement.querySelector('span'));
+                    }
+
+                    span = document.createElement('span');
+                    span.innerText = currentLetter;
+                    droppedElement.prepend(span);
+                    chooseBlockNumber.style.display = 'none';
+                    document.getElementById('number-block-content').value = "";
+                }
+            }
+            else {
+                y --
+            }
+        };
+    }
+
+    const inputElement = document.getElementById('number-block-content');
+
+    // Remove the existing event listener before adding a new one
+    inputElement.removeEventListener('input', createEventNumberHandler(letter));
+
+    // Add the new event listener
+    inputElement.addEventListener('input', createEventNumberHandler(letter));
+}
+
 
 function sendCode() {
     // Crie a parte inicial do programa
