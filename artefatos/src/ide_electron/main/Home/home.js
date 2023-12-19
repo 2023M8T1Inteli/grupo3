@@ -1,8 +1,33 @@
 const { ipcRenderer } = require("electron")
+const path = require('path')
 
 function redirectToProfile(child_id) {
     localStorage.setItem("childId", child_id)
     window.location.href = '../Child_Information/tarefas.html';
+}
+
+function goToLogin() {
+    if(confirm("Deseja realmente sair?")) {
+        window.location.href = '../Login/index.html';
+    }
+}
+
+function getProfileImage() {
+    var profileImg = document.getElementById('profile-img')
+    ipcRenderer.send('read-therapist', localStorage.getItem('id'))
+
+    ipcRenderer.on('resposta-read-therapist', (event, arg) => {
+        console.log(arg)
+        
+        if (arg.response.dataValues.file_name_image == null) {
+            profileImg.src = '../../assets/user.png'
+        }
+        else {
+            dirPath = path.join(__dirname, '..', 'Profile_images', arg.response.dataValues.file_name_image)
+            profileImg.src = dirPath
+            console.log(dirPath)
+        }
+    })
 }
 
 function getPacients(){
@@ -25,3 +50,4 @@ function getPacients(){
 }
 
 getPacients()
+getProfileImage()
