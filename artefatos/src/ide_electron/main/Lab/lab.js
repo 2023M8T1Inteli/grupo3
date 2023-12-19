@@ -385,10 +385,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var file = document.getElementById("importRecording");
 var audioFile;
-/**
- * Fica de olho se a pessoa inputa uma imagem, caso ela inpute, coloca a imagem inserida como background da div
- * faz com que o input nao seja visivel e acrescenta uma lixeira para a remoção da imagem
- */
+
 file.addEventListener('change', function(e) {
     if (e.target.files.length > 0) {
         const file = e.target.files[0];
@@ -406,10 +403,12 @@ file.addEventListener('change', function(e) {
     recordList = document.getElementById("records-list");
     recordModalTitle = document.getElementById("record-modal-title");
     
-    initialRecordScreen.style.display = "none";
-    recordList.style.display = "flex";
-    recordModalTitle.innerHTML = "Iniciar uma nova gravação"
-    readSounds();
+    setTimeout(() => {
+        initialRecordScreen.style.display = "none";
+        recordList.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+        readSounds();
+    }, 500);
 })
 
 var tasks_button = document.getElementById('back');
@@ -619,7 +618,7 @@ function startRecording() {
     if (initialRecordScreen.style.display != "none") {
         initialRecordScreen.style.display = "none";
         recordScreen.style.display = "flex";
-        recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação";
     }
     else if (recordScreen.style.display != "none") {
         recordScreen.style.display = "none";
@@ -832,9 +831,6 @@ function saveAudio() {
         
         var audioBlobUrl = URL.createObjectURL(audioBlob);
         var downloadLink = document.createElement('a');
-        
-        const audio = new Audio(audioBlobUrl);
-        // audio.play();
 
         downloadLink.href = audioBlobUrl;
         downloadLink.download = 'gravação.mp3'; 
@@ -847,5 +843,12 @@ function saveAudio() {
 
         isRecording = false;
         audioChunks = [];
+
+        initialRecordScreen = document.getElementById("initial-record");
+        recordModalTitle = document.getElementById("record-modal-title");
+
+        initialRecordScreen.style.display = "flex";
+        recordingScreen.style.display = "none";
+        recordModalTitle.innerHTML = "Gravação de voz";
     }
 }
