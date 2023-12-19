@@ -8,7 +8,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../tarefas.css" />
+    <link rel="stylesheet" href="./Modal Edit/modal-edit.css" />
   </head>
   <body>
     <header>
@@ -80,97 +81,95 @@
         </div>
         <div id="botoes">
           <div id="btn-excluir" class="btn-acao" onclick="deletePatient()">Excluir</div>
-          <div id="btn-editar" class="btn-acao">Editar</div>
+          <div id="btn-editar" class="btn-acao" onclick="openModal()">Editar</div>
         </div>
+      </div>
+
+      <div id="modal-overlay">
+        <div id="modal">
+            <div id="feedback"></div>
+            <div id="top">
+                <button id="back-arrow" onclick="closeModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                </button>
+                <p id="patient-register"> Atualização de dados do paciente </p>
+            </div>
+            <div id="data">
+                <div class="row-data">
+                    <div class="info">
+                        <p> Nome completo <strong> * </strong></p>
+                        <input type="text" class="write-info" name="" id="name-inputs">
+                        <div class="alert-error" id="alert-name-error">
+                            <p class="didnt-write" id="name-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p> Idade <strong> * </strong></p>
+                        <input type="number" class="write-info" name="" id="age-inputs">
+                        <div class="alert-error" id="alert-age-error">
+                            <p  class="didnt-write" id="age-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-data">
+                    <div class="info">
+                        <p> Tipo de deficiência </p>
+                        <input type="text" class="write-info" name="" id="deficiency-inputs">
+                        <div class="alert-error" id="alert-deficiency-error">
+                            <p class="didnt-write" id="deficiency-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <p> Grau de deficiência <strong> * </strong></p>
+                        <input type="number" class="write-info" name="" id="degree-inputs">
+                        <div class="alert-error" id="alert-degree-error">
+                            <p  class="didnt-write" id="degree-error"> Preencha o campo acima </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-data">
+                  <div class="info">
+                      <p> Primeira consulta  <strong> * </strong></p>
+                      <input type="text" class="write-info" name="" id="first-appointment-inputs" placeholder="DD/MM/AAAA">
+                      <div class="alert-error" id="alert-first-appointment-error">
+                          <p class="didnt-write" id="first-appointment-error"> </p>
+                      </div>
+                  </div>
+                  <div class="info">
+                      <p> Última consulta </p>
+                      <input type="text" class="write-info" name="" id="last-appointment-inputs" placeholder="DD/MM/AAAA">
+                      <div class="alert-error" id="alert-last-appointment-error">
+                          <p class="didnt-write" id="last-appointment-error"> </p>
+                      </div>
+                  </div>
+                </div>
+                <div class="info">
+                    <p> Interesses </p>
+                    <textarea class="write-info" rows="3" cols="50" id="hobbies-inputs"></textarea>
+                    <div class="alert-error" id="alert-hobbies-error">
+                        <p class="didnt-write" id="hobbies-error"> Preencha o campo acima </p>
+                    </div>
+                </div>
+                <div class="info">
+                    <p> História </p>
+                    <textarea class="write-info" rows="3" cols="50" id="background-inputs"></textarea>
+                    <div class="alert-error" id="alert-background-error">
+                        <p class="didnt-write" id="background-error"> Preencha o campo acima </p>
+                    </div>
+                </div>
+                <div id="register-patient">
+                    <button id="register-button" onclick="updatePatient()">
+                        Atualizar paciente
+                    </button>
+                </div>
+            </div>
+        </div>
+      </div>
       </div>
     </main>
     <script src="perfil.js"></script>
-    <script>
-      // const conteudo = document.querySelector('#conteudo');
-      // const btnExcluir = document.querySelector('#btn-excluir');
-      // const btnEditar = document.querySelector('#btn-editar');
-      // const inputs = document.querySelectorAll('#inputs p');
-
-      // btnExcluir.addEventListener('click', () => {
-      //   if (confirm('Tem certeza que deseja excluir?')) {
-      //     conteudo.innerHTML = 'Perfil excluído.';
-      //     alert('Perfil excluído com sucesso!');
-      //   } 
-      // });
-
-      // btnEditar.addEventListener('click', () => {
-      //   if (btnEditar.textContent == 'Editar') {
-      //     alert('Edite os campos de seu interesse!');
-      //     btnEditar.textContent = 'Confirmar';
-      //     inputs.forEach((input) => {
-      //       input.setAttribute('contenteditable', true);
-      //     });
-      //   } else {
-      //     alert('Campos editados com sucesso!');
-      //     btnEditar.textContent = 'Editar';
-      //     inputs.forEach((input) => {
-      //       input.setAttribute('contenteditable', false);
-      //     });
-      //   }
-      // })
-    </script>
-  
-<script>
-// // Function to add 'active' class to the current page's menu button
-// function setActiveButton(buttonId) {
-//   // Remove 'active' class from all buttons
-//   document.querySelectorAll('.btn-menu').forEach(btn => {
-//     btn.classList.remove('active');
-//   });
-  
-//   // Add 'active' class to the current page's menu button
-//   const currentButton = document.querySelector(buttonId);
-//   if (currentButton) {
-//     currentButton.classList.add('active');
-//   }
-// }
-
-// // Call the function with the appropriate button ID for each page
-// // The following ID will need to be adjusted according to the button that corresponds to the current HTML page
-// document.addEventListener('DOMContentLoaded', () => setActiveButton('#btn-perfil'));
-// </script>
-
-// <script>
-// // Function to add 'active' class to the current page's menu button
-// function setActiveButton(buttonId) {
-//   // Remove 'active' class from all buttons
-//   document.querySelectorAll('.btn-menu').forEach(btn => {
-//     btn.classList.remove('active');
-//   });
-  
-//   // Add 'active' class to the current page's menu button
-//   const currentButton = document.querySelector(buttonId);
-//   if (currentButton) {
-//     currentButton.classList.add('active');
-//   }
-// }
-
-// // Call the function with the appropriate button ID for each page
-// // The following ID will need to be adjusted according to the button that corresponds to the current HTML page
-// document.addEventListener('DOMContentLoaded', () => setActiveButton('#btn-perfil'));
-</script>
-
-<script>
-
-//   function redirectToRegister() {
-//   window.location.href = '../Performance/performance.html';
-//     }
-
-//   function redirectToProfile() {
-//   window.location.href = '../Child_Information/perfil.html';
-//    }
-//   function redirectToPerformance() {
-//   window.location.href = '../Chil_Information/desempenho.html';
-//   }
-//  function redirectToTasks() {
-//  window.location.href = '../Child_Information/tarefas.html';
-//  }
-
-</script>
+    <script src="./Modal Edit/modal-edit.js"></script>
 </body>
 </html>

@@ -61,6 +61,8 @@ main {
 
 #menu-lateral p {
   margin-bottom: 30px;
+  text-align: center;
+  font-size: 20px;
 }
 
 #menu-lateral .btn-menu {
@@ -107,7 +109,7 @@ main {
 }
 
 #inputs .line {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 #inputs label,
@@ -431,4 +433,9 @@ i.adicionar {
     align-items: center;
     justify-content: space-evenly;
   }
+}
+
+.any-information{
+  color: rgb(136, 131, 131);
+  font-weight: 300;
 }

@@ -1,12 +1,8 @@
 var name_bool = false
 var age_bool = false
-var deficiency_bool = false
 var degree_bool = false
 var first_appointment_bool = false
-var last_appointment_bool = false
-var hobbies_bool = false
 var background_bool = false
-
 
 function openModal() {
     document.getElementById('modal-overlay').style.display = 'flex';
@@ -35,10 +31,15 @@ function getPacients(){
     })
 }
 
+function regexDate(date){
+    let regex = /\d{2}\/\d{2}\/\d{4}/g
+    return regex.test(date)
+}
 /**
  * Altera a estilização das caixas onde nada foi escrito, colocando uma borda vermelha e tornando visivel o erro
  */
 function checkInfo(){
+    
     var inputs = document.getElementById("inputs")
 
     var name = document.getElementById("name")
@@ -49,10 +50,6 @@ function checkInfo(){
     var alert_age = document.getElementById("alert-age-error")
     var age_error = document.getElementById("age-error")
 
-    var deficiency = document.getElementById("deficiency")
-    var alert_deficiency = document.getElementById("alert-deficiency-error")
-    var deficiency_error = document.getElementById("deficiency-error")
-
     var degree = document.getElementById("degree")
     var alert_degree = document.getElementById("alert-degree-error")
     var degree_error = document.getElementById("degree-error")
@@ -60,15 +57,7 @@ function checkInfo(){
     var first_appointment = document.getElementById("first-appointment")
     var alert_first_appointment = document.getElementById("alert-first-appointment-error")
     var first_appointment_error = document.getElementById("first-appointment-error")
-
-    var last_appointment = document.getElementById("last-appointment")
-    var alert_last_appointment = document.getElementById("alert-last-appointment-error")
-    var last_appointment_error = document.getElementById("last-appointment-error")
-
-    var hobbies = document.getElementById("hobbies")
-    var alert_hobbies = document.getElementById("alert-hobbies-error")
-    var hobbies_error = document.getElementById("hobbies-error")
-
+    
     var background = document.getElementById("background")
     var alert_background = document.getElementById("alert-background-error")
     var background_error = document.getElementById("background-error")
@@ -99,19 +88,6 @@ function checkInfo(){
         age_bool = true
     }
 
-    if(deficiency.value == "" && deficiency_error.style.display == "") {
-        alert_deficiency.style.display = "block"
-        deficiency_error.style.display = "block"
-        deficiency.style.border = "2px solid red"
-        inputs.style.gap = "0px"
-    } else if (deficiency.value != "") {
-        alert_deficiency.style.display = ""
-        deficiency_error.style.display = ""
-        deficiency.style.border = ""
-        inputs.style.gap = "15px"
-        deficiency_bool = true
-    }
-
     if(degree.value == "" && degree_error.style.display == "") {
         alert_degree.style.display = "block"
         degree_error.style.display = "block"
@@ -125,47 +101,31 @@ function checkInfo(){
         degree_bool = true
     }
 
-    if(first_appointment.value == "" && first_appointment_error.style.display == "") {
+    if(first_appointment.value == "") {
         alert_first_appointment.style.display = "block"
+        first_appointment_error.innerText = "Preencha o campo acima"
         first_appointment_error.style.display = "block"
         first_appointment.style.border = "2px solid red"
         inputs.style.gap = "0px"
     } else if (first_appointment.value != "") {
-        alert_first_appointment.style.display = ""
-        first_appointment_error.style.display = ""
-        first_appointment.style.border = ""
-        inputs.style.gap = "15px"
-        first_appointment_bool = true
+        if(regexDate(first_appointment.value)){
+            alert_first_appointment.style.display = ""
+            first_appointment_error.style.display = ""
+            first_appointment.style.border = ""
+            inputs.style.gap = "15px"
+            first_appointment_bool = true
+        } else {
+            alert_first_appointment.style.display = "block"
+            first_appointment_error.innerText = "Formato inválido"
+            first_appointment_error.style.display = "block"
+            first_appointment.style.border = "2px solid red"
+            inputs.style.gap = "0px"
+        }
     }
-
-    if(last_appointment.value == "" && last_appointment_error.style.display == "") {
-        alert_last_appointment.style.display = "block"
-        last_appointment_error.style.display = "block"
-        last_appointment.style.border = "2px solid red"
-        inputs.style.gap = "0px"
-    } else if (last_appointment.value != "") {
-        alert_last_appointment.style.display = ""
-        last_appointment_error.style.display = ""
-        last_appointment.style.border = ""
-        inputs.style.gap = "15px"
-        last_appointment_bool = true
-    }
-
-    if(hobbies.value == "" && hobbies_error.style.display == "") {
-        alert_hobbies.style.display = "block"
-        hobbies_error.style.display = "block"
-        hobbies.style.border = "2px solid red"
-        inputs.style.gap = "0px"
-    } else if (hobbies.value != "") {
-        alert_hobbies.style.display = ""
-        hobbies_error.style.display = ""
-        hobbies.style.border = ""
-        inputs.style.gap = "15px"
-        hobbies_bool = true
-    }
-
-    if(background.value == "" && background_error.style.display == "") {
+    
+    if(background.value == "") {
         alert_background.style.display = "block"
+        background_error.innerText = "Preencha o campo acima"
         background_error.style.display = "block"
         background.style.border = "2px solid red"
         inputs.style.gap = "0px"
@@ -178,20 +138,30 @@ function checkInfo(){
     }
 }
 
-async function sendPatientRegister(name, age, deficiency, degree, first, last, hobbies, background){
-    // therapistId = localStorage.getItem("therapistId")
-    // ipcRenderer.send('read-therapist', therapistId)
-    
+async function sendPatientRegister(name, age, deficiency, degree, first, hobbies, background){
+    let deficiency_value = null
+    let hobbies_value = null
+
+    if(deficiency.value != ""){
+        deficiency_value = deficiency.value
+    }
+
+    if(hobbies.value != ""){
+        hobbies_value = hobbies.value
+    }
+
+    TherapistId = localStorage.getItem("id")
+
     ipcRenderer.send('register-patient', {
         name: name.value,
         age: age.value,
-        type_of_disability: deficiency.value,
         degree: degree.value,
         first_consultation: first.value,
-        last_consultation: last.value,
-        interests: hobbies.value,
+        last_consultation: first.value,
+        type_of_disability: deficiency_value,
+        interests: hobbies_value,
         background: background.value,
-        TherapistId: 1,
+        TherapistId: TherapistId,
     });
 }
 
@@ -242,13 +212,12 @@ async function registerPatient(){
     var deficiency = document.getElementById("deficiency")
     var degree = document.getElementById("degree")
     var first_appointment = document.getElementById("first-appointment")
-    var last_appointment = document.getElementById("last-appointment")
     var hobbies = document.getElementById("hobbies")
     var background = document.getElementById("background")
     var feedback = document.getElementById("feedback")
 
-    if(name_bool && age_bool && deficiency_bool && degree_bool && first_appointment_bool && last_appointment_bool && hobbies_bool && background_bool){
-        await sendPatientRegister(name, age, deficiency, degree, first_appointment, last_appointment, hobbies, background)
+    if(name_bool && age_bool && degree_bool && first_appointment_bool && background_bool){
+        await sendPatientRegister(name, age, deficiency, degree, first_appointment, hobbies, background)
         let resposta = await getPatientResponse()
         console.log(resposta.message)
 
@@ -264,7 +233,6 @@ async function registerPatient(){
                 deficiency.value = ""
                 degree.value = ""
                 first_appointment.value = ""
-                last_appointment.value = ""
                 hobbies.value = ""
                 background.value = ""
                 closeModal()
@@ -282,7 +250,6 @@ async function registerPatient(){
                 deficiency.value = ""
                 degree.value = ""
                 first_appointment.value = ""
-                last_appointment.value = ""
                 hobbies.value = ""
                 background.value = ""
             }, 3000)

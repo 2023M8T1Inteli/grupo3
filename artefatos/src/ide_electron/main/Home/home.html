@@ -48,14 +48,14 @@
             <div id="inputs">
                 <div class="row-data">
                     <div class="info">
-                        <p> Nome completo </p>
+                        <p> Nome completo <strong> * </strong></p>
                         <input type="text" class="write-info" name="" id="name">
                         <div class="alert-error" id="alert-name-error">
                             <p class="didnt-write" id="name-error"> Preencha o campo acima </p>
                         </div>
                     </div>
                     <div class="info">
-                        <p> Idade </p>
+                        <p> Idade <strong> * </strong></p>
                         <input type="number" class="write-info" name="" id="age">
                         <div class="alert-error" id="alert-age-error">
                             <p  class="didnt-write" id="age-error"> Preencha o campo acima </p>
@@ -71,45 +71,30 @@
                         </div>
                     </div>
                     <div class="info">
-                        <p> Grau de deficiência </p>
+                        <p> Grau de deficiência <strong> * </strong></p>
                         <input type="number" class="write-info" name="" id="degree">
                         <div class="alert-error" id="alert-degree-error">
                             <p  class="didnt-write" id="degree-error"> Preencha o campo acima </p>
                         </div>
                     </div>
                 </div>
-                <div class="row-data">
-                    <div class="info">
-                        <p> Primeira consulta </p>
-                        <input type="text" class="write-info" name="" id="first-appointment">
-                        <div class="alert-error" id="alert-first-appointment-error">
-                            <p class="didnt-write" id="first-appointment-error"> Preencha o campo acima </p>
-                        </div>
-                        <div class="alert-error" id="alert-first-date-error">
-                            <p class="didnt-write" id="first-time-error"> Data inválida </p>
-                        </div>
-                    </div>
-                    <div class="info">
-                        <p> Última consulta </p>
-                        <input type="text" class="write-info" name="" id="last-appointment">
-                        <div class="alert-error" id="alert-last-appointment-error">
-                            <p  class="didnt-write" id="last-appointment-error"> Preencha o campo acima </p>
-                        </div>
-                        <div class="alert-error" id="alert-last-date-error">
-                            <p class="didnt-write" id="second-time-error"> Data inválida </p>
-                        </div>
+                <div class="info">
+                    <p> Primeira consulta <strong> * </strong></p>
+                    <input type="text" class="write-info" name="" id="first-appointment" placeholder="DD/MM/AAAA">
+                    <div class="alert-error" id="alert-first-appointment-error">
+                        <p class="didnt-write" id="first-appointment-error"> </p>
                     </div>
                 </div>
                 <div class="info">
                     <p> Interesses </p>
-                    <input type="text" class="write-info" name="" id="hobbies">
+                    <textarea class="write-info" rows="3" cols="50" id="hobbies"></textarea>
                     <div class="alert-error" id="alert-hobbies-error">
                         <p class="didnt-write" id="hobbies-error"> Preencha o campo acima </p>
                     </div>
                 </div>
                 <div class="info">
-                    <p> História </p>
-                    <input type="text" class="write-info" name="" id="background">
+                    <p> História <strong> * </strong></p>
+                    <textarea class="write-info" rows="3" cols="50" id="background"></textarea>
                     <div class="alert-error" id="alert-background-error">
                         <p class="didnt-write" id="background-error"> Preencha o campo acima </p>
                     </div>

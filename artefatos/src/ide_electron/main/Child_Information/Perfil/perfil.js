@@ -41,6 +41,9 @@ function getInfo(){
   let hobbies = document.getElementById("hobbies")
   let background = document.getElementById("background")
 
+  let type_disability_value
+  let hobbies_value
+
 
   childId = localStorage.getItem("childId")
   ipcRenderer.send('read-patient', childId)
@@ -48,14 +51,28 @@ function getInfo(){
   ipcRenderer.on('response-read-patient', (event,arg) => {
     console.log(arg)
 
+    if(arg.response.dataValues.type_of_disability == null){
+      deficiency.classList.add("any-information")
+      type_disability_value = "Não há informações a respeito disso"
+    } else {
+      type_disability_value = arg.response.dataValues.type_of_disability
+    }
+    
+    if(arg.response.dataValues.hobbies == null){
+      hobbies.classList.add("any-information")
+      hobbies_value = "Não há informações a respeito disso"
+    } else {
+      hobbies_value = arg.response.dataValues.hobbies
+    }
+
     top_name.innerHTML = arg.response.dataValues.name
     name.innerHTML = arg.response.dataValues.name
     age.innerHTML = arg.response.dataValues.age
     degree.innerHTML = arg.response.dataValues.degree
-    deficiency.innerHTML = arg.response.dataValues.type_of_disability
+    deficiency.innerHTML = type_disability_value
     first_appointment.innerHTML = arg.response.dataValues.first_consultation
     last_appointment.innerHTML = arg.response.dataValues.last_consultation
-    hobbies.innerHTML = arg.response.dataValues.interests
+    hobbies.innerHTML = hobbies_value
     background.innerHTML = arg.response.dataValues.background
   })
 }
