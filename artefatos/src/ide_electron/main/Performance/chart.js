@@ -1,4 +1,14 @@
+const { ipcRenderer } = require("electron");
+
 document.addEventListener("DOMContentLoaded", function() {
+    
+    id_my_task = localStorage.getItem("taskId")
+    
+    ipcRenderer.send('read-my-task-performance', id_my_task)
+    ipcRenderer.on("response-read-my-task-performance", (event, arg) => {
+        console.log(arg)
+    })
+
     // Dados do gráfico
     var dados = {
         labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5", "Semana 6", "Semana 7", "Semana 8"],

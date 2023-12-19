@@ -41,7 +41,7 @@ class CrudPerformance {
         try {
             const bodyReturn = await Performance.findOne({
                 where: {
-                    MyTaskId: id 
+                    MyTasksId: id 
                 }
             });
             return {
