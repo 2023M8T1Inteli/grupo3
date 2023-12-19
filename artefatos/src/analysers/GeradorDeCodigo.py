@@ -26,7 +26,7 @@ class GeradorDeCodigo:
         self.pythonString += self.currentT
         self.pythonString += "display.fill((255, 255, 255))\n"
         self.pythonString += self.currentT
-        self.pythonString += "txtsurf = pygame.font.SysFont(\"Arial\", 70).render('Parabens! Voce finalizou a tarefa.', True, (0, 0, 0))\n"
+        self.pythonString += "txtsurf = pygame.font.SysFont(\"Arial\", 70).render('PARABENS! VOCE FINALIZOU A TAREFA.', True, (0, 0, 0))\n"
         self.pythonString += self.currentT
         self.pythonString += "display.blit(txtsurf, (640 - (txtsurf.get_size()[0] / 2), 360 - (txtsurf.get_size()[1] / 2)))\n"
         self.pythonString += self.currentT
@@ -37,6 +37,9 @@ class GeradorDeCodigo:
         self.pythonString += "run = False\n"
         self.pythonString += "\n"
         self.currentT = self.currentT[:-1]
+        self.pythonString += self.currentT
+        self.pythonString += 'print("Errors: " + str(erros) + ", Success: " + str(acertos))'
+        self.currentT = self.currentT[:-1]
         self.pythonString += "\n"
         self.pythonString += "pygame.init()\n"
         self.pythonString += "pygame.display.set_caption('Image') \n"
@@ -44,6 +47,7 @@ class GeradorDeCodigo:
         self.pythonString += "display.fill((255, 255, 255))\n"
         self.pythonString += "\n"
         self.pythonString += self.tree.getNode("string").value + "()\n"
+        self.pythonString += "pygame.quit()\n"
     
     def block(self, block):
         statementList = block.getNode("statementList")

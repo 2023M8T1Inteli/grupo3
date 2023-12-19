@@ -57,8 +57,8 @@ def mostrar_tocar_feedback(tocar, mostrar, feedback):
 	pygame.time.wait(3000)
 	display.fill((255, 255, 255))
 	if feedback == 1:
-		txtsurf = font.render('Vamos para o proximo quadrante!', True, (0, 0, 0))
+		txtsurf = font.render('VAMOS PARA O PROXIMO QUADRANTE!', True, (0, 0, 0))
 	else:
-		txtsurf = font.render('Tente novamente!', True, (0, 0, 0))
+		txtsurf = font.render('VAMOS TENTAR DE NOVO? VOCE CONSEGUE!', True, (0, 0, 0))
 	display.blit(txtsurf, (640 - (txtsurf.get_size()[0] / 2), 360 - (txtsurf.get_size()[1] / 2)))
 	pygame.display.update()

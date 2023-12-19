@@ -83,7 +83,7 @@ sequence.addEventListener('drop', function(e) {
 
 function sendCode() {
     // Crie a parte inicial do programa
-    var start_of_program = 'programa "tarefa1":\n\tinicio';
+    var start_of_program = 'programa "tarefa1":\n\tinicio\n\terros = 0\n\tacertos=0';
 
     // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
     var middle_of_program = "";
@@ -92,7 +92,7 @@ function sendCode() {
     let success_sound_id = JSON.parse(localStorage.getItem('successFeedback')).sound_id
     let error_image_id = JSON.parse(localStorage.getItem('errorFeedback')).image_id
     let error_sound_id = JSON.parse(localStorage.getItem('errorFeedback')).sound_id
-    console.log(sequenceBlocksListAdded)
+
     // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
         middle_of_program += `
@@ -101,8 +101,10 @@ function sendCode() {
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
                 mostrar_tocar_feedback(${error_sound_id}, ${error_image_id}, 0)
+                erros = erros + 1
                 quadrantePressionado = ler()
             fim
+            acertos = acertos + 1
             mostrar_tocar_feedback(${success_sound_id}, ${success_image_id}, 1)\n`;
     }
 
@@ -114,6 +116,22 @@ function sendCode() {
 
     // Envie o código do programa aos analisadores via ipcRenderer
     ipcRenderer.send('code-for-analysers', program);
+
+    ipcRenderer.on('response-code-for-analysers', (event, arg) => {
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}/${month}/${year}`;
+
+        ipcRenderer.send('register-performance', {
+            hits: arg.success,
+            mistakes: arg.errors,
+            consultation_data: currentDate,
+            MyTasksId: localStorage.getItem('taskId')
+        })
+    })
+
 
     // Envie o código do programa para execução via ipcRenderer
     ipcRenderer.send('call-python-code', program);

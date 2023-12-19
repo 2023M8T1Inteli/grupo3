@@ -67,13 +67,41 @@ app.on('ready', () => {
 
           setTimeout(() => {
             const task = spawn('python', ['../task.py']);
+            var errors = 0;
+            var success = 0;
   
             task.stdout.on('data', (data) => {
-              console.log(`Python stdout: ${data}`);
+              const output = data.toString();
+              console.log(`Python stdout: ${output}`);
+
+              // Extract error and success counts from the output
+              const matchErrors = output.match(/Errors: (\d+)/);
+              const matchSuccess = output.match(/Success: (\d+)/);
+
+              
+              if (matchErrors) {
+                errors += parseInt(matchErrors[1], 10);
+              }
+            
+              if (matchSuccess) {
+                success += parseInt(matchSuccess[1], 10);
+              }
             })
+
+            task.on('close', (code) => {
+              console.log(`Python process exited with code ${code}`);
+              let responseData = {
+                success: success,
+                errors: errors
+              }
+              
+              event.sender.send('response-code-for-analysers', responseData);
+            });
           }, 2000)
+          
         });
       });
+
 
       pythonProcess.stderr.on('data', (data) => {
         console.error(`Python stderr: ${data}`);
