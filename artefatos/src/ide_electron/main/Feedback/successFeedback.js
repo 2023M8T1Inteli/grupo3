@@ -7,12 +7,13 @@ localStorage.setItem('successNotification', 0);
 // Function to display all the images in the images folder
 function readImages() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/images')
-
+    let index = 0
     fs.readdir(fullPath, (error, files) => {
         if (error) console.log(error)
         files.forEach( file => { 
             let images = document.getElementById('images');
-            images.innerHTML += `<img class="feedback-images" src="${fullPath}/${file}" alt="${file}">`
+            images.innerHTML += `<img class="feedback-images" id="${index}" src="${fullPath}/${file}" alt="${file}">`
+            index++
         })
     })
 }
@@ -20,12 +21,13 @@ function readImages() {
 // Function to display all the sounds in the sounds folder
 function readSounds() {
     const fullPath = path.join(__dirname, 'SuccessFeedback/sounds')
-
+    let index = 0
     fs.readdir(fullPath, (error, files) => {
         if (error) console.log(error)
         files.forEach( file => { 
             let sounds = document.getElementById('sounds');
-            sounds.innerHTML += `<div class="feedback-sounds" >Som de ${file.split('.')[0]} <audio src="${fullPath}/${file}"></div>`
+            sounds.innerHTML += `<div class="feedback-sounds">Som de ${file.split('.')[0]} <audio id="${index}" src="${fullPath}/${file}"></div>`
+            index++
         })
     })
 }
@@ -33,7 +35,7 @@ function readSounds() {
 // Function to save the feedback with the selected message, image and sound
 function saveFeedback() {
     let text = document.getElementById('text-input')
-    let imageContainer = document.getElementById('feedback-img')
+    let imageContainer = document.querySelector('.feedback-img')
 
     if (text == undefined || imageContainer == undefined) {
         alert('Digite uma mensagem e adicione uma imagem')
@@ -59,19 +61,24 @@ function saveFeedback() {
             color: color,
             image: image,
             sound: sound,
-            type_feedback: true
+            type_feedback: true,
+            sound_id: parseInt(soundContainer.querySelector('audio').id),
+            image_id: parseInt(imageContainer.id)
         }))
     } else {
         localStorage.setItem('successFeedback', JSON.stringify({
             message: message,
             color: color,
             image: image,
-            type_feedback: true
+            type_feedback: true,
+            sound_id: -1,
+            image_id: parseInt(imageContainer.id)
         }))
     }
 
     if (localStorage.getItem('successFeedback') != undefined) {
         if(confirm('Feedback salvo com sucesso! Deseja retornar?')) {
+            localStorage.setItem('changedFeedback', 'true')
             window.location.href = '../Lab/lab.html'
         } else {
             localStorage.removeItem('sucessFeedback')
@@ -82,18 +89,16 @@ function saveFeedback() {
 // Function to change the color value to hexadecimal
 function valueToHex(c) {
     var hex = c.toString(16);
-    return hex
+    return hex.length === 1 ? '0' + hex : hex; // Ensure two digits
+}
   
-  }
-  
-// Function to convert rgb to hexadecimal
+  // Function to convert rgb to hexadecimal
 function rgbToHex(r, g, b) {
-    return("#" + valueToHex(r) + valueToHex(g) + valueToHex(b));
+    return '#' + valueToHex(r) + valueToHex(g) + valueToHex(b);
 }
 
 // Load the feedback if it exists when the page is loaded
 document.addEventListener('DOMContentLoaded', function(e) {
-    console.log('DOM fully loaded and parsed');
     if (localStorage.getItem('successFeedback') != undefined) {
         let feedback = JSON.parse(localStorage.getItem('successFeedback'));
         colorInput = document.getElementById('color-input');
@@ -106,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function(e) {
         textInput.style.color = feedback.color;
 
         let feedbackImg = document.createElement('img');
-        feedbackImg.id = 'feedback-img';
+        feedbackImg.id = feedback.image_id;
+        feedbackImg.className = 'feedback-img';
 
         let fullPath = path.join(__dirname, 'SuccessFeedback/images/')
         feedbackImg.src = fullPath + feedback.image;
@@ -125,8 +131,9 @@ document.addEventListener('DOMContentLoaded', function(e) {
 
             let audio = document.createElement('audio');
             
-            fullPath = path.join(__dirname, 'SuccessFeedback/sounds/cachorro.mp3')
-            audio.src = fullPath;
+            fullPath = path.join(__dirname, 'SuccessFeedback/sounds/')
+            audio.src = fullPath + feedback.sound;
+            audio.id = feedback.sound_id;
 
             feedbackSound.appendChild(audio);
 
