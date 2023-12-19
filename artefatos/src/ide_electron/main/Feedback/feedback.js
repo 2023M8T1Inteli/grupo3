@@ -38,11 +38,13 @@ imageContainer.addEventListener('click', function (event) {
     if (event.target.tagName === 'IMG') {
         // Get the src attribute of the clicked image
         var src = event.target.src;
+        var id = event.target.id;
         
-        if (document.getElementById('feedback-img') == undefined) {
+        if (document.querySelector('.feedback-img') == undefined) {
             // Create a new img element
             let feedbackImg = document.createElement('img');
-            feedbackImg.id = 'feedback-img';
+            feedbackImg.className = 'feedback-img';
+            feedbackImg.id = id;
             feedbackImg.src = src;
             feedbackImg.alt = 'Imagem de feedback';
 
@@ -50,9 +52,12 @@ imageContainer.addEventListener('click', function (event) {
             main.appendChild(feedbackImg);
         }
 
-        textInput.style.color = colorInput.value;
-        let feedbackImg = document.getElementById('feedback-img');
+        if (textInput != undefined) {
+            textInput.style.color = colorInput.value;
+        }
+        let feedbackImg = document.querySelector('.feedback-img');
         feedbackImg.src = src;
+        feedbackImg.id = id;
     }});
 
 var soundContainer = document.getElementById('sounds');
@@ -64,6 +69,7 @@ soundContainer.addEventListener('click', function (event) {
         // Get the src attribute of the clicked sound
         var audioElement = event.target.querySelector('audio');
         var src = audioElement.src;
+        var id = audioElement.id;
         
         let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-music-note-beamed" viewBox="0 0 16 16"><path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/><path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/><path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/></svg>'
         
@@ -81,6 +87,7 @@ soundContainer.addEventListener('click', function (event) {
             let audio = document.createElement('audio');
             audio.src = src;
             audio.autoplay = true;
+            audio.id = id
 
             feedbackSound.appendChild(audio);
 
@@ -94,6 +101,7 @@ soundContainer.addEventListener('click', function (event) {
             let audio = document.createElement('audio');
             audio.src = src;
             audio.autoplay = true;
+            audio.id = id
 
             feedbackSound.appendChild(audio);
         }

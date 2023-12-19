@@ -140,8 +140,6 @@ async function redirectToHome(){
 
     let feedback = document.getElementById("feedback")
 
-    console.log(email_bool)
-    console.log(pass_bool)
     if(email_bool && pass_bool){
         await checkDB()
         let response = await getResponse()

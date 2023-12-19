@@ -1,0 +1,152 @@
+#feedback{
+    display: flex;
+    position: absolute;
+    width: 250px;
+    height: 100px;
+    top: 0;
+    right: 0;
+    margin: 40px 40px;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    padding: 15px;
+    color: white;
+}
+
+#modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+#modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#top{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* text-align: center; */
+}
+
+#patient-register{
+    font-size: 22px;
+    margin-left: -25px;
+    font-weight: bold;
+}
+
+#back-arrow{
+    position: sticky;
+    right: 100%;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;   
+}
+
+#inputs{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    /* font-size: 18px; */
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+}
+
+.write-info{
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.write-info:focus{
+    outline: none;
+}
+
+p{
+    margin: 12px 0 8px;
+}
+
+.row-data{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+#name, #deficiency{
+    width: 25vw;
+}
+
+#age, #degree{
+    width:10vw;
+}
+
+#first-appointment, #last-appointment{
+    width: 17.5vw;
+}
+
+#hobbies, #background{
+    width: 98%;
+}
+
+.didnt-write{
+    font-size: 14px;
+    color: white;
+    display: none;
+    margin: 0;
+}
+
+.alert-error{
+    background-color: rgba(255, 0, 0);
+    width: fit-content;
+    margin: 5px 0 0 0;
+    padding: 2px;
+    display: none;
+}
+
+#alert-name-error, #alert-last-name-error, #alert-email-error, #alert-pass-error, #name-error, #last-name-error, #email-error, #pass-error{
+    display: none;
+}
+
+#register-patient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#register-button{
+    margin: 10px;
+    border: 2px solid black;
+    background: none;
+    width: 30%;
+    height: 40px;
+    font-size: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#register-button:hover{
+    box-shadow: 0 0 25px black;
+}

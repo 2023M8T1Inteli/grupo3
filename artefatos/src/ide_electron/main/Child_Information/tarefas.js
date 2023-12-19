@@ -6,20 +6,20 @@ let btnsExcluir = document.querySelectorAll('.excluir');
 
 // function to get all tasks from the database
 async function getTasks() {
-    ipcRenderer.send('read-all-task')
+    ipcRenderer.send('read-patient-myTask', localStorage.getItem("childId"))
 }
 
 // function to get the response from the above request
 async function getResponse(){
     const promise = new Promise((resolve) => {
-        ipcRenderer.once('response-readAll-task', (event, arg) => {
+        ipcRenderer.once('response-read-patient-myTask', (event, arg) => {
             resolve(arg);
         });
     });
 
     const response = await promise
 
-    if (response.message == 'Todas as tarefas criadas') {
+    if (response.message == 'Tarefas do paciente retornadas com sucesso!') {
         return response.response
     }
     return null
@@ -40,14 +40,45 @@ function createTaskCard(task) {
     cardsContainer.prepend(newTask);
 }
 
+function getName(){
+    let name = document.getElementById("name")
+
+    childId = localStorage.getItem("childId")
+    ipcRenderer.send('read-patient', childId)
+
+    ipcRenderer.on('response-read-patient', (event,arg) => {
+        name.innerHTML = arg.response.dataValues.name
+    })
+}
+
+getName()
+
+function getName(){
+    let name = document.getElementById("name")
+
+    childId = localStorage.getItem("childId")
+    ipcRenderer.send('read-patient', childId)
+
+    ipcRenderer.on('response-read-patient', (event,arg) => {
+        name.innerHTML = arg.response.dataValues.name
+    })
+}
+
+getName()
+
 // function to show all tasks and create a card for each one
 async function showTasks() {
     await getTasks()
-    let tasks = await getResponse()
-    if (tasks != null) {
-        tasks.forEach(task => {
-            createTaskCard(task.dataValues)
+    let patientTasks = await getResponse()
+    if (patientTasks != null) {
+        patientTasks.forEach(patientTask => {
+            let taskId = patientTask.dataValues.TaskId
+            ipcRenderer.send("read-task", taskId)
         });
+
+        ipcRenderer.on("response-read-task", (event, arg) => {
+            createTaskCard(arg.response.dataValues)
+        })
     }
 }
 
@@ -177,17 +208,28 @@ function sendTask() {
                 alert("Não foi possível criar a tarefa")
             }
             else {
-                let feedback = document.querySelector('#feedback')
-                let modal = document.querySelector('.modal');
-                modal.style.display = 'none';
-                positiveFeedback(feedback, "Tarefa criada com sucesso!")
-                setTimeout(() => {
-                    feedback.innerHTML = ""
-                    feedback.style.backgroundColor = ""
-                    feedback.style.border = ""
-                    feedback.style.display = "none"
-                    window.location.reload()
-                }, 3000)
+                ipcRenderer.send("register-myTask", {
+                    PatientId: localStorage.getItem("childId"),
+                    TaskId: taskResponse.response.dataValues.id
+                })
+                
+                ipcRenderer.on('response-register-myTask', (event, arg) => {
+                    if (arg.message == "Erro ao cadastrar uma nova tarefa ao paciente") {
+                        alert("Erro ao cadastrar uma nova tarefa ao paciente")
+                    } else {
+                        let feedback = document.querySelector('#feedback')
+                        let modal = document.querySelector('.modal');
+                        modal.style.display = 'none';
+                        positiveFeedback(feedback, "Tarefa criada com sucesso!")
+                        setTimeout(() => {
+                            feedback.innerHTML = ""
+                            feedback.style.backgroundColor = ""
+                            feedback.style.border = ""
+                            feedback.style.display = "none"
+                            window.location.reload()
+                        }, 3000)
+                    }
+                })
             }
         })
     }

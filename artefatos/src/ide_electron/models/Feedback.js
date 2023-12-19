@@ -33,6 +33,14 @@ const Feedback = sequelize.define('Feedback', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
     },
+    sound_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    image_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     TaskId: {
         type: DataTypes.INTEGER,
         allowNull: false,

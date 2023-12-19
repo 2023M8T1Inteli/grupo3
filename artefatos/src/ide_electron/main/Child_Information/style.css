@@ -71,7 +71,7 @@ main {
   overflow: hidden;
 }
 
-#menu-lateral #btn-tarefas:hover, #btn-perfil:hover {
+#menu-lateral #btn-tarefas:hover, #btn-perfil:hover, #btn-desempenho:hover {
   background-color: #356b69;
   border: 1px solid black;
   color: #eaeaea;
@@ -90,6 +90,14 @@ main {
   padding: 50px;
   font-size: 18pt;
   display: flex;
+  flex-direction: column;
+  width: 67%;
+}
+
+#conteudo-tarefa {
+  padding: 50px;
+  font-size: 18pt;
+  display: flex;
   flex-wrap: wrap;
 }
 
@@ -98,7 +106,7 @@ main {
   flex-direction: column;
 }
 
-#inputs .linha {
+#inputs .line {
   margin-bottom: 20px;
 }
 
@@ -115,12 +123,13 @@ main {
 #botoes {
   margin-top: 30px;
   display: flex;
-  justify-content: space-around;
+  gap: 40px;
   cursor: pointer;
+  justify-content: center;
 }
 
 #botoes .btn-acao {
-  padding: 20px 70px;
+  padding: 10px 40px;
   border-radius: 10px;
   border: 3px solid #2f8784;
   font-weight: bold;

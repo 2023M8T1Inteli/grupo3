@@ -108,7 +108,7 @@ class AnalisadorSintatico:
         block = self.block()
         return InternNode("whileStatement", expression=expression, block=block)
 
-    #Regra: <command_statement> ::= 'mostrar' LPAR <sum_expression> RPAR | 'tocar' LPAR <sum_expression> RPAR | 'esperar' LPAR <sum_expression> RPAR | 'mostrar_tocar' LPAR <sum_expression> COMMA <sum_expression> RPAR
+    #Regra: <command_statement> ::= 'mostrar' LPAR <sum_expression> RPAR | 'tocar' LPAR <sum_expression> RPAR | 'esperar' LPAR <sum_expression> RPAR | 'mostrar_tocar' LPAR <sum_expression> COMMA <sum_expression> RPAR | 'mostrar_tocar_feedback' LPAR <sum_expression> COMMA <sum_expression> COMMA <sum_expression> RPAR
     def command_statement(self):
         if self.tokens[0].valor in ["mostrar", "tocar", "esperar"]:
             commandValue = self.tokens[0].valor
@@ -128,7 +128,18 @@ class AnalisadorSintatico:
             dir = self.sum_expression()
             self.matchToken("RPAR")
             return InternNode("commandStatement", command=LeafNode("command", value="mostrar_tocar", line=commandLine), esq=esq, dir=dir)
-
+        elif self.tokens[0].valor == "mostrar_tocar_feedback":
+            commandValue = self.tokens[0].valor
+            commandLine = self.tokens[0].linha 
+            self.matchToken("COMANDO")
+            self.matchToken("LPAR")
+            esq = self.sum_expression()
+            self.matchToken("COMMA")
+            mid = self.sum_expression()
+            self.matchToken("COMMA")
+            dir = self.sum_expression()
+            self.matchToken("RPAR")
+            return InternNode("commandStatement", command=LeafNode("command", value="mostrar_tocar_feedback", line=commandLine), esq=esq, mid=mid, dir=dir)
     #Regra: <expression> ::= <sum_expression> [<relop> <sum_expression>]
     def expression(self):
         oper = None
@@ -190,7 +201,7 @@ class AnalisadorSintatico:
         if self.tokens[0].tipo == "OPSUM":
             sinal = self.tokens[0].valor
             self.matchToken("OPSUM")
-        elif self.tokens[0].tipo == "ID":
+        if self.tokens[0].tipo == "ID":
             idValue = self.tokens[0].valor
             idLine = self.tokens[0].linha
             self.matchToken("ID")
