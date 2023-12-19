@@ -81,6 +81,51 @@ sequence.addEventListener('drop', function(e) {
     sequence.appendChild(droppedElement);
 });
 
+var chooseBlock = document.querySelector('.block-modal');
+
+function chooseLetter(letter) {
+    console.log('chooseLetter called with letter:', letter);
+    chooseBlock.style.display = 'flex';
+
+    function createEventHandler(currentLetter) {
+        return function handleInput(e) {
+            console.log('handleInput called with letter:', currentLetter);
+
+            if (e.target.value === "") {
+                return;
+            }
+
+            if (e.target.value - 1 >= sequenceBlocksListAdded.length) {
+                alert("O número deve ser menor ou igual ao número de blocos na sequência!");
+                e.target.value = "";
+                e.target.focus();
+            } else {
+                let droppedElement = sequence.querySelector('[id="' + (sequenceBlocksListAdded[e.target.value - 1]) + '"]');
+                console.log(droppedElement);
+
+                if (droppedElement.querySelector('span') != null) {
+                    droppedElement.removeChild(droppedElement.querySelector('span'));
+                }
+
+                span = document.createElement('span');
+                span.innerText = currentLetter;
+                droppedElement.prepend(span);
+                chooseBlock.style.display = 'none';
+                document.getElementById('block-content').value = "";
+            }
+        };
+    }
+
+    const inputElement = document.getElementById('block-content');
+
+    // Remove the existing event listener before adding a new one
+    inputElement.removeEventListener('input', createEventHandler(letter));
+
+    // Add the new event listener
+    inputElement.addEventListener('input', createEventHandler(letter));
+}
+
+
 function sendCode() {
     // Crie a parte inicial do programa
     var start_of_program = 'programa "tarefa1":\n\tinicio\n\terros = 0\n\tacertos=0';

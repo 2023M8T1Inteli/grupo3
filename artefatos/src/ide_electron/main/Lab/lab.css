@@ -144,6 +144,41 @@ h1 {
     border-color: black;
 }
 
+.block-box {
+    position: relative;
+}
+
+.block-box span {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+    padding: 1px 6px;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    border: 1px solid #000;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.block-modal {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 3;
+    top: 240px;
+    width: 420px;
+    height: 100px;
+}
+
+.block-modal input {
+    height: 100%;
+    outline: none;
+    font-size: 20px;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
 .block-box-disabled {
     opacity: 0.3;
 }
