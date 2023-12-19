@@ -607,14 +607,17 @@ function startRecording() {
     initialRecordScreen = document.getElementById("initial-record");
     recordScreen = document.getElementById("record-screen");
     recordingScreen = document.getElementById("recording-screen");
+    recordModalTitle = document.getElementById("record-modal-title");
 
     if (initialRecordScreen.style.display != "none") {
         initialRecordScreen.style.display = "none";
         recordScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação"
     }
     else if (recordScreen.style.display != "none") {
         recordScreen.style.display = "none";
         recordingScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Gravando";
         setTimeout(() => {
             recordingTime(-1, 0, 0);
         }, 1000)
@@ -658,9 +661,49 @@ function closeRecordModal() {
     recordScreen = document.getElementById("record-screen");
     recordingScreen = document.getElementById("recording-screen");
     recordTime = document.getElementById("record-time");
+    recordModalTitle = document.getElementById("record-modal-title");
+    recordList = document.getElementById("records-list");
 
+    
     initialRecordScreen.style.display = "flex";
     recordScreen.style.display = "none";
     recordingScreen.style.display = "none";
     recordTime.innerHTML = "00:00:00"
+    recordList.style.display = "none";
+    recordModalTitle.innerHTML = "Gravação de voz";
+}
+
+function recordsList() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+
+    initialRecordScreen.style.display = "none";
+    recordList.style.display = "flex";
+}
+
+function expandRecordItem(recordClass) {
+    recordItem = document.querySelector("." + recordClass);
+    recordItemButton = document.querySelector("." + recordClass + "-buttons");
+
+    if (recordItem.style.height == "17.5%") {
+        recordItem.style.height = "27.5%";
+        recordItemButton.style.display = "flex";
+    }
+    else {
+        recordItem.style.height = "17.5%";
+        recordItemButton.style.display = "none";
+    }
+}
+
+// Function to display all the sounds in the sounds folder
+function readSounds() {
+    const fullPath = path.join(__dirname, 'SuccessFeedback/sounds')
+
+    fs.readdir(fullPath, (error, files) => {
+        if (error) console.log(error)
+        files.forEach( file => { 
+            let sounds = document.getElementById('sounds');
+            sounds.innerHTML += `<div class="feedback-sounds" >Som de ${file.split('.')[0]} <audio src="${fullPath}/${file}"></div>`
+        })
+    })
 }

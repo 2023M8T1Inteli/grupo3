@@ -497,6 +497,10 @@ h1 {
     background-color: #155555;
 }
 
+.close:hover {
+    cursor: pointer;
+}
+
 #initial-record {
     display: flex;
     align-items: center;
@@ -523,6 +527,10 @@ h1 {
 #record-screen button {
     border: none;
     background-color: #FFFFFF;
+}
+
+#start-record:hover {
+    cursor: pointer;
 }
 
 #recording-screen {
@@ -556,6 +564,62 @@ h1 {
     color: #FFFFFF;
     width: 15%;
     height: 25%;
+}
+
+#recording-button:hover {
+    background-color: #155555;
+    cursor: pointer;
+}
+
+#records-list {
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#record-item {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 17.5%;
+    border-radius: 15px;
+    background-color: #2B7F7F;
+    padding-left: 2.5%;
+    padding-top: 0.75%;
+    gap: 5px;
+    color: #FFFFFF;
+}
+
+#record-item:hover {
+    cursor: pointer;
+}
+
+#record-item-title {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    color: #FFFFFF;
+    gap: 10px;
+}
+
+#record-item-butons {
+    display: none;
+    gap: 10px;
+    height: 17.5%;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#record-item-buton {
+    border-style: none;
+    border-radius: 15px;
+    width: 30.75%;
+    background-color: #D9D9D9;
+    color: #000000;
 }
 
 .importButton {
