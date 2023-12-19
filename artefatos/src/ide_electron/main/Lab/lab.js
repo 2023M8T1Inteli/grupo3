@@ -23,6 +23,11 @@ var buttonConfirm = document.getElementById('title-confirm');
 // Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
+let isRecording = false;
+let mediaRecorder;
+let audioChunks = [];
+let audioContext
+
 if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
     if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
         sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
@@ -395,8 +400,8 @@ closeModalButton.addEventListener('click', function() {
 
 var openSheepModalButton = document.getElementById('showSheepModal');
 openSheepModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.sheep-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.sheep-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -409,8 +414,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openNumberModalButton = document.getElementById('showNumberModal');
 openNumberModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.number-modal');
-modal.style.display = 'block';
+    console.log("open number modal")
+    modal = document.querySelector('.number-modal');
+    console.log(modal);
+    console.log(modal.style.display);
+    modal.style.display = 'block';
+    console.log(modal.style.display);
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -423,8 +432,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openAlphabetModalButton = document.getElementById('showAlphabetModal');
 openAlphabetModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.alphabet-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.alphabet-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -437,8 +446,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openColorModalButton = document.getElementById('showColorModal');
 openColorModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.color-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.color-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -449,36 +458,33 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+var file = document.getElementById("importRecording");
+var audioFile;
 
-var importButton = document.getElementById('importRecording');
-var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
+file.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        audioFile = file;
+    }
 
-importButton.addEventListener('click', function(e) {
-    // Crie um input do tipo "file"
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
+    let destinationPath = path.join(__dirname, 'records', audioFile.name);
 
-    // Adicione o input ao corpo do documento
-    document.body.appendChild(fileInput);
-
-    // Oculte o input
-    fileInput.style.display = 'none';
-
-    // Adicione um ouvinte de eventos para o evento de alteração no input de arquivo
-    fileInput.addEventListener('change', function(event) {
-        // Obtenha o arquivo selecionado
-        var selectedFile = event.target.files[0];
-
-        // Exiba o nome do arquivo no elemento designado
-        fileNameDisplay.textContent = selectedFile.name;
-
-        // Remova o input de arquivo do corpo do documento
-        document.body.removeChild(fileInput);
+    fs.copyFile(audioFile.path, destinationPath, (err) => {
+        if (err) throw err;
+        console.log('Arquivo copiado com sucesso!');
     });
 
-    // Dispare um clique no input de arquivo
-    fileInput.click();
-});
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    setTimeout(() => {
+        initialRecordScreen.style.display = "none";
+        recordList.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+        readSounds();
+    }, 500);
+})
 
 var tasks_button = document.getElementById('back');
 var errorFeedbackButton = document.getElementById('title-feedback-wrong');
@@ -682,5 +688,246 @@ document.addEventListener('DOMContentLoaded', function(e) {
     }
 })
 
+function startRecording() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    if (initialRecordScreen.style.display != "none") {
+        initialRecordScreen.style.display = "none";
+        recordScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação";
+    }
+    else if (recordScreen.style.display != "none") {
+        recordScreen.style.display = "none";
+        recordingScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Gravando";
+        toggleRecording();
+        setTimeout(() => {
+            recordingTime(0, 0, 0);
+        }, 1000)
+    }
+}
 
+function recordingTime(actualSeconds, actualMinutes, actualHours) {
+    recordingScreen = document.getElementById("recording-screen");
+    
+    seconds = actualSeconds + 1;
+    minutes = actualMinutes;
+    hours = actualHours;
 
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+
+    if (minutes >= 60) {
+        minutes = 0;
+        hours += 1;
+    }
+
+    secondsString = seconds < 10 ? "0" + String(seconds) : String(seconds)
+    minutesString = minutes < 10 ? "0" + String(minutes) : String(minutes)
+    hoursString = hours < 10 ? "0" + String(hours) : String(hours)
+
+    recordTime = document.getElementById("record-time");
+
+    if (isRecording) {
+        recordTime.innerHTML = hoursString + ":" + minutesString + ":" + secondsString;
+    }
+
+    if (recordingScreen.style.display == "flex") {
+        setTimeout(() => {
+            recordingTime(seconds, minutes, hours);
+        }, 1000)
+    }
+
+}
+
+function closeRecordModal() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
+    recordTime = document.getElementById("record-time");
+    recordModalTitle = document.getElementById("record-modal-title");
+    recordList = document.getElementById("records-list");
+
+    
+    initialRecordScreen.style.display = "flex";
+    recordScreen.style.display = "none";
+    recordingScreen.style.display = "none";
+    recordTime.innerHTML = "00:00:00"
+    recordList.style.display = "none";
+    recordModalTitle.innerHTML = "Gravação de voz";
+}
+
+function recordsList() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    initialRecordScreen.style.display = "none";
+    recordList.style.display = "flex";
+    recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+    readSounds();
+}
+
+function expandRecordItem(recordClass) {
+    recordItem = document.querySelector("." + recordClass);
+    recordItemButton = document.querySelector("." + recordClass + "-buttons");
+
+    if (recordItem.style.height == "66.6px") {
+        recordItem.style.height = "100px";
+        recordItemButton.style.display = "flex";
+    }
+    else {
+        recordItem.style.height = "66.6px";
+        recordItemButton.style.display = "none";
+    }
+}
+
+// Function to display all the sounds in the sounds folder
+function readSounds() {
+    const fullPath = path.join(__dirname, 'records')
+
+    fs.readdir(fullPath, (error, files) => {
+        if (error) console.log(error)
+        recordList.innerHTML = "";
+
+        files.forEach((file, index) => {
+            let recordList = document.getElementById('records-list');
+            recordList.innerHTML += `<div id="record-item" class="record-item-${index}">
+                                        <div id="record-item-title" onclick="expandRecordItem('record-item-${index}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFFFFF" class="bi bi-file-earmark-music" viewBox="0 0 16 16">
+                                                <path d="M11 6.64a1 1 0 0 0-1.243-.97l-1 .25A1 1 0 0 0 8 6.89v4.306A2.572 2.572 0 0 0 7 11c-.5 0-.974.134-1.338.377-.36.24-.662.628-.662 1.123s.301.883.662 1.123c.364.243.839.377 1.338.377.5 0 .974-.134 1.338-.377.36-.24.662-.628.662-1.123V8.89l2-.5V6.64z"/>
+                                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                            </svg>
+                                            <h3>${file.split('.')[0]}</h3>
+                                        </div>
+                                        <div>10 de set de 2022 - 20:30 h</div>
+                                        <div id="record-item-butons" class="record-item-${index}-buttons">
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(0, '${file.split('.')[0]}')">Feedback Acerto</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(1, '${file.split('.')[0]}')">Feedback Erro</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(2, '${file.split('.')[0]}')">Ambos</button>
+                                        </div>
+                                    </div>`
+        })
+    })
+}
+
+function recordFeedback(id, fileName) {
+    if (id == 0) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+        
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else if (id == 1) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        let destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+            }
+        });
+
+        destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+}
+
+async function toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+        isRecording = false;
+    } else {
+        startRec();
+        isRecording = true;
+    }
+}
+    
+async function startRec() {
+    console.log("Starting recording");
+
+    audioContext = new AudioContext({ sampleRate: 16000 });
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(stream); // Remove mimeType option
+
+    mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+    mediaRecorder.onstop = () => saveAudio();
+    mediaRecorder.start();
+}
+
+function stopRecording() {
+    console.log("Stopping recording")
+
+    audioContext.close();
+    mediaRecorder.stop();
+}
+
+function saveAudio() {
+    if (audioChunks.length) {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+        
+        var audioBlobUrl = URL.createObjectURL(audioBlob);
+        var downloadLink = document.createElement('a');
+
+        downloadLink.href = audioBlobUrl;
+        downloadLink.download = 'gravação.mp3'; 
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        URL.revokeObjectURL(audioBlobUrl);
+
+        isRecording = false;
+        audioChunks = [];
+
+        initialRecordScreen = document.getElementById("initial-record");
+        recordModalTitle = document.getElementById("record-modal-title");
+
+        initialRecordScreen.style.display = "flex";
+        recordingScreen.style.display = "none";
+        recordModalTitle.innerHTML = "Gravação de voz";
+    }
+}
