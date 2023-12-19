@@ -150,34 +150,37 @@
                 </button>
             </div>
             <div class="number-modal-body">
-                <div class="circle-container circle">
+                <div class="block-modal" id="number">
+                    <input type="number" id="number-block-content" value="" maxlength="1" placeholder="Em qual bloco deseja inserir?">
+                </div>
+                <div class="circle-container circle" onclick="chooseNumber('1')">
                         <p class="number">1</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('2')">
                         <p class="number">2</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('3')">
                         <p class="number">3</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('4')">
                         <p class="number">4</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('5')">
                         <p class="number">5</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('6')">
                         <p class="number">6</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('7')">
                         <p class="number">7</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('8')">
                         <p class="number">8</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('9')">
                         <p class="number">9</p>
                     </div>
-                    <div class="circle-container circle">
+                    <div class="circle-container circle" onclick="chooseNumber('10')">
                         <p class="number">10</p>
                     </div>
                    
@@ -196,8 +199,8 @@
                 </button>
             </div>
             <div class="alphabet-modal-body" id="alphabetContainer">
-                <div class="block-modal">
-                    <input type="number" id="block-content" value="" maxlength="1" placeholder="Em qual bloco deseja inserir?">
+                <div class="block-modal" id="letter">
+                    <input type="number" id="letter-block-content" value="" maxlength="1" placeholder="Em qual bloco deseja inserir?">
                 </div>
                 <div class="alphabet-item letter-circle" onclick="chooseLetter('A')">
                     <p class="letter">A</p>

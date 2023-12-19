@@ -171,7 +171,15 @@ h1 {
     height: 100px;
 }
 
-.block-modal input {
+#number-block-content {
+    height: 100%;
+    outline: none;
+    font-size: 20px;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
+#letter-block-content {
     height: 100%;
     outline: none;
     font-size: 20px;
