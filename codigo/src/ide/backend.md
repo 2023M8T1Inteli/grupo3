@@ -3,9 +3,9 @@
 ## Considerações Iniciais:
 
 - Precisa instalar o SQLite;
-- Abra o arquivo **banco** dentro da pasta **\ide_electron** no SQLite (recomendo a instalação do DBeaver);
+- Abra o arquivo **banco** dentro da pasta **\ide** no SQLite (recomendo a instalação do DBeaver);
 
-Va até a pasta **\ide_electron** e de:
+Va até a pasta **\ide** e de:
 
 ```bash
 npm i

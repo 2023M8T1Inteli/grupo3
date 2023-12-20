@@ -5,9 +5,9 @@ Este manual fornece instruções detalhadas sobre como instalar e usar a IDE Dol
 ## Instalação
 
 1. Abra o VSCode ou qualquer editor de código de sua escolha.
-2. No terminal, navegue até a pasta ide_electron usando o comando:
+2. No terminal, navegue até a pasta ide usando o comando:
    ```
-   cd "C:\Users\Inteli\Documents\GitHub\grupo3\artefatos\src\ide_electron"
+   cd "C:\Users\Inteli\Documents\GitHub\grupo3\artefatos\src\ide"
      ```
 3. Digite o comando para instalar as dependências:
     ```

@@ -56,7 +56,7 @@ Segundo passo (Encaminhamento para as pastas do repositório):
 Abra no seu editor de código (VSCode) o seu repositório que foi clonado no primeiro passo, e caminhe até a pasta mostrada abaixo dentro do seu terminal embutido no editor:
 
 ```bash
-grupo3\artefatos\src\ide_electron
+grupo3\codigo\src\ide
 ```
 
 Terceiro Passo (Instalação das dependências do projeto):

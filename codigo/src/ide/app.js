@@ -55,7 +55,7 @@ app.on('ready', () => {
 
     try {
       // Inicie um novo processo Python para executar a análise
-      const pythonProcess = spawn('python', ['../analysers/app.py', message]);
+      const pythonProcess = spawn('python', ['../compilador/app.py', message]);
 
       // Ouvintes de eventos para saída e conclusão do processo Python
       pythonProcess.stdout.on('data', (data) => {
