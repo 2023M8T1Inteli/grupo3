@@ -108,50 +108,65 @@ document.addEventListener("DOMContentLoaded", async function() {
     var myChart = new Chart(ctx, config);
 });
 
-function getChildName(childId) {
-    return new Promise((resolve) => {
-        ipcRenderer.send('read-patient', childId);
-        ipcRenderer.once('response-read-patient', (event, arg) => {
-            const data = {
-                childName: arg.response.dataValues.name,
-                therapistId: arg.response.dataValues.TherapistId
-            };
-            resolve(data);
-        });
-    });
-}
+// function getChildName(childId) {
+//     return new Promise((resolve) => {
+//         ipcRenderer.send('read-patient', childId);
+//         ipcRenderer.once('response-read-patient', (event, arg) => {
+//             const data = {
+//                 childName: arg.response.dataValues.name,
+//                 therapistId: arg.response.dataValues.TherapistId
+//             };
+//             resolve(data);
+//         });
+//     });
+// }
 
-function getTherapistName(therapistId) {
-    return new Promise((resolve) => {
-        ipcRenderer.send('read-therapist', therapistId);
-        ipcRenderer.on('response-read-therapist', (event, arg) => {
-            console.log(arg)
+// function getTherapistName(therapistId) {
+//     return new Promise((resolve) => {
+//         ipcRenderer.send('read-therapist', therapistId);
+//         ipcRenderer.once('response-read-therapist', (event, arg) => {
+//             console.log(arg)
 
-            resolve(arg.response.dataValues.name);
-        });
-    });
-}
+//             resolve(arg.response.dataValues.name);
+//         });
+//     });
+// }
 
 
 async function showNames() {
     console.log(localStorage);
     const taskName = localStorage.getItem('taskTitle');
     const childId = localStorage.getItem('childId');
+    const therapistId = localStorage.getItem('id')
+
+    let childName
+    let therapistName
 
     console.log(childId);
 
-    const { childName, therapistId } = await getChildName(childId);
-    const therapistName = getTherapistName(therapistId);
+    ipcRenderer.send('read-patient', childId);
+    ipcRenderer.on('response-read-patient', (event, arg) => {
+        console.log(arg)
 
-    // Remova os ouvintes de eventos após resolução das promessas
-    ipcRenderer.removeAllListeners('response-read-patient');
-    ipcRenderer.removeAllListeners('response-read-therapist');
+        childName = arg.response.dataValues.name
+        
+        ipcRenderer.send('read-therapist', therapistId)
+        ipcRenderer.on('resposta-read-therapist', (event, arg) => {
+            console.log(arg)
 
-    let task_name_p = document.querySelector(".nova-frase");
-    let welcome = document.querySelector("#boas-vindas");
+            therapistName = arg.response.dataValues.first_name
+            
+            let task_name_p = document.querySelector(".nova-frase");
+            let welcome = document.querySelector("#boas-vindas");
+        
+            task_name_p.innerText = `Desempenho da última semana - ${taskName.slice(1, taskName.length - 1)}`;
+            welcome.innerText = `Olá, ${therapistName}! Você pode acompanhar o desenvolvimento do ${childName} aqui!`;
+        })
+        
+    })
+    
+    
 
-    task_name_p.innerText = `Desempenho da última semana - ${taskName.slice(1, taskName.length - 1)}`;
-    welcome.innerText = `Olá, ${therapistName}! Você pode acompanhar o desenvolvimento do ${childName} aqui!`;
 }
 
 function showSummary(num_days, num_tasks, num_corrects, num_mistakes){
