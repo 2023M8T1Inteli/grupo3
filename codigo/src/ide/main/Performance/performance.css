@@ -82,11 +82,7 @@
     color: #000; /* Cor preta */
     font-weight: bold; /* Negrito */
     font-size: 1.2em; /* Tamanho da fonte, ajuste conforme necessário */
-    position: absolute;
-    top: 8rem; /* Ajuste conforme necessário */
-    left: 38rem; /* Para centralizar horizontalmente */
-    transform: translateX(-50%); /* Para centralizar horizontalmente */
-    margin-bottom: 1rem; /* Espaçamento entre a frase e o texto anterior */
+    margin-top: 50px;
 }
 
 /* Estilo do círculo centralizado */
@@ -96,7 +92,7 @@
     border-radius: 50%;
     position: absolute;
     top: 12rem; /* Ajuste conforme necessário */
-    left: 48%;
+    left: 50%;
     transform: translateX(-50%);
     margin-top: 1rem; /* Espaçamento entre o círculo e a frase anterior */
     border: 1.5px solid #008000;
@@ -147,7 +143,7 @@
     position: absolute;
     border-radius: 1rem;
     top: 12rem; 
-    left: 65%;
+    left: 50%;
     transform: translateX(-50%);
 }
 

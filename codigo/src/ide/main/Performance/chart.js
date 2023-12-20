@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const { dates, grades, sumCorrects, sumMistakes, tasks } = await getData()
 
     showSummary(dates.length, tasks, sumCorrects, sumMistakes)
+    showNames()
 
     // Dados do gráfico
     var dados = {
@@ -56,22 +57,44 @@ document.addEventListener("DOMContentLoaded", async function() {
         }]
     };
 
+    const maxValue = Math.max(...grades)
+
     // Opções do gráfico
-    var opcoes = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                type: 'category',
-                labels: dates,
-            },
-            y: {
-                type: 'linear',
-                position: 'left',
-                min: 0,
+    if (maxValue > 10){
+        var opcoes = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: dates,
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    min: 0,
+                }
             }
-        }
-    };
+        };
+    } else {
+        var opcoes = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: dates,
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    min: 0,
+                    max: 10
+                }
+            }
+        };
+
+    }
 
     // Configuração do gráfico
     var config = {
@@ -85,13 +108,58 @@ document.addEventListener("DOMContentLoaded", async function() {
     var myChart = new Chart(ctx, config);
 });
 
+function getChildName(childId) {
+    return new Promise((resolve) => {
+        ipcRenderer.send('read-patient', childId);
+        ipcRenderer.once('response-read-patient', (event, arg) => {
+            const data = {
+                childName: arg.response.dataValues.name,
+                therapistId: arg.response.dataValues.TherapistId
+            };
+            resolve(data);
+        });
+    });
+}
+
+function getTherapistName(therapistId) {
+    return new Promise((resolve) => {
+        ipcRenderer.send('read-therapist', therapistId);
+        ipcRenderer.on('response-read-therapist', (event, arg) => {
+            console.log(arg)
+
+            resolve(arg.response.dataValues.name);
+        });
+    });
+}
+
+
+async function showNames() {
+    console.log(localStorage);
+    const taskName = localStorage.getItem('taskTitle');
+    const childId = localStorage.getItem('childId');
+
+    console.log(childId);
+
+    const { childName, therapistId } = await getChildName(childId);
+    const therapistName = getTherapistName(therapistId);
+
+    // Remova os ouvintes de eventos após resolução das promessas
+    ipcRenderer.removeAllListeners('response-read-patient');
+    ipcRenderer.removeAllListeners('response-read-therapist');
+
+    let task_name_p = document.querySelector(".nova-frase");
+    let welcome = document.querySelector("#boas-vindas");
+
+    task_name_p.innerText = `Desempenho da última semana - ${taskName.slice(1, taskName.length - 1)}`;
+    welcome.innerText = `Olá, ${therapistName}! Você pode acompanhar o desenvolvimento do ${childName} aqui!`;
+}
+
 function showSummary(num_days, num_tasks, num_corrects, num_mistakes){
-    console.log("sadasd")
-    let percentage = document.getElementsByClassName("percentagem-inside")
-    let days = document.getElementsByClassName("semana")
-    let tasks = document.getElementsByClassName("atividades")
-    let corrects = document.getElementsByClassName("acertos")
-    let mistakes = document.getElementsByClassName("erros")
+    let percentage = document.querySelector(".percentagem-inside")
+    let days = document.querySelector(".semana")
+    let tasks = document.querySelector(".atividades")
+    let corrects = document.querySelector(".acertos")
+    let mistakes = document.querySelector(".erros")
 
     console.log(days)
     
