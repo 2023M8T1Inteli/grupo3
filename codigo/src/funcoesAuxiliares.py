@@ -29,22 +29,22 @@ def mostrar_tocar_feedback(tocar, mostrar, feedback):
 	txtsurf = font.render("", True, (255, 255, 255))
 	if feedback == 1:
 		if tocar != -1:
-			sounds = os.listdir(absolute_path + "/ide_electron/main/Feedback/SuccessFeedback/sounds")
-			pygame.mixer.music.load(absolute_path + "/ide_electron/main/Feedback/SuccessFeedback/sounds/" + sounds[tocar])
-		images = os.listdir(absolute_path + "/ide_electron/main/Feedback/SuccessFeedback/images")
-		image = pygame.image.load(absolute_path + "/ide_electron/main/Feedback/SuccessFeedback/images/" + images[mostrar])
-		with open(absolute_path + "/ide_electron/main/Feedback/SuccessFeedback/message.txt") as f:
+			sounds = os.listdir(absolute_path + "/ide/main/Feedback/SuccessFeedback/sounds")
+			pygame.mixer.music.load(absolute_path + "/ide/main/Feedback/SuccessFeedback/sounds/" + sounds[tocar])
+		images = os.listdir(absolute_path + "/ide/main/Feedback/SuccessFeedback/images")
+		image = pygame.image.load(absolute_path + "/ide/main/Feedback/SuccessFeedback/images/" + images[mostrar])
+		with open(absolute_path + "/ide/main/Feedback/SuccessFeedback/message.txt") as f:
 			lines = f.readlines()
 		rgb_values_str = lines[1].replace("rgb", "").replace("(", "").replace(")", "")
 		rgb_values = tuple(map(int, rgb_values_str.split(',')))
 		txtsurf = font.render(lines[0].replace("\n", ""), True, rgb_values)
 	else:
 		if tocar != -1:
-			sounds = os.listdir(absolute_path + "/ide_electron/main/Feedback/ErrorFeedback/sounds")
-			pygame.mixer.music.load(absolute_path + "/ide_electron/main/Feedback/ErrorFeedback/sounds/" + sounds[tocar])
-		images = os.listdir(absolute_path + "/ide_electron/main/Feedback/ErrorFeedback/images")
-		image = pygame.image.load(absolute_path + "/ide_electron/main/Feedback/ErrorFeedback/images/" + images[mostrar])
-		with open(absolute_path + "/ide_electron/main/Feedback/ErrorFeedback/message.txt") as f:
+			sounds = os.listdir(absolute_path + "/ide/main/Feedback/ErrorFeedback/sounds")
+			pygame.mixer.music.load(absolute_path + "/ide/main/Feedback/ErrorFeedback/sounds/" + sounds[tocar])
+		images = os.listdir(absolute_path + "/ide/main/Feedback/ErrorFeedback/images")
+		image = pygame.image.load(absolute_path + "/ide/main/Feedback/ErrorFeedback/images/" + images[mostrar])
+		with open(absolute_path + "/ide/main/Feedback/ErrorFeedback/message.txt") as f:
 			lines = f.readlines()
 		rgb_values_str = lines[1].replace("rgb", "").replace("(", "").replace(")", "")
 		rgb_values = tuple(map(int, rgb_values_str.split(',')))
