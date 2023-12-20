@@ -68,8 +68,7 @@ const createCode = () => {
       randNum = Math.floor(Math.random() * 10);
       newCode += randNum;
     }
-    
-    newCode = parseInt(newCode);
+
     return newCode;
 }
 
@@ -112,8 +111,13 @@ const sendCodeToEmail = async (user) => {
     email_bool = email_response
 };
 
-function sendCodeToDatabase(){
-    
+function sendCodeToDatabase(email, codigo){
+    ipcRenderer.send('insert-codigo', {
+        email: email,
+        codigo: {
+            codigo: codigo
+        }
+    })
 }
 
 function positiveFeedback(div){
@@ -134,6 +138,12 @@ function negativeFeedback(div){
     div.style.border = "1px solid white"
 }
 
+function clearFeedback(div){
+    div.innerHTML = ""
+    div.style.backgroundColor = ""
+    div.style.border = ""
+}
+
 /**
  * Função que coleta as informações do usuário e chama a função que envia propriamente o email
  */
@@ -148,25 +158,30 @@ const sendEmail = async () => {
         email: `${email.value}`,
         message: "Seu código é: " + code
     };
-    
-    await sendCodeToEmail(user)
-
-    let feedback = document.getElementById("feedback")
-
     if(email_bool){
-        positiveFeedback(feedback)
-        setTimeout(() => {
-            feedback.innerHTML = ""
-            feedback.style.backgroundColor = ""
-            feedback.style.border = ""
-            window.location.href = '../Confirm Code/confirmcode.html'
-        }, 3000)
-    } else {
-        negativeFeedback(feedback)
-        setTimeout(() => {
-            feedback.innerHTML = ""
-            feedback.style.backgroundColor = ""
-            feedback.style.border = ""
-        }, 3000)
+        await sendCodeToEmail(user)
+        sendCodeToDatabase(email.value, code)
+
+        console.log("thoma")
+    
+        let feedback = document.getElementById("feedback")
+    
+        ipcRenderer.on('resposta-insert-codigo', (event, arg) => {
+            console.log(arg)
+            if(arg.message == "Código colocado no seu perfil Terapeuta com sucesso!"){
+                console.log("blablabla")
+                positiveFeedback(feedback)
+                setTimeout(() => {
+                    clearFeedback(feedback)
+                    window.location.href = "../Confirm Code/confirmcode.html"
+                }, 3000)
+            } else {
+                negativeFeedback(feedback)
+                setTimeout(() => {
+                    clearFeedback(feedback)
+                }, 3000)
+            }
+        })
+        console.log("ignorou")
     }
 }

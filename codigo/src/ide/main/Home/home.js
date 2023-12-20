@@ -14,6 +14,7 @@ function goToLogin() {
 
 function getProfileImage() {
     var profileImg = document.getElementById('profile-img')
+    console.log(localStorage)
     ipcRenderer.send('read-therapist', localStorage.getItem('id'))
 
     ipcRenderer.on('resposta-read-therapist', (event, arg) => {
