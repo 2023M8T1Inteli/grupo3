@@ -22,9 +22,9 @@ function getPacients(){
         if (arg.response.length == 0) {
             div.innerHTML = "<p id='placeholder'>Nenhum Paciente encontrado...<p>"
         } else {
+            div.innerHTML = ""
             arg.response.forEach((element) => {
                 let name = element.dataValues.name.charAt(0).toUpperCase() + element.dataValues.name.slice(1)
-                div.innerHTML = ""
                 div.innerHTML += `<a href="javascript:void(0);" class="child"  onclick="redirectToProfile(${element.dataValues.id})"><strong style="color: black;">${name}</strong></a>`
             })
         }
@@ -150,6 +150,7 @@ async function sendPatientRegister(name, age, deficiency, degree, first, hobbies
         hobbies_value = hobbies.value
     }
 
+    console.log(localStorage)
     TherapistId = localStorage.getItem("id")
 
     ipcRenderer.send('register-patient', {

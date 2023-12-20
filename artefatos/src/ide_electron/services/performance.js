@@ -39,9 +39,9 @@ class CrudPerformance {
     // Method to read the performance entry for a specific task by task ID
     static async readSpecificTask(id) {
         try {
-            const bodyReturn = await Performance.findOne({
+            const bodyReturn = await Performance.findAll({
                 where: {
-                    MyTasksId: id 
+                    MyTasksId: id
                 }
             });
             return {

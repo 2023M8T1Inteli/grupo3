@@ -13,7 +13,7 @@ class AnalisadorLexico:
 
     # Função para criar tokens de palavras reservadas.
     def reserved_words_token(self, word, line):
-        comandoWords = ["ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar"]
+        comandoWords = ["ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "mostrar_tocar_feedback"]
         booleanWords = ["verdade", "falso"]
         sameWords = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao"]
 
@@ -65,7 +65,7 @@ class AnalisadorLexico:
         isString = False
         actualWord = ""
         actualNumber = ""
-        possibilities_reserved = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "esperar", "ou", "e"]
+        possibilities_reserved = ["programa", "se", "entao", "senao", "enquanto", "faca", "nao", "inicio", "fim", "verdade", "falso", "ler", "ler_varios", "mostrar", "tocar", "mostrar_tocar", "mostrar_tocar_feedback", "esperar", "ou", "e"]
         isShortComment = False
         isLongerComment = False
 

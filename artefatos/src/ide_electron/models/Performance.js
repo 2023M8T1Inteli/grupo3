@@ -27,7 +27,6 @@ const Performance = sequelize.define('Performance', {
     MyTasksId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
     }
 }, {
     timestamps: false

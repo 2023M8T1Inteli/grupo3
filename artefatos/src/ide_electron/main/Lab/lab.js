@@ -23,6 +23,21 @@ var buttonConfirm = document.getElementById('title-confirm');
 // Lista para armazenar os IDs dos blocos adicionados à sequência
 var sequenceBlocksListAdded = [];
 
+let isRecording = false;
+let mediaRecorder;
+let audioChunks = [];
+let audioContext
+
+if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
+    if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
+        sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
+        sequenceBlocksListAdded.forEach(function(element) {
+            let block = document.getElementById(element);
+            sequence.appendChild(block.cloneNode(true));
+         });
+    }
+}
+
 // Itere sobre todos os elementos com a classe 'block-box'
 draggableElements.forEach(function(element) {
     // Adicione um ouvinte de eventos para o evento de arrastar (dragstart)
@@ -51,6 +66,7 @@ sequence.addEventListener('dragover', function(e) {
     e.preventDefault();
 });
 
+var currentBlock = 0
 
 // Adicione um ouvinte de eventos para o evento de soltar na sequência
 sequence.addEventListener('drop', function(e) {
@@ -65,19 +81,131 @@ sequence.addEventListener('drop', function(e) {
     var address = droppedElement.id;
     // Adicione o ID do bloco à lista de blocos na sequência
     sequenceBlocksListAdded.push(address);
-    console.log(sequenceBlocksListAdded);
     // Registre a lista de blocos na sequência no console
     localStorage.setItem('sequenceBlocksListAdded', sequenceBlocksListAdded);
     // Anexe o elemento clonado à sequência
+
+    droppedElement.id = droppedElement.id + String(currentBlock);
+    currentBlock += 1;
     sequence.appendChild(droppedElement);
 });
 
+var chooseBlockLetter = document.querySelector('#letter');
+var chooseBlockNumber = document.querySelector('#number')
+var x = 0
+var y = 0
+var currentX = 0
+var currentY = 0
+
+function chooseLetter(letter) { 
+    console.log('chooseLetter called with letter:', letter);
+    chooseBlockLetter.style.display = 'flex';
+
+    function createEventHandler(currentLetter) {
+        return function handleInput(e) {
+            if (x == 0) {
+                currentX += 1
+                x = currentX
+                console.log('handleInput called with letter:', currentLetter);
+
+                if (e.target.value === "") {
+                    return;
+                }
+
+                if (e.target.value - 1 >= sequenceBlocksListAdded.length) {
+                    alert("O número deve ser menor ou igual ao número de blocos na sequência!");
+                    e.target.value = "";
+                    e.target.focus();
+                } else {
+                    let droppedElement = sequence.querySelector('[id="' + (sequenceBlocksListAdded[e.target.value - 1]) + String(e.target.value - 1) + '"]');
+                    console.log(droppedElement);
+                    if (droppedElement.querySelector('span') != null) {
+                        droppedElement.removeChild(droppedElement.querySelector('span'));
+                    }
+
+                    span = document.createElement('span');
+                    span.innerText = currentLetter;
+                    droppedElement.prepend(span);
+                    chooseBlockLetter.style.display = 'none';
+                    document.getElementById('letter-block-content').value = "";
+                }
+            }
+            else {
+                x --
+            }
+        };
+    }
+
+    const inputElement = document.getElementById('letter-block-content');
+    console.log(inputElement)
+    // Remove the existing event listener before adding a new one
+    inputElement.removeEventListener('input', createEventHandler(letter));
+
+    // Add the new event listener
+    inputElement.addEventListener('input', createEventHandler(letter));
+}
+
+function chooseNumber(letter) { 
+    console.log('chooseLetter called with letter:', letter);
+    chooseBlockNumber.style.display = 'flex';
+
+    function createEventNumberHandler(currentLetter) {
+        return function handleNumberInput(e) {
+            if (y == 0) {
+                currentY += 1
+                y = currentY
+                console.log('handleInput called with letter:', currentLetter);
+
+                if (e.target.value === "") {
+                    return;
+                }
+
+                if (e.target.value - 1 >= sequenceBlocksListAdded.length) {
+                    alert("O número deve ser menor ou igual ao número de blocos na sequência!");
+                    e.target.value = "";
+                    e.target.focus();
+                } else {
+                    let droppedElement = sequence.querySelector('[id="' + (sequenceBlocksListAdded[e.target.value - 1]) + String(e.target.value - 1) + '"]');
+                    console.log(droppedElement);
+
+                    if (droppedElement.querySelector('span') != null) {
+                        droppedElement.removeChild(droppedElement.querySelector('span'));
+                    }
+
+                    span = document.createElement('span');
+                    span.innerText = currentLetter;
+                    droppedElement.prepend(span);
+                    chooseBlockNumber.style.display = 'none';
+                    document.getElementById('number-block-content').value = "";
+                }
+            }
+            else {
+                y --
+            }
+        };
+    }
+
+    const inputElement = document.getElementById('number-block-content');
+
+    // Remove the existing event listener before adding a new one
+    inputElement.removeEventListener('input', createEventNumberHandler(letter));
+
+    // Add the new event listener
+    inputElement.addEventListener('input', createEventNumberHandler(letter));
+}
+
+
 function sendCode() {
     // Crie a parte inicial do programa
-    var start_of_program = 'programa "tarefa1":\n\tinicio';
+    var start_of_program = 'programa "tarefa1":\n\tinicio\n\terros = 0\n\tacertos=0';
 
     // Seção do programa a ser preenchida com base nos blocos adicionados à sequência
     var middle_of_program = "";
+
+    let success_image_id = JSON.parse(localStorage.getItem('successFeedback')).image_id
+    let success_sound_id = JSON.parse(localStorage.getItem('successFeedback')).sound_id
+    let error_image_id = JSON.parse(localStorage.getItem('errorFeedback')).image_id
+    let error_sound_id = JSON.parse(localStorage.getItem('errorFeedback')).sound_id
 
     // Itere sobre a lista de blocos na sequência para construir a parte intermediária do programa
     for (var i = 0; i < sequenceBlocksListAdded.length; i++) {
@@ -86,10 +214,12 @@ function sendCode() {
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
-                mostrar(0)
+                mostrar_tocar_feedback(${error_sound_id}, ${error_image_id}, 0)
+                erros = erros + 1
                 quadrantePressionado = ler()
             fim
-            mostrar(1)\n`;
+            acertos = acertos + 1
+            mostrar_tocar_feedback(${success_sound_id}, ${success_image_id}, 1)\n`;
     }
 
     // Parte final do programa
@@ -101,10 +231,31 @@ function sendCode() {
     // Envie o código do programa aos analisadores via ipcRenderer
     ipcRenderer.send('code-for-analysers', program);
 
+    ipcRenderer.on('response-code-for-analysers', (event, arg) => {
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}/${month}/${year}`;
+            
+        ipcRenderer.send('register-performance', {
+            hits: arg.success,
+            mistakes: arg.errors,
+            consultation_data: currentDate,
+            MyTasksId: localStorage.getItem('taskId')
+        })
+    })
+
+
     // Envie o código do programa para execução via ipcRenderer
     ipcRenderer.send('call-python-code', program);
 
     setTimeout(() => {
+        localStorage.removeItem("changedFeedback")
+        sequenceBlocksListAdded = [];
+
+        localStorage.setItem('sequenceBlocksListAdded', '')
+        localStorage.removeItem("changedBlocks")
         window.location.href = "../Child_Information/tarefas.html";
     }, 3000)
 }
@@ -118,6 +269,8 @@ function eraseBlocks() {
     sequenceBlocksListAdded = [];
 
     localStorage.setItem('sequenceBlocksListAdded', '')
+
+    localStorage.setItem('changedBlocks', 'true')
 } 
 
 async function addBlock() {
@@ -160,6 +313,11 @@ buttonConfirm.addEventListener('click', async function(e) {
     }
     if (localStorage.getItem('hasFeedback') == "true") {
         let feedback = JSON.parse(localStorage.getItem('successFeedback'));
+        fs.writeFile(path.join(__dirname, "..", "Feedback", "SuccessFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+        });
         if (feedback.sound == undefined) {
             ipcRenderer.send('update-feedback', {
                 id: parseInt(localStorage.getItem('successFeedbackId')),
@@ -168,6 +326,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                     color: feedback.color,
                     image: feedback.image,
                     type_feedback: feedback.type_feedback,
+                    sound_id: feedback.sound_id,
+                    image_id: feedback.image_id,
                 }
             });
         } else {
@@ -178,6 +338,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                     color: feedback.color,
                     image: feedback.image,
                     type_feedback: feedback.type_feedback,
+                    sound_id: feedback.sound_id,
+                    image_id: feedback.image_id,
                 }
             });
         }
@@ -190,6 +352,11 @@ buttonConfirm.addEventListener('click', async function(e) {
             alert("Não foi possível salvar a tarefa")
         } else {
             feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+            fs.writeFile(path.join(__dirname, "..", "Feedback", "ErrorFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+            });
             if (feedback.sound == undefined) {
                 ipcRenderer.send('update-feedback', {
                     id: parseInt(localStorage.getItem('errorFeedbackId')),
@@ -198,6 +365,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                     }
                 });
             } else {
@@ -208,6 +377,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                     }
                 });
             }
@@ -233,12 +404,19 @@ buttonConfirm.addEventListener('click', async function(e) {
                 return
             } else {
                 let feedback = JSON.parse(localStorage.getItem('successFeedback'));
+                fs.writeFile(path.join(__dirname, "..", "Feedback", "SuccessFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                    if(err) {
+                        return console.log(err);
+                    }
+                });
                 if (feedback.sound == undefined) {
                     ipcRenderer.send('register-feedback', {
                         message: feedback.message,
                         color: feedback.color,
                         image: feedback.image,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                         TaskId: parseInt(localStorage.getItem('taskId'))
                     })
                 } else {
@@ -248,6 +426,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                         image: feedback.image,
                         sound: feedback.sound,
                         type_feedback: feedback.type_feedback,
+                        sound_id: feedback.sound_id,
+                        image_id: feedback.image_id,
                         TaskId: localStorage.getItem('taskId')
                     })
                 }
@@ -260,12 +440,19 @@ buttonConfirm.addEventListener('click', async function(e) {
                     alert("Não foi possível salvar a tarefa")
                 } else {
                     let feedback = JSON.parse(localStorage.getItem('errorFeedback'));
+                    fs.writeFile(path.join(__dirname, "..", "Feedback", "ErrorFeedback", "message.txt"), feedback.message + "\n" + feedback.color, function(err) {
+                        if(err) {
+                            return console.log(err);
+                        }
+                    });
                     if (feedback.sound == undefined) {
                         ipcRenderer.send('register-feedback', {
                             message: feedback.message,
                             color: feedback.color,
                             image: feedback.image,
                             type_feedback: feedback.type_feedback,
+                            sound_id: feedback.sound_id,
+                            image_id: feedback.image_id,
                             TaskId: parseInt(localStorage.getItem('taskId'))
                         })
                     } else {
@@ -275,6 +462,8 @@ buttonConfirm.addEventListener('click', async function(e) {
                             image: feedback.image,
                             sound: feedback.sound,
                             type_feedback: feedback.type_feedback,
+                            sound_id: feedback.sound_id,
+                            image_id: feedback.image_id,
                             TaskId: localStorage.getItem('taskId')
                         })
                     }
@@ -320,8 +509,8 @@ closeModalButton.addEventListener('click', function() {
 
 var openSheepModalButton = document.getElementById('showSheepModal');
 openSheepModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.sheep-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.sheep-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -334,8 +523,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openNumberModalButton = document.getElementById('showNumberModal');
 openNumberModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.number-modal');
-modal.style.display = 'block';
+    console.log("open number modal")
+    modal = document.querySelector('.number-modal');
+    console.log(modal);
+    console.log(modal.style.display);
+    modal.style.display = 'block';
+    console.log(modal.style.display);
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -348,8 +541,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openAlphabetModalButton = document.getElementById('showAlphabetModal');
 openAlphabetModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.alphabet-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.alphabet-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -362,8 +555,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var openColorModalButton = document.getElementById('showColorModal');
 openColorModalButton.addEventListener('click', function(e) {
-modal = document.querySelector('.color-modal');
-modal.style.display = 'block';
+    modal = document.querySelector('.color-modal');
+    modal.style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -374,36 +567,33 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+var file = document.getElementById("importRecording");
+var audioFile;
 
-var importButton = document.getElementById('importRecording');
-var fileNameDisplay = document.getElementById('fileNameDisplay'); // Adicione um elemento para exibir o nome do arquivo
+file.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        audioFile = file;
+    }
 
-importButton.addEventListener('click', function(e) {
-    // Crie um input do tipo "file"
-    var fileInput = document.createElement('input');
-    fileInput.type = 'file';
+    let destinationPath = path.join(__dirname, 'records', audioFile.name);
 
-    // Adicione o input ao corpo do documento
-    document.body.appendChild(fileInput);
-
-    // Oculte o input
-    fileInput.style.display = 'none';
-
-    // Adicione um ouvinte de eventos para o evento de alteração no input de arquivo
-    fileInput.addEventListener('change', function(event) {
-        // Obtenha o arquivo selecionado
-        var selectedFile = event.target.files[0];
-
-        // Exiba o nome do arquivo no elemento designado
-        fileNameDisplay.textContent = selectedFile.name;
-
-        // Remova o input de arquivo do corpo do documento
-        document.body.removeChild(fileInput);
+    fs.copyFile(audioFile.path, destinationPath, (err) => {
+        if (err) throw err;
+        console.log('Arquivo copiado com sucesso!');
     });
 
-    // Dispare um clique no input de arquivo
-    fileInput.click();
-});
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    setTimeout(() => {
+        initialRecordScreen.style.display = "none";
+        recordList.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+        readSounds();
+    }, 500);
+})
 
 var tasks_button = document.getElementById('back');
 var errorFeedbackButton = document.getElementById('title-feedback-wrong');
@@ -416,6 +606,8 @@ tasks_button.addEventListener('click', function(e) {
         localStorage.removeItem('taskId');
         localStorage.removeItem('hasFeedback');
         localStorage.setItem('sequenceBlocksListAdded', '');
+        localStorage.removeItem("changedFeedback")
+        localStorage.removeItem("changedBlocks")
         window.location.href = "../Child_Information/tarefas.html";
     }
 });
@@ -560,48 +752,291 @@ function feedback(id) {
 
 // Function to get the blocks and feedbacks from the database if it exists
 document.addEventListener('DOMContentLoaded', function(e) {
-    ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
+    if (localStorage.getItem('changedFeedback') != 'true') {
+        ipcRenderer.send('read-task-feedback', localStorage.getItem('taskId'));
 
-    ipcRenderer.on('response-read-task-feedback', (event, arg) => {
-        if (arg.response.length > 0) {
-            localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
-            localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
-            localStorage.setItem('hasFeedback', true)
-            localStorage.setItem('successFeedbackId', arg.response[0].dataValues.id)
-            localStorage.setItem('errorFeedbackId', arg.response[1].dataValues.id)
-        } else {
-            localStorage.setItem('hasFeedback', false)
-        }
-    })
+        ipcRenderer.on('response-read-task-feedback', (event, arg) => {
+            if (arg.response.length > 0) {
+                localStorage.setItem('successFeedback', JSON.stringify(arg.response[0].dataValues))
+                localStorage.setItem('errorFeedback', JSON.stringify(arg.response[1].dataValues))
+                localStorage.setItem('hasFeedback', true)
+                localStorage.setItem('successFeedbackId', arg.response[0].dataValues.id)
+                localStorage.setItem('errorFeedbackId', arg.response[1].dataValues.id)
+                localStorage.setItem('changedFeedback', 'false')
+            } else {
+                localStorage.setItem('hasFeedback', false)
+            }
+        })
+    }
 
-    ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
+    if (localStorage.getItem('changedBlocks') != 'true') {
+        ipcRenderer.send('read-task-blocks-task', localStorage.getItem('taskId'));
 
-    ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
-        console.log(arg.response)
-        if (arg.response.length > 0) {
-            let blocks = []
-            let ids = []
-            arg.response.forEach(element => {
-                blocks.push(element.dataValues.block)
-                ids.push(element.dataValues.id)
-            });
-            console.log(blocks)
-            localStorage.setItem('sequenceBlocksListAdded', blocks)
-            localStorage.setItem('sequenceBlocksListAddedIds', ids)
+        ipcRenderer.on('response-read-task-blocks-task', (event, arg) => {
+            if (arg.response.length > 0) {
+                let blocks = []
+                let ids = []
+                arg.response.forEach(element => {
+                    blocks.push(element.dataValues.block)
+                    ids.push(element.dataValues.id)
+                });
+                localStorage.setItem('sequenceBlocksListAdded', blocks)
+                localStorage.setItem('sequenceBlocksListAddedIds', ids)
 
-            if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
-                if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
-                    sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
-                    sequenceBlocksListAdded.forEach(function(element) {
-                        console.log(localStorage)
-                        let block = document.getElementById(element);
-                        sequence.appendChild(block.cloneNode(true));
-                     });
+                if (localStorage.getItem('sequenceBlocksListAdded') != null && localStorage.getItem('sequenceBlocksListAdded') != '') {
+                    if (localStorage.getItem('sequenceBlocksListAdded').split(',').length > 0) {
+                        sequenceBlocksListAdded = localStorage.getItem('sequenceBlocksListAdded').split(',');
+                        sequenceBlocksListAdded.forEach(function(element) {
+                            let block = document.getElementById(element);
+                            sequence.appendChild(block.cloneNode(true));
+                        });
+                    }
                 }
             }
-        }
-    })
+        })
+    }
 })
 
+function startRecording() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    if (initialRecordScreen.style.display != "none") {
+        initialRecordScreen.style.display = "none";
+        recordScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Iniciar uma nova gravação";
+    }
+    else if (recordScreen.style.display != "none") {
+        recordScreen.style.display = "none";
+        recordingScreen.style.display = "flex";
+        recordModalTitle.innerHTML = "Gravando";
+        toggleRecording();
+        setTimeout(() => {
+            recordingTime(0, 0, 0);
+        }, 1000)
+    }
+}
 
+function recordingTime(actualSeconds, actualMinutes, actualHours) {
+    recordingScreen = document.getElementById("recording-screen");
+    
+    seconds = actualSeconds + 1;
+    minutes = actualMinutes;
+    hours = actualHours;
 
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+
+    if (minutes >= 60) {
+        minutes = 0;
+        hours += 1;
+    }
+
+    secondsString = seconds < 10 ? "0" + String(seconds) : String(seconds)
+    minutesString = minutes < 10 ? "0" + String(minutes) : String(minutes)
+    hoursString = hours < 10 ? "0" + String(hours) : String(hours)
+
+    recordTime = document.getElementById("record-time");
+
+    if (isRecording) {
+        recordTime.innerHTML = hoursString + ":" + minutesString + ":" + secondsString;
+    }
+
+    if (recordingScreen.style.display == "flex") {
+        setTimeout(() => {
+            recordingTime(seconds, minutes, hours);
+        }, 1000)
+    }
+
+}
+
+function closeRecordModal() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordScreen = document.getElementById("record-screen");
+    recordingScreen = document.getElementById("recording-screen");
+    recordTime = document.getElementById("record-time");
+    recordModalTitle = document.getElementById("record-modal-title");
+    recordList = document.getElementById("records-list");
+
+    
+    initialRecordScreen.style.display = "flex";
+    recordScreen.style.display = "none";
+    recordingScreen.style.display = "none";
+    recordTime.innerHTML = "00:00:00"
+    recordList.style.display = "none";
+    recordModalTitle.innerHTML = "Gravação de voz";
+}
+
+function recordsList() {
+    initialRecordScreen = document.getElementById("initial-record");
+    recordList = document.getElementById("records-list");
+    recordModalTitle = document.getElementById("record-modal-title");
+    
+    initialRecordScreen.style.display = "none";
+    recordList.style.display = "flex";
+    recordModalTitle.innerHTML = "Iniciar uma nova gravação"
+    readSounds();
+}
+
+function expandRecordItem(recordClass) {
+    recordItem = document.querySelector("." + recordClass);
+    recordItemButton = document.querySelector("." + recordClass + "-buttons");
+
+    if (recordItem.style.height == "66.6px") {
+        recordItem.style.height = "100px";
+        recordItemButton.style.display = "flex";
+    }
+    else {
+        recordItem.style.height = "66.6px";
+        recordItemButton.style.display = "none";
+    }
+}
+
+// Function to display all the sounds in the sounds folder
+function readSounds() {
+    const fullPath = path.join(__dirname, 'records')
+
+    fs.readdir(fullPath, (error, files) => {
+        if (error) console.log(error)
+        recordList.innerHTML = "";
+
+        files.forEach((file, index) => {
+            let recordList = document.getElementById('records-list');
+            recordList.innerHTML += `<div id="record-item" class="record-item-${index}">
+                                        <div id="record-item-title" onclick="expandRecordItem('record-item-${index}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFFFFF" class="bi bi-file-earmark-music" viewBox="0 0 16 16">
+                                                <path d="M11 6.64a1 1 0 0 0-1.243-.97l-1 .25A1 1 0 0 0 8 6.89v4.306A2.572 2.572 0 0 0 7 11c-.5 0-.974.134-1.338.377-.36.24-.662.628-.662 1.123s.301.883.662 1.123c.364.243.839.377 1.338.377.5 0 .974-.134 1.338-.377.36-.24.662-.628.662-1.123V8.89l2-.5V6.64z"/>
+                                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                            </svg>
+                                            <h3>${file.split('.')[0]}</h3>
+                                        </div>
+                                        <div>10 de set de 2022 - 20:30 h</div>
+                                        <div id="record-item-butons" class="record-item-${index}-buttons">
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(0, '${file.split('.')[0]}')">Feedback Acerto</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(1, '${file.split('.')[0]}')">Feedback Erro</button>
+                                            <button id="record-item-button" class="record-item-${index}-button" onclick="recordFeedback(2, '${file.split('.')[0]}')">Ambos</button>
+                                        </div>
+                                    </div>`
+        })
+    })
+}
+
+function recordFeedback(id, fileName) {
+    if (id == 0) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+        
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else if (id == 1) {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        const destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+    else {
+        const sourcePath = path.join(__dirname, 'records', `${fileName}.mp3`);
+        let destinationPath = path.join(__dirname, '..', 'Feedback', 'ErrorFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('errorNotification', parseInt(localStorage.getItem('errorNotification')) + 1);
+            }
+        });
+
+        destinationPath = path.join(__dirname, '..', 'Feedback', 'SuccessFeedback', 'sounds', `${fileName}.mp3`);
+
+        fs.copyFile(sourcePath, destinationPath, (err) => {
+            if (err) {
+                console.error('Error copying file:', err);
+            } else {
+                console.log('File copied successfully!');
+                localStorage.setItem('successNotification', parseInt(localStorage.getItem('successNotification')) + 1);
+                window.location.reload();
+            }
+        });
+    }
+}
+
+async function toggleRecording() {
+    if (isRecording) {
+        stopRecording();
+        isRecording = false;
+    } else {
+        startRec();
+        isRecording = true;
+    }
+}
+    
+async function startRec() {
+    console.log("Starting recording");
+
+    audioContext = new AudioContext({ sampleRate: 16000 });
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(stream); // Remove mimeType option
+
+    mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+    mediaRecorder.onstop = () => saveAudio();
+    mediaRecorder.start();
+}
+
+function stopRecording() {
+    console.log("Stopping recording")
+
+    audioContext.close();
+    mediaRecorder.stop();
+}
+
+function saveAudio() {
+    if (audioChunks.length) {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg' });
+        
+        var audioBlobUrl = URL.createObjectURL(audioBlob);
+        var downloadLink = document.createElement('a');
+
+        downloadLink.href = audioBlobUrl;
+        downloadLink.download = 'gravação.mp3'; 
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        URL.revokeObjectURL(audioBlobUrl);
+
+        isRecording = false;
+        audioChunks = [];
+
+        initialRecordScreen = document.getElementById("initial-record");
+        recordModalTitle = document.getElementById("record-modal-title");
+
+        initialRecordScreen.style.display = "flex";
+        recordingScreen.style.display = "none";
+        recordModalTitle.innerHTML = "Gravação de voz";
+    }
+}

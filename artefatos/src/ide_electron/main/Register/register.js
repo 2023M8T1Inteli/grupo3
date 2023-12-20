@@ -1,4 +1,6 @@
 const{ ipcRenderer } = require("electron")
+const path = require('path')
+const fs = require('fs')
 
 var name_bool = false
 var last_name_bool = false
@@ -139,7 +141,7 @@ var file = document.getElementById("file")
 var image = document.getElementById("image-profile")
 var placeholder = document.getElementById("placeholder-img") 
 var trash = document.getElementById("trash")
-
+var imageFile
 /**
  * Fica de olho se a pessoa inputa uma imagem, caso ela inpute, coloca a imagem inserida como background da div
  * faz com que o input nao seja visivel e acrescenta uma lixeira para a remoção da imagem
@@ -147,7 +149,8 @@ var trash = document.getElementById("trash")
 file.addEventListener('change', function(e) {
     if (e.target.files.length > 0) {
         const file = e.target.files[0]
-        const imageUrl = URL.createObjectURL(file)
+        imageFile = file
+        imageUrl = URL.createObjectURL(file)
         placeholder.style.display = "none"
         image.style.cssText = ` display: flex; 
                                 border: 5px solid white; 
@@ -201,10 +204,17 @@ function negativeFeedback(div, text){
 }
 
 async function sendRegister(name, last_name, email){
+    let imgName
+    if (imageFile == undefined) {
+        imgName = null
+    } else {
+        imgName = imageFile.name
+    }
     ipcRenderer.send('register-therapist', {
         first_name: name.value,
         last_name: last_name.value,
-        email: email.value
+        email: email.value,
+        file_name_image: imgName
     });
 }
 
@@ -217,10 +227,8 @@ async function getResponse(){
     });
 
     const resposta = await respostaPromise;
-    console.log(resposta);
 
     let feedback = document.getElementById("feedback")
-    console.log(resposta.message)
     if (resposta.message != "Houve erro no cadastramento!") {
         localStorage.setItem('id', JSON.stringify(resposta.response.dataValues.id));
     } else {
@@ -234,7 +242,6 @@ async function getResponse(){
  * @param password 
  */
 async function sendPassword(password){
-    console.log(localStorage)
     ipcRenderer.send('register-password', {
         password: password.value,
         TherapistId: parseInt(localStorage.getItem("id"))
@@ -258,7 +265,14 @@ async function createAccount(){
         await sendRegister(name, last_name, email)
         let resposta = await getResponse()
         await sendPassword(password)
-        console.log(resposta.message)
+
+        if (imageFile != undefined) {
+            let destinationPath = path.join(__dirname, '..', 'Profile_images', imageFile.name)
+            fs.copyFile(imageFile.path, destinationPath, (err) => {
+                if (err) throw err;
+                console.log('Arquivo copiado com sucesso!');
+            });
+        }
 
         if(resposta.message == "Cadastro criado com sucesso!"){
             positiveFeedback(feedback, resposta.message)

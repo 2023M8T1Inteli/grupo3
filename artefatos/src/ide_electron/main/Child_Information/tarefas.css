@@ -162,6 +162,12 @@ main {
   cursor: pointer;
 }
 
+#image-profile img {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .card .topo {
   height: 75px;
   width: 175px;
@@ -179,6 +185,36 @@ main {
   border-radius: 10px;
   margin: 10px auto;
   border: none;
+  cursor: pointer;
+}
+
+#image-profile{
+  display: flex;
+  border: 5px solid white;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #174040;
+  justify-content: center;
+  align-items: center;
+  margin-top: -20px
+}
+
+#trash{
+  position: sticky;
+  color: white;
+  z-index: 3;
+  top: 100%;
+  display: none;
+  cursor: pointer;
+}
+
+#file{
+  border-radius: 50%;
+  position: absolute;
+  height: 14%;
+  width: 7%;
+  opacity: 0%;
   cursor: pointer;
 }
 

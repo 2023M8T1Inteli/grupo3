@@ -112,9 +112,7 @@ const sendCodeToEmail = async (user) => {
 };
 
 function sendCodeToDatabase(email, codigo){
-    console.log(email)
-    console.log(codigo)
-    ipcRenderer.send('insert_codigo', {
+    ipcRenderer.send('insert-codigo', {
         email: email,
         codigo: {
             codigo: codigo
@@ -175,7 +173,7 @@ const sendEmail = async () => {
                 positiveFeedback(feedback)
                 setTimeout(() => {
                     clearFeedback(feedback)
-                    console.log("mudaria de pagina")
+                    window.location.href = "../Confirm Code/confirmcode.html"
                 }, 3000)
             } else {
                 negativeFeedback(feedback)

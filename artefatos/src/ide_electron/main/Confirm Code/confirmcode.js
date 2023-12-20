@@ -130,7 +130,6 @@ function checkCode(code){
     if(code.length != 6){
         return false
     } else {
-        console.log("vitor")
         ipcRenderer.send('read-codigo', code)
         ipcRenderer.on("resposta-read-codigo", (event, arg) => {
             console.log(arg)

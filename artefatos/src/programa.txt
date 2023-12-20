@@ -1,38 +1,26 @@
 programa "tarefa1":
 	inicio
+	erros = 0
+	acertos=0
             quadranteEsperado = 13
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
-                mostrar(0)
+                mostrar_tocar_feedback(0, 1, 0)
+                erros = erros + 1
                 quadrantePressionado = ler()
             fim
-            mostrar(1)
+            acertos = acertos + 1
+            mostrar_tocar_feedback(0, 0, 1)
 
             quadranteEsperado = 24
             quadrantePressionado = ler()
             enquanto quadrantePressionado <> quadranteEsperado faca
             inicio
-                mostrar(0)
+                mostrar_tocar_feedback(0, 1, 0)
+                erros = erros + 1
                 quadrantePressionado = ler()
             fim
-            mostrar(1)
-
-            quadranteEsperado = 25
-            quadrantePressionado = ler()
-            enquanto quadrantePressionado <> quadranteEsperado faca
-            inicio
-                mostrar(0)
-                quadrantePressionado = ler()
-            fim
-            mostrar(1)
-
-            quadranteEsperado = 21
-            quadrantePressionado = ler()
-            enquanto quadrantePressionado <> quadranteEsperado faca
-            inicio
-                mostrar(0)
-                quadrantePressionado = ler()
-            fim
-            mostrar(1)
+            acertos = acertos + 1
+            mostrar_tocar_feedback(0, 0, 1)
 fim.
