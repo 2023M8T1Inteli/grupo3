@@ -204,11 +204,17 @@ function negativeFeedback(div, text){
 }
 
 async function sendRegister(name, last_name, email){
+    let imgName
+    if (imageFile == undefined) {
+        imgName = null
+    } else {
+        imgName = imageFile.name
+    }
     ipcRenderer.send('register-therapist', {
         first_name: name.value,
         last_name: last_name.value,
         email: email.value,
-        file_name_image: imageFile.name
+        file_name_image: imgName
     });
 }
 
@@ -260,11 +266,13 @@ async function createAccount(){
         let resposta = await getResponse()
         await sendPassword(password)
 
-        let destinationPath = path.join(__dirname, '..', 'Profile_images', imageFile.name)
-        fs.copyFile(imageFile.path, destinationPath, (err) => {
-            if (err) throw err;
-            console.log('Arquivo copiado com sucesso!');
-        });
+        if (imageFile != undefined) {
+            let destinationPath = path.join(__dirname, '..', 'Profile_images', imageFile.name)
+            fs.copyFile(imageFile.path, destinationPath, (err) => {
+                if (err) throw err;
+                console.log('Arquivo copiado com sucesso!');
+            });
+        }
 
         if(resposta.message == "Cadastro criado com sucesso!"){
             positiveFeedback(feedback, resposta.message)
