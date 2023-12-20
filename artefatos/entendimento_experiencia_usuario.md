@@ -26,13 +26,13 @@ Pontos de atenção:
 Observação: Vai haver marcação de sentimentos pela curva da linha;
 
 ### Jornada da terapeuta ocupacional
-![Jornada do usuário TO](./jornada_to.png)
+![Jornada do usuário TO](img/jornada_to.png)
 
 ### Jornada da criança sem deficiência visual
-![Jornada do usuário da criança](./crianca_1.png)
+![Jornada do usuário da criança](img/crianca_1.png)
 
 ### Jornada da criança com deficiência visual
-![Jornada do usuário da criança](./crianca_2.png)
+![Jornada do usuário da criança](img/crianca_2.png)
 
 ## User stories
 User stories (ou histórias de usuário) são uma técnica usada em desenvolvimento de software e gerenciamento de projetos ágeis para descrever requisitos de um sistema do ponto de vista do usuário. Elas são usadas para capturar funcionalidades, recursos ou necessidades do usuário em um formato conciso e compreensível. Aqui estão as user stories feitas para este projeto.
