@@ -1,5 +1,13 @@
 # Artigo
 
+## Abstract
+
+Este artigo apresenta um projeto inovador desenvolvido em parceria com a Associação de Assistência à Criança Deficiente (AACD) – Unidade Ibirapuera, focando no desenvolvimento de um tapete sensorial conectado ao Greg Maker para auxiliar pessoas com leves desordens neurológicas. O projeto visa superar desafios enfrentados por indivíduos com condições como paralisia cerebral, amputações e poliomielite, proporcionando um ambiente terapêutico acessível e interativo.
+
+O tapete sensorial é equipado com sensores de pressão sensíveis, permitindo a monitoração precisa das respostas motoras e táteis dos pacientes. O Greg Maker, um microcontrolador adaptado, atua como intermediário entre o tapete e o software, processando os dados sensoriais para uso terapêutico. A aplicação, desenvolvida com uma combinação de Python, HTML, CSS, JavaScript e Electron, oferece uma plataforma robusta e acessível para terapeutas, permitindo a programação de atividades terapêuticas personalizadas.
+
+A inclusão do Kit de Acessibilidade do Greg Maker expande a aplicabilidade do projeto, atendendo a usuários com diferentes necessidades sensoriais. Testes e validações, realizados em colaboração com terapeutas ocupacionais, confirmaram a eficácia do sistema, destacando a flexibilidade e adaptabilidade do projeto. Este trabalho não só alcançou seus objetivos iniciais, mas também estabeleceu um novo padrão de inovação e inclusão na área da saúde e reabilitação, abrindo caminho para futuras expansões e melhorias na área de Tecnologia Assistiva.
+
 ## Introdução
 
 Muitas pessoas sofrem em realizar atividades cotidianas por conta de problemas motores ou cognitivos. Dados do IBGE (2010) indicam que 23,9% da população no Brasil apresentam algum tipo de deficiência, sendo 25,73% pessoas classificadas com deficiência motora. Além dessas dificuldades, ainda sofrem com o capacitismo, que é uma forma de discriminação que envolve a marginalização, estigmatização e preconceito contra pessoas com deficiência, com base em suas condições. Ele se manifesta por meio de atitudes, estereótipos e barreiras sociais que desvalorizam as capacidades das pessoas com deficiência e reforçam a suposta superioridade das pessoas sem deficiência (MARCHESAN e CARPENEDO, 2021).
