@@ -13,6 +13,7 @@
     gap: 10px;
     padding: 15px;
     color: white;
+    font-family: Arial, sans-serif;
 }
 
 #modal-overlay {
@@ -25,6 +26,7 @@
     background: rgba(0, 0, 0, 0.5);
     align-items: center;
     justify-content: center;
+    font-family: Arial, sans-serif;
 }
 
 #modal {
@@ -40,13 +42,13 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* text-align: center; */
 }
 
 #patient-register{
     font-size: 22px;
     margin-left: -25px;
     font-weight: bold;
+    color: #356b69;
 }
 
 #back-arrow{
@@ -63,18 +65,18 @@
     flex-direction: column;
     width: 100%;
     gap: 15px;
-    /* font-size: 18px; */
 }
 
 .info{
     display: flex;
     flex-direction: column;
+    color: #0b4d4b;
 }
 
 .write-info{
     height: 30px;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid #2f8784;
     padding: 5px;
 }
 
@@ -103,12 +105,15 @@ p{
     width:10vw;
 }
 
-#first-appointment, #last-appointment{
-    width: 17.5vw;
+#first-appointment{
+    width: 98%;
 }
 
 #hobbies, #background{
     width: 98%;
+    height: 1%;
+    resize: none;
+    font-family: Arial, sans-serif;
 }
 
 .didnt-write{
@@ -138,15 +143,17 @@ p{
 
 #register-button{
     margin: 10px;
-    border: 2px solid black;
     background: none;
     width: 30%;
     height: 40px;
     font-size: 100%;
     cursor: pointer;
-    border-radius: 5px;
+    color:  #356b69;
+    border-radius: 10px;
+    border: 3px solid #2f8784;
+    font-weight: bold;
 }
 
 #register-button:hover{
-    box-shadow: 0 0 25px black;
+    box-shadow: 0 0 25px #356b69;
 }
