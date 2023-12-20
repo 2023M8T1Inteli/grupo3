@@ -14,13 +14,13 @@
 
 # Integrantes:
 
-[Arthur Reis](https://www.linkedin.com/in/arthureis03/)
-[Beny Frid](https://www.linkedin.com/in/beny-frid/)
-[Melyssa Rojas](https://www.linkedin.com/in/melyssa-rojas-221610204/)
-[Raphael Lisboa](https://www.linkedin.com/in/raphael-lisboa/)
-[Renato Machado](https://www.linkedin.com/in/renatosilvamachado/)
-[Thomas Barton](https://www.linkedin.com/in/thomasbartonlink/)
-[Vitor Augusto](https://www.linkedin.com/in/vitoraugustobarros/)
+* [Arthur Reis](https://www.linkedin.com/in/arthureis03/)
+* [Beny Frid](https://www.linkedin.com/in/beny-frid/)
+* [Melyssa Rojas](https://www.linkedin.com/in/melyssa-rojas-221610204/)
+* [Raphael Lisboa](https://www.linkedin.com/in/raphael-lisboa/)
+* [Renato Machado](https://www.linkedin.com/in/renatosilvamachado/)
+* [Thomas Barton](https://www.linkedin.com/in/thomasbartonlink/)
+* [Vitor Augusto](https://www.linkedin.com/in/vitoraugustobarros/)
 
 # Descrição
 
