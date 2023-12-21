@@ -61,10 +61,14 @@ grupo3\codigo\src\ide
 
 Terceiro Passo (Instalação das dependências do projeto):
 
-Dentro dessa pasta mostrada no segundo passo, coloque o comando abaixo para a instalação das dependências no terminal:
+Dentro dessa pasta mostrada no segundo passo, coloque os comandos abaixo para a instalação das dependências no terminal:
 
 ```bash
 npm i
+```
+
+```
+pip install pygame
 ```
 
 Quarto Passo (Rodando a aplicação):
