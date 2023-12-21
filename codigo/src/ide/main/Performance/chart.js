@@ -28,7 +28,7 @@ async function getData() {
                     gradesJson[currentDate] += currentGrade;
                 }
                 
-                sumCorrects += element.dataValues.hits - element.dataValues.mistakes
+                sumCorrects += element.dataValues.hits
                 sumMistakes += element.dataValues.mistakes
             });
 

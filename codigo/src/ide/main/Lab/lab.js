@@ -254,9 +254,8 @@ function sendCode() {
         localStorage.removeItem("changedFeedback")
         sequenceBlocksListAdded = [];
 
-        localStorage.setItem('sequenceBlocksListAdded', '')
         localStorage.removeItem("changedBlocks")
-        window.location.href = "../Child_Information/tarefas.html";
+        //window.location.href = "../Child_Information/tarefas.html";
     }, 3000)
 }
 
