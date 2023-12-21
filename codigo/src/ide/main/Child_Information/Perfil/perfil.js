@@ -59,11 +59,11 @@ function getInfo(){
       type_disability_value = arg.response.dataValues.type_of_disability
     }
     
-    if(arg.response.dataValues.hobbies == null){
+    if(arg.response.dataValues.interests == null){
       hobbies.classList.add("any-information")
       hobbies_value = "Não há informações a respeito disso"
     } else {
-      hobbies_value = arg.response.dataValues.hobbies
+      hobbies_value = arg.response.dataValues.interests
     }
 
     top_name.innerHTML = arg.response.dataValues.name
