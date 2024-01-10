@@ -88,7 +88,7 @@ Nome da licença:
 
 <a property="dct:title" rel="cc:attributionURL">Dolphin</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName">Inteli, Arthur Reis, Beny Frid, Melyssa Rojas, Raphael Lisboa, Renato Machado,Thomas Barton, Vitor Augusto</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" rel="license noopener noreferrer" style="display:inline-block;">Attribution 4.0 International</a>.</p>
 
-# Releases
+# Tag 
 
 * [SPRINT1:](https://github.com/2023M8T1Inteli/grupo3/releases/tag/SPRINT1)
 * Analisador Léxico (Versão 1);
